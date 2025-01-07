@@ -767,7 +767,9 @@ GameObject:
   - component: {fileID: 2034376357}
   - component: {fileID: 2034376359}
   - component: {fileID: 2034376360}
+  - component: {fileID: 2034376362}
   - component: {fileID: 2034376361}
+  - component: {fileID: 2034376363}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -787,6 +789,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf03cb4df366dc349a95c0eacd2c2ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDontDestroy: 1
+  dataManager: {fileID: 2034376362}
+  saveManager: {fileID: 2034376361}
 --- !u!4 &2034376358
 Transform:
   m_ObjectHideFlags: 0
@@ -816,7 +821,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fruitItemPrefab: {fileID: 6671214755015247627, guid: b74778b210ebddf4aa233e0da52925a3, type: 3}
   fruitListParent: {fileID: 835763866}
-  fruitAtlas: {fileID: 100100200, guid: d600cbd1602335d40ab0b3a310985f99, type: 3}
 --- !u!114 &2034376360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -838,7 +842,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 2034376356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9fcdfb812bf3e1428fe6264e6979ea6, type: 3}
+  m_Script: {fileID: 11500000, guid: 61146fc4992f711408a0562d5b7a9490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2034376362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034376356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5da5a9ccf67372c448d42056c9dfe0bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2034376363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034376356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6681dbe1e3aaddb4589581eafbf62fbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
