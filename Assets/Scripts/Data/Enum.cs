@@ -4,9 +4,10 @@ using UnityEngine;
 
 public enum FriutsID
 {
-   Apple =1,
-   Banana,
-   Melon
+    Apple = 1,
+    Banana,
+    Melon,
+    Carrot
 }
 
 public enum FriutsType

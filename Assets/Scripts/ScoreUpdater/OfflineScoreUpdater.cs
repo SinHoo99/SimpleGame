@@ -1,29 +1,37 @@
+using System;
 using UnityEngine;
 
 public class OfflineScoreUpdater : MonoBehaviour
 {
-    private ScoreUpdater scoreUpdater;
-
-    private void Awake()
-    {
-        scoreUpdater = GetComponent<ScoreUpdater>();
-        if (scoreUpdater == null)
-        {
-            Debug.LogError("ScoreUpdater를 찾을 수 없습니다!");
-        }
-    }
+    private const int MaxOfflineTimeInSeconds = 7200; // 최대 오프라인 시간 (2시간 = 7200초)
 
     /// <summary>
-    /// 오프라인 동안 과일 추가
+    /// 오프라인 동안 랜덤 과일 수집
     /// </summary>
-    /// <param name="elapsedSeconds">오프라인 경과 시간(초)</param>
-    public void CollectOfflineFruits(int elapsedSeconds)
+    public void CollectOfflineFruits()
     {
-        if (elapsedSeconds <= 0) return;
+        // 오프라인 경과 시간 계산
+        DateTime lastCollectedTime = GameManager.Instance.NowPlayerData.LastCollectedTime;
+        TimeSpan elapsedTime = DateTime.Now - lastCollectedTime;
 
-        // ScoreUpdater의 AddRandomFruits 호출
-        scoreUpdater.AddRandomFruit();
+        if (elapsedTime.TotalSeconds <= 0)
+        {
+            Debug.Log("오프라인 경과 시간이 0초 이하입니다. 과일 수집을 건너뜁니다.");
+            return;
+        }
 
-        Debug.Log($"오프라인 동안 {elapsedSeconds}초 경과. 과일 {elapsedSeconds}개 랜덤으로 수집 완료.");
+        // 경과 시간을 최대 2시간으로 제한
+        int secondsElapsed = Math.Min((int)elapsedTime.TotalSeconds, MaxOfflineTimeInSeconds);
+        Debug.Log($"오프라인 동안 {secondsElapsed}초 경과. 랜덤 과일 수집 시작...");
+
+        // 경과 시간 동안 랜덤 과일 추가
+        for (int i = 0; i < secondsElapsed; i++)
+        {
+            GameManager.Instance.scoreUpdater.AddRandomFruit(); // 확률 기반 랜덤 과일 추가
+        }
+
+        // 마지막 수집 시간 갱신
+        GameManager.Instance.NowPlayerData.LastCollectedTime = DateTime.Now;
+        Debug.Log($"오프라인 동안 랜덤 과일 {secondsElapsed}개 추가 완료 (최대 2시간 제한).");
     }
 }

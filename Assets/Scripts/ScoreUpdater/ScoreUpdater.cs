@@ -4,47 +4,34 @@ using UnityEngine;
 
 public class ScoreUpdater : MonoBehaviour
 {
-    private Dictionary<FriutsID, NowFruitsData> collectionList; // 수집 목록
+    private float timeAccumulator = 0f; // 시간 누적 변수
+    private const float collectionInterval = 1f; // 1초마다 과일 수집
 
-    private void Awake()
-    {
-        InitializeCollectionList();
-    }
     private void Update()
     {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-        {
-            Debug.Log("터치 입력 감지됨");
-            AddRandomFruit(); // 랜덤 과일 수집 로직 호출
-        }
-
-#if UNITY_EDITOR
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("마우스 클릭 감지됨");
-            AddRandomFruit(); // 랜덤 과일 수집 로직 호출
-        }
-#endif
+        HandleInput(); // 클릭 입력 처리
+       // CollectFruitsOverTime(); // 시간에 따라 과일 수집
     }
+
     /// <summary>
     /// 특정 과일을 추가합니다.
     /// </summary>
     public void AddFruits(FriutsID fruitID, int count)
     {
-        if (!collectionList.ContainsKey(fruitID))
+        var inventory = GameManager.Instance.NowPlayerData.Inventory;
+
+        if (!inventory.ContainsKey(fruitID))
         {
-            Debug.LogWarning($"{fruitID}가 수집 목록에 없습니다.");
+            Debug.LogWarning($"{fruitID}가 Inventory에 존재하지 않습니다.");
             return;
         }
 
-        // 과일 개수 증가
-        collectionList[fruitID].Amount += count;
-        Debug.Log($"{fruitID} 추가됨, 현재 개수: {collectionList[fruitID].Amount}");
+        // 과일 개수 추가
+        inventory[fruitID].Amount += count;
+        //Debug.Log($"{fruitID} 추가됨. 현재 개수: {inventory[fruitID].Amount}");
 
         // UI 업데이트
-        GameManager.Instance.uiManager.UpdateFruitCountsUI(
-            GameManager.Instance.NowPlayerData.Inventory.ToDictionary(kv => kv.Key, kv => kv.Value.Amount)
-        );
+        GameManager.Instance.UpdateUIWithInventory();
     }
 
     /// <summary>
@@ -85,17 +72,53 @@ public class ScoreUpdater : MonoBehaviour
     }
 
     /// <summary>
-    /// 수집 목록 초기화
+    /// 클릭 입력 처리
     /// </summary>
-    private void InitializeCollectionList()
+    private void HandleInput()
     {
-        collectionList = GameManager.Instance.NowPlayerData.Inventory;
-
-        foreach (FriutsID id in System.Enum.GetValues(typeof(FriutsID)))
+        if (IsInputDetected())
         {
-            collectionList.TryAdd(id, new NowFruitsData { ID = id, Amount = 0 });
+            AddRandomFruit(); // 클릭 시 랜덤 과일 수집
+        }
+    }
+
+    /// <summary>
+    /// 입력 감지
+    /// </summary>
+    /// <returns>입력 여부</returns>
+    private bool IsInputDetected()
+    {
+        if (Input.GetMouseButtonDown(0)) // 마우스 클릭 감지
+        {
+            return true;
         }
 
-        Debug.Log("수집 목록 초기화 완료");
+#if UNITY_EDITOR
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            return true;
+        }
+#endif
+        return false;
+    }
+
+    /// <summary>
+    /// 시간에 따라 과일 수집
+    /// </summary>
+    private void CollectFruitsOverTime()
+    {
+        timeAccumulator += Time.deltaTime;
+
+        if (timeAccumulator >= collectionInterval)
+        {
+            int collectCount = Mathf.FloorToInt(timeAccumulator / collectionInterval);
+
+            for (int i = 0; i < collectCount; i++)
+            {
+                AddRandomFruit();
+            }
+
+            timeAccumulator %= collectionInterval; // 초과된 시간만 남김
+        }
     }
 }

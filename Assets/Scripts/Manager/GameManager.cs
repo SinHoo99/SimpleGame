@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine; // Unity 엔진 클래스
+using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
     private OfflineScoreUpdater offlineScoreUpdater;
-    private ScoreUpdater scoreUpdater;
+    public ScoreUpdater scoreUpdater;
     public UIManager uiManager;
 
     private bool isQuitting = false;
@@ -15,8 +15,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private SaveManager saveManager;
 
     public DataManager DataManager => dataManager;
-
-
+    public PlayerData NowPlayerData { get; private set; }
 
     protected override void Awake()
     {
@@ -24,10 +23,8 @@ public class GameManager : Singleton<GameManager>
 
         base.Awake();
 
-        // 모바일 테스트를 위한 프레임 설정
         Application.targetFrameRate = 60;
 
-        // DataManager 초기화
         if (dataManager == null)
         {
             Debug.LogError("DataManager가 설정되지 않았습니다.");
@@ -36,13 +33,20 @@ public class GameManager : Singleton<GameManager>
 
         dataManager.Initializer();
 
-        // 필요한 컴포넌트 찾기
         InitializeComponents();
 
-        // 데이터 로드
         LoadAllData();
 
         InitializeInventory();
+
+        if (offlineScoreUpdater != null)
+        {
+            offlineScoreUpdater.CollectOfflineFruits(); // 오프라인 수집 로직 실행
+        }
+        else
+        {
+            Debug.LogWarning("OfflineScoreUpdater가 설정되지 않았습니다.");
+        }
     }
 
     #region 데이터 초기화
@@ -50,12 +54,17 @@ public class GameManager : Singleton<GameManager>
     /// <summary>
     /// PlayerData.Inventory를 초기화합니다.
     /// </summary>
-    private void InitializeInventory()
+    public void InitializeInventory()
     {
-        if (NowPlayerData?.Inventory == null)
+        if (NowPlayerData == null)
         {
-            Debug.LogError("PlayerData 또는 Inventory가 null입니다!");
-            return;
+            Debug.LogError("NowPlayerData가 null입니다!");
+            NowPlayerData = new PlayerData(); // 기본값 생성
+        }
+
+        if (NowPlayerData.Inventory == null)
+        {
+            NowPlayerData.Inventory = new Dictionary<FriutsID, NowFruitsData>();
         }
 
         foreach (FriutsID id in Enum.GetValues(typeof(FriutsID)))
@@ -66,11 +75,15 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
+        if (NowPlayerData.LastCollectedTime == default)
+        {
+            NowPlayerData.LastCollectedTime = DateTime.Now;
+        }
+
         Debug.Log("PlayerData.Inventory 초기화 완료");
     }
 
     #endregion
-
 
     #region 데이터 접근
 
@@ -98,37 +111,30 @@ public class GameManager : Singleton<GameManager>
     private void InitializeComponents()
     {
         offlineScoreUpdater = GetComponent<OfflineScoreUpdater>();
-        if (offlineScoreUpdater == null)
-        {
-            Debug.LogError("OfflineScoreUpdater를 찾을 수 없습니다.");
-        }
+        Debug.Log(offlineScoreUpdater != null
+            ? "OfflineScoreUpdater 초기화 완료"
+            : "OfflineScoreUpdater를 찾을 수 없습니다!");
 
         scoreUpdater = GetComponent<ScoreUpdater>();
-        if (scoreUpdater == null)
-        {
-            Debug.LogError("ScoreUpdater를 찾을 수 없습니다.");
-        }
+        Debug.Log(scoreUpdater != null
+            ? "ScoreUpdater 초기화 완료"
+            : "ScoreUpdater를 찾을 수 없습니다!");
 
         uiManager = GetComponent<UIManager>();
-        if (uiManager == null)
+        Debug.Log(uiManager != null
+            ? "UIManager 초기화 완료"
+            : "UIManager를 찾을 수 없습니다!");
+
+        if (uiManager != null)
         {
-            Debug.LogError("UIManager를 찾을 수 없습니다.");
+            uiManager.SetFruitData(dataManager.FriutDatas);
         }
-        else
-        {
-            // InitializeFruitData 호출
-            uiManager.InitializeFruitData(dataManager.FriutDatas);
-            Debug.Log("UIManager에 과일 데이터 초기화 완료");
-        }
-        dataManager = GetComponent<DataManager>();
-        saveManager = GetComponent<SaveManager>();
     }
 
     #endregion
 
     #region 데이터 저장 및 로드
 
-    public PlayerData NowPlayerData { get; private set; }
     /// <summary>
     /// 현재 플레이어 데이터를 저장합니다.
     /// </summary>
@@ -140,7 +146,11 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
+        // 현재 시간을 마지막 수집 시간으로 저장
+        NowPlayerData.LastCollectedTime = DateTime.Now;
         saveManager.SaveData(NowPlayerData);
+
+        Debug.Log($"PlayerData 저장 완료: {NowPlayerData.LastCollectedTime}");
     }
 
     /// <summary>
@@ -187,5 +197,20 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    #endregion
+
+    #region  UI를 업데이트하는 헬퍼 메서드
+    public void UpdateUIWithInventory()
+    {
+        if (uiManager == null || NowPlayerData == null || NowPlayerData.Inventory == null)
+        {
+            Debug.LogError("UIManager 또는 Inventory가 초기화되지 않았습니다!");
+            return;
+        }
+
+        uiManager.UpdateFruitCountsUI(
+            NowPlayerData.Inventory.ToDictionary(kv => kv.Key, kv => kv.Value.Amount)
+        );
+    }
     #endregion
 }

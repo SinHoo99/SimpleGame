@@ -4,15 +4,37 @@ using UnityEngine.UI;
 
 public class FruitItem : MonoBehaviour
 {
-    public Image fruitIcon;               // 과일 아이콘 이미지
-    public TextMeshProUGUI fruitText;     // 과일 이름 및 개수 텍스트
+    public Button fruitButton;
+    public TextMeshProUGUI fruitText;
+    private FriutsID fruitID;
 
-    /// <summary>
-    /// 과일 아이템을 업데이트합니다.
-    /// </summary>
-    public void UpdateFruit(string fruitName, int count, Sprite icon)
+    // 과일 아이템을 업데이트하고 fruitID를 초기화
+    public void UpdateFruit(FriutsID id, int count, Sprite icon)
     {
-        fruitText.text = $"{fruitName}: {count}개";
-        fruitIcon.sprite = icon;
+        // fruitID 초기화
+        fruitID = id;
+
+        // 버튼의 이미지를 설정
+        Image buttonImage = fruitButton.GetComponent<Image>();
+        if (buttonImage != null)
+        {
+            buttonImage.sprite = icon;
+        }
+
+        // 텍스트 업데이트
+        fruitText.text = $"{count}개";
+    }
+
+    // 버튼 클릭 이벤트
+    private void Start()
+    {
+        fruitButton.onClick.RemoveAllListeners();
+        fruitButton.onClick.AddListener(OnFruitButtonClicked);
+    }
+
+    private void OnFruitButtonClicked()
+    {
+        // UIManager에 현재 과일 ID 전달
+        GameManager.Instance.uiManager.OnFruitSelected(fruitID);
     }
 }
