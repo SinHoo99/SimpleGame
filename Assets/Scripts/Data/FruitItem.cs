@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,10 +7,10 @@ public class FruitItem : MonoBehaviour
 {
     public Button fruitButton;
     public TextMeshProUGUI fruitText;
-    private FriutsID fruitID;
+    private FruitsID fruitID;
 
     // 과일 아이템을 업데이트하고 fruitID를 초기화
-    public void UpdateFruit(FriutsID id, int count, Sprite icon)
+    public void UpdateFruit(FruitsID id, int count, Sprite icon)
     {
         // fruitID 초기화
         fruitID = id;
@@ -36,5 +37,7 @@ public class FruitItem : MonoBehaviour
     {
         // UIManager에 현재 과일 ID 전달
         GameManager.Instance.uiManager.OnFruitSelected(fruitID);
+
+        //GameManager.Instance.NowPlayerData.Inventory.
     }
 }

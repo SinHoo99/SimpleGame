@@ -64,14 +64,14 @@ public class GameManager : Singleton<GameManager>
 
         if (NowPlayerData.Inventory == null)
         {
-            NowPlayerData.Inventory = new Dictionary<FriutsID, NowFruitsData>();
+            NowPlayerData.Inventory = new Dictionary<FruitsID, CollectedFruitData>();
         }
 
-        foreach (FriutsID id in Enum.GetValues(typeof(FriutsID)))
+        foreach (FruitsID id in Enum.GetValues(typeof(FruitsID)))
         {
             if (!NowPlayerData.Inventory.ContainsKey(id))
             {
-                NowPlayerData.Inventory[id] = new NowFruitsData { ID = id, Amount = 0 };
+                NowPlayerData.Inventory[id] = new CollectedFruitData { ID = id, Amount = 0 };
             }
         }
 
@@ -90,7 +90,7 @@ public class GameManager : Singleton<GameManager>
     /// <summary>
     /// 특정 과일 데이터를 DataManager에서 가져옵니다.
     /// </summary>
-    public FriutsData GetFriutsData(FriutsID id)
+    public FruitsData GetFriutsData(FruitsID id)
     {
         if (dataManager == null || !dataManager.FriutDatas.ContainsKey(id))
         {

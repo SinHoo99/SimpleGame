@@ -16,7 +16,7 @@ public class ScoreUpdater : MonoBehaviour
     /// <summary>
     /// 특정 과일을 추가합니다.
     /// </summary>
-    public void AddFruits(FriutsID fruitID, int count)
+    public void AddFruits(FruitsID fruitID, int count)
     {
         var inventory = GameManager.Instance.NowPlayerData.Inventory;
 
@@ -40,14 +40,14 @@ public class ScoreUpdater : MonoBehaviour
     public void AddRandomFruit()
     {
         // 확률 기반으로 과일 선택
-        FriutsID selectedFruit = GetRandomFruitByProbability();
+        FruitsID selectedFruit = GetRandomFruitByProbability();
         AddFruits(selectedFruit, 1); // 선택된 과일을 1개 추가
     }
 
     /// <summary>
     /// 확률 기반 랜덤 과일 선택
     /// </summary>
-    private FriutsID GetRandomFruitByProbability()
+    private FruitsID GetRandomFruitByProbability()
     {
         float totalProbability = 0;
         foreach (var fruit in GameManager.Instance.DataManager.FriutDatas.Values)
@@ -68,7 +68,7 @@ public class ScoreUpdater : MonoBehaviour
         }
 
         Debug.LogWarning("확률 계산 오류: 기본값 반환");
-        return FriutsID.Apple; // 기본값
+        return FruitsID.Apple; // 기본값
     }
 
     /// <summary>

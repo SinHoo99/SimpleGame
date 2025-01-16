@@ -2,27 +2,6 @@ using System;
 using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-
-[System.Serializable]
-public class PlayerData
-{
-    [Header("수집목록")]
-    public Dictionary<FriutsID, NowFruitsData> Inventory = new Dictionary<FriutsID, NowFruitsData>();
-
-    [Header("수집시간")]
-    public DateTime LastCollectedTime;
-
-    [Header("플레이어 지갑")]
-    public int PlayerCoin = 0;
-}
-
-[System.Serializable]
-public class NowFruitsData
-{
-    public FriutsID ID;
-    public int Amount;
-}
 
 public class SaveManager : MonoBehaviour
 {

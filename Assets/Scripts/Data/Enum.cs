@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum FriutsID
+public enum FruitsID
 {
     Apple = 1,
     Banana,
@@ -10,7 +10,7 @@ public enum FriutsID
     Carrot
 }
 
-public enum FriutsType
+public enum FruitsType
 {
     Object,
 }
