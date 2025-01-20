@@ -50,6 +50,7 @@ public class GameManager : Singleton<GameManager>
         {
             Debug.LogWarning("OfflineScoreUpdater가 설정되지 않았습니다.");
         }
+        UpdateUIWithInventory();
     }
 
 

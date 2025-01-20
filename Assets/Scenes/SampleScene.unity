@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 24944652}
   - component: {fileID: 24944653}
+  - component: {fileID: 24944655}
   m_Layer: 0
   m_Name: TestArea
   m_TagString: Untagged
@@ -207,6 +208,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &24944655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24944651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04650db33f5ee5e42886a794c9266bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fruits:
+  - {fileID: 1405972692751831232, guid: 61070f8755921584b97b4f59b088ba89, type: 3}
+  - {fileID: 208517867031883210, guid: c3cb1689d1781404f8ca7fb7889a0585, type: 3}
+  - {fileID: 1001739118808186321, guid: 326f63d3045ae024a956084496c56546, type: 3}
+  - {fileID: 7308923790613376476, guid: 793184f32b20d8343bd738b5cebdb7f7, type: 3}
+  _objectPool: {fileID: 2034376365}
 --- !u!1 &30349772
 GameObject:
   m_ObjectHideFlags: 0
@@ -1130,6 +1149,7 @@ GameObject:
   - component: {fileID: 2034376361}
   - component: {fileID: 2034376363}
   - component: {fileID: 2034376364}
+  - component: {fileID: 2034376365}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1245,9 +1265,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5b5d8082689d914cb74a9753e7b9abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnParent: {fileID: 24944652}
-  spawnAreaMin: {x: 0, y: 0, z: 10}
-  spawnAreaMax: {x: 2.5, y: 2.5, z: 10}
+  _objectPool: {fileID: 2034376365}
+--- !u!114 &2034376365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034376356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfdd337a6874c41498ab8cff660af3fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

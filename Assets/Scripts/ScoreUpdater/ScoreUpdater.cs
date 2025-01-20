@@ -46,6 +46,7 @@ public class ScoreUpdater : MonoBehaviour
         if (selectedFruit.HasValue)
         {
             AddFruits(selectedFruit.Value); // null이 아닐 경우만 AddFruits 호출
+           GameManager.Instance.spawnManager.SpawnFruitFromPool(selectedFruit.Value);
         }
         else
         {
@@ -119,7 +120,6 @@ public class ScoreUpdater : MonoBehaviour
         {
             AddRandomFruit(); // 클릭 시 랜덤 과일 수집
             AddCoin();
-            GameManager.Instance.spawnManager.SpawnFruitsFromInventory();
             GameManager.Instance.UpdateUIWithInventory();
         }
     }

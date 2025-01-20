@@ -2,41 +2,60 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public Transform spawnParent;
-    public Vector3 spawnAreaMin;
-    public Vector3 spawnAreaMax;
+    public static SpawnManager Instance; // 싱글턴 패턴 적용
+    [SerializeField] private ObjectPool _objectPool;
 
-    /// <summary>
-    /// Inventory에 있는 과일을 프리팹으로 소환합니다.
-    /// </summary>
-    public void SpawnFruitsFromInventory()
+    private void Awake()
     {
-        var inventory = GameManager.Instance.NowPlayerData.Inventory;
-
-        foreach (var fruit in inventory)
+        if (Instance == null)
         {
-            if (fruit.Value.Amount <= 0) continue; // 수량이 0인 경우 스킵
-
-            // DataManager를 통해 프리팹 가져오기
-            var prefab = GameManager.Instance.DataManager.GetFruitPrefab(fruit.Key);
-            if (prefab == null) continue;
-
-            // 과일 수량만큼 소환
-            SpawnFruitPrefab(prefab, fruit.Value.Amount);
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
-    private void SpawnFruitPrefab(GameObject prefab, int count)
+    /// <summary>
+    /// Object Pool에서 과일 프리팹을 가져와 활성화
+    /// </summary>
+    public void SpawnFruitFromPool(FruitsID fruitID)
     {
-        for (int i = 0; i < count; i++)
+        var prefab = GameManager.Instance.DataManager.GetFruitPrefab(fruitID);
+        if (prefab == null)
         {
+            Debug.LogWarning($"{fruitID}의 프리팹이 로드되지 않았습니다.");
+            return;
+        }
+
+        // Object Pool에서 프리팹 가져오기
+        GameObject fruit = _objectPool.GetObject(prefab.name);
+        if (fruit != null)
+        {
+            // 랜덤 위치에 배치
             Vector3 spawnPosition = new Vector3(
-                Random.Range(spawnAreaMin.x, spawnAreaMax.x),
-                0, // 고정된 Y 좌표
-                Random.Range(spawnAreaMin.z, spawnAreaMax.z)
+                Random.Range(-5, 5),
+                0,
+                Random.Range(-5, 5)
             );
 
-            Instantiate(prefab, spawnPosition, Quaternion.identity, spawnParent);
+            fruit.transform.position = spawnPosition;
+            fruit.transform.rotation = Quaternion.identity;
+            fruit.SetActive(true);
         }
+        else
+        {
+            Debug.LogWarning($"{fruitID}에 해당하는 활성화 가능한 오브젝트가 없습니다.");
+        }
+    }
+
+    /// <summary>
+    /// 모든 활성화된 프리팹을 반환
+    /// </summary>
+    public void ReturnAllFruitsToPool()
+    {
+        _objectPool.ReturnAllObjects();
+        Debug.Log("모든 과일 프리팹이 Object Pool로 반환되었습니다.");
     }
 }
