@@ -149,12 +149,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 24944651}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 519420032}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &24944653
 SpriteRenderer:
@@ -225,7 +225,6 @@ MonoBehaviour:
   - {fileID: 208517867031883210, guid: c3cb1689d1781404f8ca7fb7889a0585, type: 3}
   - {fileID: 1001739118808186321, guid: 326f63d3045ae024a956084496c56546, type: 3}
   - {fileID: 7308923790613376476, guid: 793184f32b20d8343bd738b5cebdb7f7, type: 3}
-  _objectPool: {fileID: 2034376365}
 --- !u!1 &30349772
 GameObject:
   m_ObjectHideFlags: 0
@@ -696,8 +695,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 24944652}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &835763865
@@ -1174,6 +1172,8 @@ MonoBehaviour:
   uiManager: {fileID: 2034376359}
   playerStatusUI: {fileID: 1028055296}
   spawnManager: {fileID: 2034376364}
+  objectPool: {fileID: 2034376365}
+  testArea: {fileID: 24944655}
   dataManager: {fileID: 2034376362}
   saveManager: {fileID: 2034376361}
 --- !u!4 &2034376358
@@ -1265,7 +1265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5b5d8082689d914cb74a9753e7b9abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objectPool: {fileID: 2034376365}
 --- !u!114 &2034376365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1283,6 +1282,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 24944652}
   - {fileID: 231305383}
   - {fileID: 261245032}
   - {fileID: 2034376358}

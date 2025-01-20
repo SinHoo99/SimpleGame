@@ -71,4 +71,25 @@ public class ObjectPool : MonoBehaviour
 
         activeObjects.Clear();
     }
+
+    /// <summary>
+    /// 활성화된 오브젝트 반환
+    /// </summary>
+    public Dictionary<string, GameObject> GetActiveObjects()
+    {
+        Dictionary<string, GameObject> activeObjectDict = new Dictionary<string, GameObject>();
+
+        foreach (var obj in activeObjects)
+        {
+            string key = obj.name.Replace("(Clone)", "").Trim();
+            activeObjectDict[key] = obj;
+        }
+
+        return activeObjectDict;
+    }
+
+    public List<GameObject> GetAllActiveObjects()
+    {
+        return new List<GameObject>(activeObjects);
+    }
 }

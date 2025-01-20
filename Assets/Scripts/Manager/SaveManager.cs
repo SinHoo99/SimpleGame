@@ -10,6 +10,11 @@ public class SaveManager : MonoBehaviour
         string path = Path.Combine(Application.persistentDataPath, $"{typeof(T).Name}.json");
         try
         {
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore // 순환 참조 무시
+            };
+
             string jsonData = JsonConvert.SerializeObject(data, Formatting.Indented);
             File.WriteAllText(path, jsonData);
             Debug.Log($"[SaveManager] 데이터 저장 성공: {path}");

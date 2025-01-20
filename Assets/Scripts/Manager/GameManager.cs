@@ -10,8 +10,9 @@ public class GameManager : Singleton<GameManager>
     public UIManager uiManager;
     public PlayerStatusUI playerStatusUI;
     public SpawnManager spawnManager;
-
-    private bool isQuitting = false;
+    [SerializeField] public ObjectPool objectPool;
+    [SerializeField] public TestArea testArea;
+   private bool isQuitting = false;
 
     [SerializeField] private DataManager dataManager;
     [SerializeField] private SaveManager saveManager;
@@ -37,6 +38,8 @@ public class GameManager : Singleton<GameManager>
         dataManager.Initializer();
 
         InitializeComponents();
+
+        testArea.AddObjectPool();
 
         LoadAllData();
 
@@ -86,24 +89,6 @@ public class GameManager : Singleton<GameManager>
         }
 
         Debug.Log("PlayerData.Inventory 초기화 완료");
-    }
-
-    #endregion
-
-    #region 데이터 접근
-
-    /// <summary>
-    /// 특정 과일 데이터를 DataManager에서 가져옵니다.
-    /// </summary>
-    public FruitsData GetFriutsData(FruitsID id)
-    {
-        if (dataManager == null || !dataManager.FriutDatas.ContainsKey(id))
-        {
-            Debug.LogError($"DataManager에서 {id} 과일 데이터를 찾을 수 없습니다.");
-            return null;
-        }
-
-        return dataManager.FriutDatas[id];
     }
 
     #endregion
@@ -177,11 +162,62 @@ public class GameManager : Singleton<GameManager>
     }
 
     /// <summary>
+    /// 현재 활성화된 프리팹 데이터를 저장합니다.
+    /// </summary>
+    private void SavePrefabData()
+    {
+        List<PrefabData> prefabDataList = new List<PrefabData>();
+
+        foreach (var obj in objectPool.GetAllActiveObjects())
+        {
+            prefabDataList.Add(new PrefabData(obj.name.Replace("(Clone)", "").Trim(), obj.transform.position, obj.transform.rotation));
+        }
+
+        saveManager.SaveData(prefabDataList);
+        Debug.Log("PrefabData 저장 완료");
+    }
+
+    /// <summary>
+    /// 저장된 프리팹 데이터를 복원합니다.
+    /// </summary>
+    private void LoadPrefabData()
+    {
+        if (saveManager.TryLoadData(out List<PrefabData> prefabDataList))
+        {
+            foreach (var prefabData in prefabDataList)
+            {
+                string cleanKey = prefabData.prefabName.Trim();
+                GameObject prefab = objectPool.GetObject(cleanKey);
+
+                if (prefab != null)
+                {
+                    prefab.transform.position = prefabData.position.ToVector3();
+                    prefab.transform.rotation = prefabData.rotation.ToQuaternion();
+                    prefab.SetActive(true);
+                }
+                else
+                {
+                    Debug.LogWarning($"Object Pool에서 {cleanKey}을(를) 찾을 수 없습니다.");
+                }
+            }
+
+            Debug.Log("PrefabData 로드 완료");
+        }
+        else
+        {
+            Debug.LogWarning("PrefabData 로드 실패 또는 데이터 없음");
+        }
+    }
+
+
+    /// <summary>
     /// 모든 데이터를 로드합니다.
     /// </summary>
     public bool LoadAllData()
     {
-        return LoadPlayerData();
+        bool playerDataLoaded = LoadPlayerData();
+        LoadPrefabData();
+        return playerDataLoaded;
     }
 
     #endregion
@@ -192,6 +228,7 @@ public class GameManager : Singleton<GameManager>
     {
         isQuitting = true;
         SavePlayerData();
+        SavePrefabData();
     }
 
     private void OnApplicationPause(bool pause)

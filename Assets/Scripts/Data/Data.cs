@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+#region 과일 데이터
 [System.Serializable]
 public class FruitsData
 {
@@ -14,7 +16,63 @@ public class FruitsData
     public float Probability;         // 과일 등장 확률
     public string PrefabPath;
 }
+#endregion
 
+#region 프리펩 데이터
+[Serializable]
+public class PrefabData
+{
+    public string prefabName;
+    public SerializableVector3 position;
+    public SerializableQuaternion rotation;
+
+    public PrefabData(string prefabName, Vector3 position, Quaternion rotation)
+    {
+        this.prefabName = prefabName;
+        this.position = new SerializableVector3(position);
+        this.rotation = new SerializableQuaternion(rotation);
+    }
+}
+
+[Serializable]
+public class SerializableVector3
+{
+    public float x, y, z;
+
+    public SerializableVector3(Vector3 vector)
+    {
+        x = vector.x;
+        y = vector.y;
+        z = vector.z;
+    }
+
+    public Vector3 ToVector3()
+    {
+        return new Vector3(x, y, z);
+    }
+}
+
+[Serializable]
+public class SerializableQuaternion
+{
+    public float x, y, z, w;
+
+    public SerializableQuaternion(Quaternion quaternion)
+    {
+        x = quaternion.x;
+        y = quaternion.y;
+        z = quaternion.z;
+        w = quaternion.w;
+    }
+
+    public Quaternion ToQuaternion()
+    {
+        return new Quaternion(x, y, z, w);
+    }
+}
+#endregion
+
+#region 플레이어 데이터
 [System.Serializable]
 public class PlayerData
 {
@@ -51,10 +109,13 @@ public class PlayerData
         return true;
     }
 }
+#endregion
 
+#region 현재 채집 데이터
 [System.Serializable]
 public class CollectedFruitData
 {
     public FruitsID ID;     // 과일 ID
     public int Amount;      // 보유 수량
 }
+#endregion

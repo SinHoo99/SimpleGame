@@ -2,20 +2,6 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public static SpawnManager Instance; // 싱글턴 패턴 적용
-    [SerializeField] private ObjectPool _objectPool;
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
     /// <summary>
     /// Object Pool에서 과일 프리팹을 가져와 활성화
@@ -30,7 +16,7 @@ public class SpawnManager : MonoBehaviour
         }
 
         // Object Pool에서 프리팹 가져오기
-        GameObject fruit = _objectPool.GetObject(prefab.name);
+        GameObject fruit = GameManager.Instance.objectPool.GetObject(prefab.name);
         if (fruit != null)
         {
             // 랜덤 위치에 배치
@@ -55,7 +41,7 @@ public class SpawnManager : MonoBehaviour
     /// </summary>
     public void ReturnAllFruitsToPool()
     {
-        _objectPool.ReturnAllObjects();
+        GameManager.Instance.objectPool.ReturnAllObjects();
         Debug.Log("모든 과일 프리팹이 Object Pool로 반환되었습니다.");
     }
 }

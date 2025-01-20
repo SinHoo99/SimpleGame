@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class TestArea : MonoBehaviour
 {
-    [SerializeField] private GameObject[] fruits; 
-    [SerializeField] private ObjectPool _objectPool;
-
-    void Start()
-    {
-        AddObjectPool();
-    }
+    [SerializeField] private GameObject[] fruits;
 
     public void AddObjectPool()
     {
+        if (GameManager.Instance.objectPool == null)
+        {
+            Debug.LogError("ObjectPool이 초기화되지 않았습니다.");
+            return;
+        }
+
         foreach (var fruit in fruits)
         {
             if (fruit == null)
@@ -22,9 +22,10 @@ public class TestArea : MonoBehaviour
                 continue;
             }
 
-            // 프리팹 이름을 키로 사용하여 Object Pool에 추가
-            _objectPool.AddObjectPool(fruit.name, fruit, 20);
-            Debug.Log($"{fruit.name}이(가) Object Pool에 추가되었습니다.");
+            // 키 정리 후 Object Pool에 추가
+            string cleanKey = fruit.name.Replace("(Clone)", "").Trim();
+            GameManager.Instance.objectPool.AddObjectPool(cleanKey, fruit, 20);
+            Debug.Log($"{cleanKey}이(가) Object Pool에 추가되었습니다.");
         }
     }
 }

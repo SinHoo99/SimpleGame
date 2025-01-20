@@ -37,7 +37,7 @@ public class FruitItem : MonoBehaviour
     {
         // UIManager에 현재 과일 ID 전달
         GameManager.Instance.uiManager.OnFruitSelected(fruitID);
-
+       
         //GameManager.Instance.NowPlayerData.Inventory.
     }
 }
