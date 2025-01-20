@@ -26,7 +26,28 @@ public class DataManager : MonoBehaviour
             fruitsData.Image = Resources.Load<SpriteAtlas>(ResourcesPath.CSVSprites).GetSprite(datas[Data.Image]);
             fruitsData.Description = datas[Data.Description];
             fruitsData.Probability = float.Parse(datas[Data.Probability]);
+            fruitsData.PrefabPath = datas[Data.PrefabPath];
             FriutDatas.Add(fruitsData.ID, fruitsData);
         }
+    }
+
+    public GameObject GetFruitPrefab(FruitsID fruitID)
+    {
+        // 과일 데이터 가져오기
+        if (!FriutDatas.TryGetValue(fruitID, out var fruitsData))
+        {
+            Debug.LogWarning($"{fruitID}에 해당하는 데이터가 없습니다.");
+            return null;
+        }
+
+        // PrefabPath를 기반으로 프리팹 로드
+        var prefab = Resources.Load<GameObject>(fruitsData.PrefabPath);
+        if (prefab == null)
+        {
+            Debug.LogWarning($"프리팹 경로가 잘못되었습니다: {fruitsData.PrefabPath}");
+            return null;
+        }
+
+        return prefab;
     }
 }

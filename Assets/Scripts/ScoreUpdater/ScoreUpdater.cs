@@ -10,13 +10,15 @@ public class ScoreUpdater : MonoBehaviour
     private void Update()
     {
         HandleInput(); // 클릭 입력 처리
-       // CollectFruitsOverTime(); // 시간에 따라 과일 수집
+                       // CollectFruitsOverTime(); // 시간에 따라 과일 수집
     }
 
+
+    #region 과일 생성 로직
     /// <summary>
     /// 특정 과일을 추가합니다.
     /// </summary>
-    public void AddFruits(FruitsID fruitID, int count)
+    public void AddFruits(FruitsID fruitID)
     {
         var inventory = GameManager.Instance.NowPlayerData.Inventory;
 
@@ -26,12 +28,12 @@ public class ScoreUpdater : MonoBehaviour
             return;
         }
 
-        // 과일 개수 추가
-        inventory[fruitID].Amount += count;
-        //Debug.Log($"{fruitID} 추가됨. 현재 개수: {inventory[fruitID].Amount}");
+        // 과일 수집 처리 (Amount 증가 등)
+        inventory[fruitID].Amount++;
 
-        // UI 업데이트
-        GameManager.Instance.UpdateUIWithInventory();
+        // 방금 수집된 과일 ID만 UI 업데이트
+        GameManager.Instance.uiManager.UpdateOrCreateFruitUI(fruitID, 1);
+
     }
 
     /// <summary>
@@ -39,36 +41,73 @@ public class ScoreUpdater : MonoBehaviour
     /// </summary>
     public void AddRandomFruit()
     {
-        // 확률 기반으로 과일 선택
-        FruitsID selectedFruit = GetRandomFruitByProbability();
-        AddFruits(selectedFruit, 1); // 선택된 과일을 1개 추가
+        FruitsID? selectedFruit = GetRandomFruitByProbability();
+
+        if (selectedFruit.HasValue)
+        {
+            AddFruits(selectedFruit.Value); // null이 아닐 경우만 AddFruits 호출
+        }
+        else
+        {
+            Debug.Log("아무 과일도 선택되지 않았습니다.");
+        }
     }
 
     /// <summary>
     /// 확률 기반 랜덤 과일 선택
     /// </summary>
-    private FruitsID GetRandomFruitByProbability()
+    private FruitsID? GetRandomFruitByProbability()
     {
-        float totalProbability = 0;
-        foreach (var fruit in GameManager.Instance.DataManager.FriutDatas.Values)
-        {
-            totalProbability += fruit.Probability;
-        }
+        var fruits = GameManager.Instance.DataManager.FriutDatas.Values.ToList();
 
-        float randomValue = Random.Range(0f, totalProbability);
-        float cumulativeProbability = 0;
+        // 전체 확률의 합 계산
+        float totalProbability = fruits.Sum(f => f.Probability);
 
-        foreach (var fruit in GameManager.Instance.DataManager.FriutDatas.Values)
+        // 랜덤 값 생성 (0에서 totalProbability 사이)
+        float randomValue = Random.Range(0f, totalProbability + 1.0f); // +1.0f로 선택되지 않을 확률 추가
+
+        float cumulativeProbability = 0f;
+
+        foreach (var fruit in fruits)
         {
             cumulativeProbability += fruit.Probability;
             if (randomValue <= cumulativeProbability)
             {
-                return fruit.ID;
+                return fruit.ID; // 과일 선택
             }
         }
 
-        Debug.LogWarning("확률 계산 오류: 기본값 반환");
-        return FruitsID.Apple; // 기본값
+        // 선택되지 않을 확률
+        Debug.Log("아무 과일도 선택되지 않았습니다.");
+        return null; // 아무것도 선택되지 않음
+    }
+
+
+
+    /// <summary>
+    /// 시간에 따라 과일 수집
+    /// </summary>
+    private void CollectFruitsOverTime()
+    {
+        timeAccumulator += Time.deltaTime;
+
+        if (timeAccumulator >= collectionInterval)
+        {
+            int collectCount = Mathf.FloorToInt(timeAccumulator / collectionInterval);
+
+            for (int i = 0; i < collectCount; i++)
+            {
+                AddRandomFruit();
+            }
+
+            timeAccumulator %= collectionInterval; // 초과된 시간만 남김
+        }
+    }
+    #endregion
+
+    public void AddCoin()
+    {
+        GameManager.Instance.NowPlayerData.PlayerCoin += 1;
     }
 
     /// <summary>
@@ -79,6 +118,9 @@ public class ScoreUpdater : MonoBehaviour
         if (IsInputDetected())
         {
             AddRandomFruit(); // 클릭 시 랜덤 과일 수집
+            AddCoin();
+            GameManager.Instance.spawnManager.SpawnFruitsFromInventory();
+            GameManager.Instance.UpdateUIWithInventory();
         }
     }
 
@@ -102,23 +144,5 @@ public class ScoreUpdater : MonoBehaviour
         return false;
     }
 
-    /// <summary>
-    /// 시간에 따라 과일 수집
-    /// </summary>
-    private void CollectFruitsOverTime()
-    {
-        timeAccumulator += Time.deltaTime;
 
-        if (timeAccumulator >= collectionInterval)
-        {
-            int collectCount = Mathf.FloorToInt(timeAccumulator / collectionInterval);
-
-            for (int i = 0; i < collectCount; i++)
-            {
-                AddRandomFruit();
-            }
-
-            timeAccumulator %= collectionInterval; // 초과된 시간만 남김
-        }
-    }
 }

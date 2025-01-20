@@ -27,7 +27,7 @@ public class OfflineScoreUpdater : MonoBehaviour
         // 경과 시간 동안 랜덤 과일 추가
         for (int i = 0; i < secondsElapsed; i++)
         {
-            GameManager.Instance.scoreUpdater.AddRandomFruit(); // 확률 기반 랜덤 과일 추가
+            //GameManager.Instance.scoreUpdater.AddRandomFruit(); // 확률 기반 랜덤 과일 추가
         }
 
         // 마지막 수집 시간 갱신

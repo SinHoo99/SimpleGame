@@ -12,6 +12,7 @@ public class FruitsData
     public string Description;        // 과일 설명
     public int Price;                 // 과일 판매 가격
     public float Probability;         // 과일 등장 확률
+    public string PrefabPath;
 }
 
 [System.Serializable]
@@ -26,46 +27,28 @@ public class PlayerData
     [Header("플레이어 지갑")]
     public int PlayerCoin = 0;
 
-    public bool TryGetFruitData(FruitsID fruitID, out CollectedFruitData collectedFruit)
+    public bool AddFruitAndCalculateCoins(FruitsID fruitID, int amount, Dictionary<FruitsID, FruitsData> fruitDataDictionary)
     {
-        return Inventory.TryGetValue(fruitID, out collectedFruit);
-    }
-
-    public bool DecreaseFruitAmount(FruitsID fruitID, int amount)
-    {
-        if (Inventory.TryGetValue(fruitID, out var collectedFruit) && collectedFruit.Amount >= amount)
+        if (!fruitDataDictionary.TryGetValue(fruitID, out var fruitData))
         {
-            collectedFruit.Amount -= amount;
-            if (collectedFruit.Amount <= 0)
-            {
-                Inventory.Remove(fruitID); // 수량이 0이면 인벤토리에서 제거
-            }
-            return true;
+            Debug.LogWarning($"과일 데이터({fruitID})를 찾을 수 없습니다.");
+            return false;
         }
 
-        Debug.LogWarning($"인벤토리에 과일 {fruitID}의 수량을 감소시킬 수 없습니다. (현재 수량 부족)");
-        return false;
-    }
-
-    public void IncreaseFruitAmount(FruitsID fruitID, int amount)
-    {
+        // 과일 수량 감소
         if (Inventory.TryGetValue(fruitID, out var collectedFruit))
         {
-            collectedFruit.Amount += amount;
+            collectedFruit.Amount -= amount;
         }
         else
         {
-            Inventory[fruitID] = new CollectedFruitData
-            {
-                ID = fruitID,
-                Amount = amount
-            };
+            Inventory[fruitID] = new CollectedFruitData { ID = fruitID, Amount = amount };
         }
-    }
 
-    public void AddCoins(int amount)
-    {
-        PlayerCoin += amount;
+        // 코인 계산
+        PlayerCoin += amount * fruitData.Price;
+
+        return true;
     }
 }
 

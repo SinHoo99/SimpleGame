@@ -41,7 +41,7 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// 과일 UI를 생성하거나 업데이트합니다.
     /// </summary>
-    private void UpdateOrCreateFruitUI(FruitsID id, int count)
+    public void UpdateOrCreateFruitUI(FruitsID id, int count)
     {
         if (_fruitUIItems.TryGetValue(id, out var fruitItem))
         {
@@ -122,18 +122,16 @@ public class UIManager : MonoBehaviour
             Debug.LogWarning($"ID {selectedFruitID}에 해당하는 과일 데이터를 찾을 수 없습니다.");
             return;
         }
+    }
 
-        // PlayerData 메서드를 사용하여 간결화
-        if (GameManager.Instance.NowPlayerData.TryGetFruitData(selectedFruitID, out var playerFruitData))
+    public void ClearAllFruitUI()
+    {
+        foreach (var fruitItem in _fruitUIItems.Values)
         {
-            Debug.Log($"과일 이름: {fruitData.Name}");
-            Debug.Log($"현재 개수: {playerFruitData.Amount}");
-            Debug.Log($"설명: {fruitData.Description}");
-            Debug.Log($"가격: {fruitData.Price}");
+            Destroy(fruitItem.gameObject); // UI 오브젝트 제거
         }
-        else
-        {
-            Debug.LogWarning($"ID {selectedFruitID}가 플레이어의 인벤토리에 없습니다.");
-        }
+
+        _fruitUIItems.Clear(); // 내부 데이터 초기화
+        Debug.Log("모든 과일 UI가 제거되었습니다.");
     }
 }

@@ -12,6 +12,7 @@ public struct Data
     public const string Description = "Description";
     public const string Price = "Price";
     public const string Probability = "Probability";
+    public const string PrefabPath = "PrefabPath";
 }
 public struct ResourcesPath
 {

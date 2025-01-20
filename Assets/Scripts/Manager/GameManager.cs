@@ -8,11 +8,14 @@ public class GameManager : Singleton<GameManager>
     private OfflineScoreUpdater offlineScoreUpdater;
     public ScoreUpdater scoreUpdater;
     public UIManager uiManager;
+    public PlayerStatusUI playerStatusUI;
+    public SpawnManager spawnManager;
 
     private bool isQuitting = false;
 
     [SerializeField] private DataManager dataManager;
     [SerializeField] private SaveManager saveManager;
+    
 
     public DataManager DataManager => dataManager;
     public PlayerData NowPlayerData { get; private set; }
@@ -48,6 +51,7 @@ public class GameManager : Singleton<GameManager>
             Debug.LogWarning("OfflineScoreUpdater가 설정되지 않았습니다.");
         }
     }
+
 
     #region 데이터 초기화
 
@@ -202,15 +206,31 @@ public class GameManager : Singleton<GameManager>
     #region  UI를 업데이트하는 헬퍼 메서드
     public void UpdateUIWithInventory()
     {
-        if (uiManager == null || NowPlayerData == null || NowPlayerData.Inventory == null)
+        playerStatusUI.PlayerCoin();
+
+        if (NowPlayerData.Inventory == null || NowPlayerData.Inventory.Count == 0)
         {
-            Debug.LogError("UIManager 또는 Inventory가 초기화되지 않았습니다!");
+            // Inventory가 비었을 때 UI를 초기화
+            uiManager.ClearAllFruitUI();
+            Debug.Log("Inventory가 비어 있어 UI를 초기화했습니다.");
             return;
         }
 
+        // Inventory에 있는 과일 데이터를 UI에 업데이트
         uiManager.UpdateFruitCountsUI(
             NowPlayerData.Inventory.ToDictionary(kv => kv.Key, kv => kv.Value.Amount)
         );
+    }
+
+    #endregion
+
+    #region  데이터 삭제
+    public void DestroyData()
+    {
+        NowPlayerData.Inventory.Clear();
+        Debug.Log("삭제 처리 되었음");
+        UpdateUIWithInventory();
+        InitializeInventory();
     }
     #endregion
 }
