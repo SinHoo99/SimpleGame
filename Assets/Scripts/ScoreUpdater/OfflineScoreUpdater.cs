@@ -5,9 +5,7 @@ public class OfflineScoreUpdater : MonoBehaviour
 {
     private const int MaxOfflineTimeInSeconds = 7200; // 최대 오프라인 시간 (2시간 = 7200초)
 
-    /// <summary>
-    /// 오프라인 동안 랜덤 과일 수집
-    /// </summary>
+    #region 오프라인 동안 랜덤 과일 수집
     public void CollectOfflineFruits()
     {
         // 오프라인 경과 시간 계산
@@ -34,4 +32,5 @@ public class OfflineScoreUpdater : MonoBehaviour
         GameManager.Instance.NowPlayerData.LastCollectedTime = DateTime.Now;
         Debug.Log($"오프라인 동안 랜덤 과일 {secondsElapsed}개 추가 완료 (최대 2시간 제한).");
     }
+    #endregion
 }

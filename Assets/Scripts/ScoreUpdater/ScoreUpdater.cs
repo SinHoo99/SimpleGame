@@ -82,9 +82,6 @@ public class ScoreUpdater : MonoBehaviour
         Debug.Log("아무 과일도 선택되지 않았습니다.");
         return null; // 아무것도 선택되지 않음
     }
-
-
-
     /// <summary>
     /// 시간에 따라 과일 수집
     /// </summary>
@@ -123,7 +120,6 @@ public class ScoreUpdater : MonoBehaviour
             GameManager.Instance.UpdateUIWithInventory();
         }
     }
-
     /// <summary>
     /// 입력 감지
     /// </summary>
