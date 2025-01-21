@@ -1,14 +1,17 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    private GameManager GM => GameManager.Instance;
+
     [Header("UI Components")]
     public GameObject fruitItemPrefab; // 과일 UI 프리팹
     public Transform fruitListParent; // 과일 UI 부모 객체
 
-    private Dictionary<FruitsID, FruitItem> _fruitUIItems = new();
-    private Dictionary<FruitsID, FruitsData> _fruitData;
+    private Dictionary<FruitsID, FruitItem> _fruitUIItems = new(); // 생성된 UI를 효율적으로 관리하여 중복 생성 방지, 빠른 업데이트/삭제를 위해 사용
+    private Dictionary<FruitsID, FruitsData> _fruitData; // 데이터와 UI를 분리하고, 필요한 데이터를 빠르게 참조하기 위해 사용.
 
     /// <summary>
     /// 과일 데이터를 설정합니다.
@@ -123,7 +126,6 @@ public class UIManager : MonoBehaviour
             return;
         }
     }
-
     public void ClearAllFruitUI()
     {
         foreach (var fruitItem in _fruitUIItems.Values)
@@ -134,4 +136,25 @@ public class UIManager : MonoBehaviour
         _fruitUIItems.Clear(); // 내부 데이터 초기화
         Debug.Log("모든 과일 UI가 제거되었습니다.");
     }
+
+    #region  UI를 업데이트하는 헬퍼 메서드
+    public void UpdateUIWithInventory()
+    {
+        GM.PlayerStatusUI.PlayerCoin();
+
+        if (GM.PlayerDataManager.NowPlayerData.Inventory == null || GM.PlayerDataManager.NowPlayerData.Inventory.Count == 0)
+        {
+            // Inventory가 비었을 때 UI를 초기화
+            GM.UIManager.ClearAllFruitUI();
+            Debug.Log("Inventory가 비어 있어 UI를 초기화했습니다.");
+            return;
+        }
+
+        // Inventory에 있는 과일 데이터를 UI에 업데이트
+        GM.UIManager.UpdateFruitCountsUI(
+           GM.PlayerDataManager.NowPlayerData.Inventory.ToDictionary(kv => kv.Key, kv => kv.Value.Amount)
+        );
+    }
+    #endregion
+
 }

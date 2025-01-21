@@ -8,6 +8,6 @@ public class SellingSystem : MonoBehaviour
     {
         GameManager.Instance.DestroyData(); // 데이터 초기화
         Debug.Log("Inventory가 초기화되었습니다.");
-        GameManager.Instance.spawnManager.ReturnAllFruitsToPool();
+        GameManager.Instance.SpawnManager.ReturnAllFruitsToPool();
     }
 }

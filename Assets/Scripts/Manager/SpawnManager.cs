@@ -16,7 +16,7 @@ public class SpawnManager : MonoBehaviour
         }
 
         // Object Pool에서 프리팹 가져오기
-        GameObject fruit = GameManager.Instance.objectPool.GetObject(prefab.name);
+        GameObject fruit = GameManager.Instance.ObjectPool.GetObject(prefab.name);
         if (fruit != null)
         {
             // 랜덤 위치에 배치
@@ -25,7 +25,6 @@ public class SpawnManager : MonoBehaviour
                 0,
                 Random.Range(-5, 5)
             );
-
             fruit.transform.position = spawnPosition;
             fruit.transform.rotation = Quaternion.identity;
             fruit.SetActive(true);
@@ -41,7 +40,7 @@ public class SpawnManager : MonoBehaviour
     /// </summary>
     public void ReturnAllFruitsToPool()
     {
-        GameManager.Instance.objectPool.ReturnAllObjects();
+        GameManager.Instance.ObjectPool.ReturnAllObjects();
         Debug.Log("모든 과일 프리팹이 Object Pool로 반환되었습니다.");
     }
 }

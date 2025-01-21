@@ -5,14 +5,15 @@ using UnityEngine;
 
 public class PlayerStatusUI : MonoBehaviour
 {
+    private GameManager GM => GameManager.Instance;
     public TextMeshProUGUI CoinText;
 
     private void Start()
     {
-        CoinText.text = $"{GameManager.Instance.NowPlayerData.PlayerCoin}";
+        CoinText.text = $"{GM.PlayerDataManager.NowPlayerData.PlayerCoin}";
     }
     public void PlayerCoin()
     {
-        CoinText.text = $"{GameManager.Instance.NowPlayerData.PlayerCoin}";
+        CoinText.text = $"{GM.PlayerDataManager.NowPlayerData.PlayerCoin}";
     }
 }

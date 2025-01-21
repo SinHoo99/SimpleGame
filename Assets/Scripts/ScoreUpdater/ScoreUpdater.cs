@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ScoreUpdater : MonoBehaviour
 {
+    private GameManager GM => GameManager.Instance;
+
     private float timeAccumulator = 0f; // 시간 누적 변수
     private const float collectionInterval = 1f; // 1초마다 과일 수집
 
@@ -20,7 +22,7 @@ public class ScoreUpdater : MonoBehaviour
     /// </summary>
     public void AddFruits(FruitsID fruitID)
     {
-        var inventory = GameManager.Instance.NowPlayerData.Inventory;
+        var inventory = GM.PlayerDataManager.NowPlayerData.Inventory;
 
         if (!inventory.ContainsKey(fruitID))
         {
@@ -32,7 +34,7 @@ public class ScoreUpdater : MonoBehaviour
         inventory[fruitID].Amount++;
 
         // 방금 수집된 과일 ID만 UI 업데이트
-        GameManager.Instance.uiManager.UpdateOrCreateFruitUI(fruitID, 1);
+        GameManager.Instance.UIManager.UpdateOrCreateFruitUI(fruitID, 1);
 
     }
 
@@ -46,7 +48,7 @@ public class ScoreUpdater : MonoBehaviour
         if (selectedFruit.HasValue)
         {
             AddFruits(selectedFruit.Value); // null이 아닐 경우만 AddFruits 호출
-           GameManager.Instance.spawnManager.SpawnFruitFromPool(selectedFruit.Value);
+           GameManager.Instance.SpawnManager.SpawnFruitFromPool(selectedFruit.Value);
         }
         else
         {
@@ -105,7 +107,7 @@ public class ScoreUpdater : MonoBehaviour
 
     public void AddCoin()
     {
-        GameManager.Instance.NowPlayerData.PlayerCoin += 1;
+        GM.PlayerDataManager.NowPlayerData.PlayerCoin += 1;
     }
 
     /// <summary>
@@ -117,7 +119,7 @@ public class ScoreUpdater : MonoBehaviour
         {
             AddRandomFruit(); // 클릭 시 랜덤 과일 수집
             AddCoin();
-            GameManager.Instance.UpdateUIWithInventory();
+            GM.UIManager.UpdateUIWithInventory();
         }
     }
     /// <summary>

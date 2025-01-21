@@ -3,13 +3,14 @@ using UnityEngine;
 
 public class OfflineScoreUpdater : MonoBehaviour
 {
+    private GameManager GM => GameManager.Instance;
     private const int MaxOfflineTimeInSeconds = 7200; // 최대 오프라인 시간 (2시간 = 7200초)
 
     #region 오프라인 동안 랜덤 과일 수집
     public void CollectOfflineFruits()
     {
         // 오프라인 경과 시간 계산
-        DateTime lastCollectedTime = GameManager.Instance.NowPlayerData.LastCollectedTime;
+        DateTime lastCollectedTime = GM.PlayerDataManager.NowPlayerData.LastCollectedTime;
         TimeSpan elapsedTime = DateTime.Now - lastCollectedTime;
 
         if (elapsedTime.TotalSeconds <= 0)
@@ -29,7 +30,7 @@ public class OfflineScoreUpdater : MonoBehaviour
         }
 
         // 마지막 수집 시간 갱신
-        GameManager.Instance.NowPlayerData.LastCollectedTime = DateTime.Now;
+        GM.PlayerDataManager.NowPlayerData.LastCollectedTime = DateTime.Now;
         Debug.Log($"오프라인 동안 랜덤 과일 {secondsElapsed}개 추가 완료 (최대 2시간 제한).");
     }
     #endregion

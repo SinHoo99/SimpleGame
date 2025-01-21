@@ -8,7 +8,7 @@ public class TestArea : MonoBehaviour
 
     public void AddObjectPool()
     {
-        if (GameManager.Instance.objectPool == null)
+        if (GameManager.Instance.ObjectPool == null)
         {
             Debug.LogError("ObjectPool이 초기화되지 않았습니다.");
             return;
@@ -24,7 +24,7 @@ public class TestArea : MonoBehaviour
 
             // 키 정리 후 Object Pool에 추가
             string cleanKey = fruit.name.Replace("(Clone)", "").Trim();
-            GameManager.Instance.objectPool.AddObjectPool(cleanKey, fruit, 20);
+            GameManager.Instance.ObjectPool.AddObjectPool(cleanKey, fruit, 20);
             Debug.Log($"{cleanKey}이(가) Object Pool에 추가되었습니다.");
         }
     }
