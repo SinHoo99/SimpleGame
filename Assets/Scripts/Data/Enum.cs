@@ -1,4 +1,3 @@
-
 public enum FruitsID
 {
     Apple = 1,

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
 public class UIManager : MonoBehaviour
 {
     private GameManager GM => GameManager.Instance;
@@ -149,7 +148,6 @@ public class UIManager : MonoBehaviour
             Debug.Log("Inventory가 비어 있어 UI를 초기화했습니다.");
             return;
         }
-
         // Inventory에 있는 과일 데이터를 UI에 업데이트
         GM.UIManager.UpdateFruitCountsUI(
            GM.PlayerDataManager.NowPlayerData.Inventory.ToDictionary(kv => kv.Key, kv => kv.Value.Amount)

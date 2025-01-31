@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
 public struct Data
 {
     public const string ID = "ID";
@@ -18,4 +13,9 @@ public struct ResourcesPath
 {
     public const string FruitsCSV = "CSV/FruitsCSV";
     public const string CSVSprites = "SpriteAtlas/Fruits";
+}
+
+public struct Parameters 
+{
+    public const string IsWalk = "IsWalk";
 }
