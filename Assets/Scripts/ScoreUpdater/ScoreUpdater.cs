@@ -10,8 +10,8 @@ public class ScoreUpdater : MonoBehaviour
 
     private void Update()
     {
-       // HandleInput(); // 클릭 입력 처리
-                       // CollectFruitsOverTime(); // 시간에 따라 과일 수집
+        //HandleInput(); // 클릭 입력 처리
+        //CollectFruitsOverTime(); // 시간에 따라 과일 수집
     }
 
 
@@ -47,7 +47,7 @@ public class ScoreUpdater : MonoBehaviour
         if (selectedFruit.HasValue)
         {
             AddFruits(selectedFruit.Value); // null이 아닐 경우만 AddFruits 호출
-           GameManager.Instance.SpawnManager.SpawnFruitFromPool(selectedFruit.Value);
+            GameManager.Instance.SpawnManager.SpawnFruitFromPool(selectedFruit.Value);
         }
         else
         {

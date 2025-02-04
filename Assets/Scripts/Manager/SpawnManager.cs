@@ -21,9 +21,9 @@ public class SpawnManager : MonoBehaviour
         {
             // 랜덤 위치에 배치
             Vector3 spawnPosition = new Vector3(
-                Random.Range(-5, 5),
+                Random.Range(-2, 2),
                 0,
-                Random.Range(-5, 5)
+                Random.Range(-2, 2)
             );
             fruit.transform.position = spawnPosition;
             fruit.transform.rotation = Quaternion.identity;
