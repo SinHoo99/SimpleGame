@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-
-    /// <summary>
-    /// Object Pool에서 과일 프리팹을 가져와 활성화
-    /// </summary>
     public void SpawnFruitFromPool(FruitsID fruitID)
     {
         var prefab = GameManager.Instance.DataManager.GetFruitPrefab(fruitID);
@@ -15,11 +11,9 @@ public class SpawnManager : MonoBehaviour
             return;
         }
 
-        // Object Pool에서 프리팹 가져오기
-        GameObject fruit = GameManager.Instance.ObjectPool.GetObject(prefab.name);
+        PoolObject fruit = GameManager.Instance.ObjectPool.SpawnFromPool(prefab.name);
         if (fruit != null)
         {
-            // 랜덤 위치에 배치
             Vector3 spawnPosition = new Vector3(
                 Random.Range(-2, 2),
                 0,
@@ -27,7 +21,7 @@ public class SpawnManager : MonoBehaviour
             );
             fruit.transform.position = spawnPosition;
             fruit.transform.rotation = Quaternion.identity;
-            fruit.SetActive(true);
+            fruit.gameObject.SetActive(true);
         }
         else
         {
@@ -35,9 +29,6 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 모든 활성화된 프리팹을 반환
-    /// </summary>
     public void ReturnAllFruitsToPool()
     {
         GameManager.Instance.ObjectPool.ReturnAllObjects();

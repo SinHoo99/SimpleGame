@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TestArea : MonoBehaviour
 {
-    [SerializeField] private GameObject[] fruits;
+    [SerializeField] private PoolObject[] fruits;
 
     public void AddObjectPool()
     {
@@ -20,7 +20,6 @@ public class TestArea : MonoBehaviour
                 continue;
             }
 
-            // 키 정리 후 Object Pool에 추가
             string cleanKey = fruit.name.Replace("(Clone)", "").Trim();
             GameManager.Instance.ObjectPool.AddObjectPool(cleanKey, fruit, 20);
             Debug.Log($"{cleanKey}이(가) Object Pool에 추가되었습니다.");

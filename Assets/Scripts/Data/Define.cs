@@ -19,3 +19,12 @@ public struct Parameters
 {
     public const string IsWalk = "IsWalk";
 }
+
+public struct Tag 
+{
+    public const string Apple = "Apple";
+    public const string Banana = "Banana";
+    public const string Carrot = "Carrot";
+    public const string Melon = "Melon";
+}
+

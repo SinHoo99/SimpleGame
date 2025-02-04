@@ -1630,9 +1630,9 @@ MonoBehaviour:
   spawnManager: {fileID: 2034376364}
   playerDataManager: {fileID: 2034376366}
   objectPool: {fileID: 2034376365}
-  testArea: {fileID: 2034376367}
   dataManager: {fileID: 2034376362}
   saveManager: {fileID: 2034376361}
+  poolManger: {fileID: 2034376367}
 --- !u!4 &2034376358
 Transform:
   m_ObjectHideFlags: 0
@@ -1755,14 +1755,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2034376356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04650db33f5ee5e42886a794c9266bed, type: 3}
+  m_Script: {fileID: 11500000, guid: f7090a297d8a59447ae0f441a11ed935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fruits:
-  - {fileID: 6164255487347522555, guid: 47ace6cdc1c855346b625edb9e55ce5c, type: 3}
-  - {fileID: 7153008434659303830, guid: 57b58c5f8917b3a49a7c3139bd18488c, type: 3}
-  - {fileID: 2574773952679094722, guid: ba46051fa0da4c444a395a5e2d13ef77, type: 3}
-  - {fileID: 4987931187786452368, guid: efd7040e51112e64b91c9faae784bc81, type: 3}
+  fruitPrefabs: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

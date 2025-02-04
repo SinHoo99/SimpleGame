@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Fruits
+  - Apple
+  - Banana
+  - Carrot
+  - Melon
   layers:
   - Default
   - TransparentFX

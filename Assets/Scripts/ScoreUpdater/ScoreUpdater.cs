@@ -10,7 +10,7 @@ public class ScoreUpdater : MonoBehaviour
 
     private void Update()
     {
-        //HandleInput(); // 클릭 입력 처리
+        HandleInput(); // 클릭 입력 처리
         //CollectFruitsOverTime(); // 시간에 따라 과일 수집
     }
 

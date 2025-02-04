@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,35 +9,73 @@ public class FruitItem : MonoBehaviour
     public TextMeshProUGUI fruitText;
     private FruitsID fruitID;
 
-    // 과일 아이템을 업데이트하고 fruitID를 초기화
+    /// <summary>
+    /// 과일 아이템을 업데이트하고 fruitID를 설정하는 함수
+    /// </summary>
     public void UpdateFruit(FruitsID id, int count, Sprite icon)
     {
-        // fruitID 초기화
         fruitID = id;
 
-        // 버튼의 이미지를 설정
+        // 버튼 이미지 설정
         Image buttonImage = fruitButton.GetComponent<Image>();
         if (buttonImage != null)
         {
             buttonImage.sprite = icon;
         }
 
-        // 텍스트 업데이트
+        // 과일 개수 텍스트 업데이트
         fruitText.text = $"{count}개";
     }
 
-    // 버튼 클릭 이벤트
     private void Start()
     {
         fruitButton.onClick.RemoveAllListeners();
         fruitButton.onClick.AddListener(OnFruitButtonClicked);
     }
 
+    /// <summary>
+    /// 과일 버튼 클릭 시 실행되는 이벤트
+    /// </summary>
     private void OnFruitButtonClicked()
     {
-        // UIManager에 현재 과일 ID 전달
         GameManager.Instance.UIManager.OnFruitSelected(fruitID);
 
-        GameManager.Instance.ObjectPool.ReturnObject(fruitID.ToString(), gameObject);
+        // ObjectPool에서 과일 오브젝트 가져오기
+        PoolObject objToReturn = FindActiveFruit();
+
+        if (objToReturn != null)
+        {
+            GameManager.Instance.ObjectPool.ReturnObject(fruitID.ToString(), objToReturn);
+
+            // 보상 지급
+            GameManager.Instance.PlayerDataManager.NowPlayerData.Inventory[fruitID].Amount += 1;
+
+            Debug.Log($"{fruitID} 반환 완료, 보상 지급 완료");
+        }
+        else
+        {
+            Debug.LogWarning($"{fruitID}에 해당하는 활성화된 오브젝트가 없습니다.");
+        }
+    }
+
+    /// <summary>
+    /// ObjectPool에서 현재 활성화된 과일 오브젝트를 찾아 반환
+    /// </summary>
+    private PoolObject FindActiveFruit()
+    {
+        if (!GameManager.Instance.ObjectPool.PoolDictionary.TryGetValue(fruitID.ToString(), out List<PoolObject> fruitList))
+        {
+            return null;
+        }
+
+        foreach (var obj in fruitList)
+        {
+            if (obj.gameObject.activeInHierarchy)
+            {
+                return obj;
+            }
+        }
+
+        return null;
     }
 }

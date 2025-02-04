@@ -3,93 +3,77 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-    private Dictionary<string, Queue<GameObject>> poolDictionary = new Dictionary<string, Queue<GameObject>>();
-    private List<GameObject> activeObjects = new List<GameObject>();
+    private Dictionary<string, List<PoolObject>> poolDictionary;
 
-    public void AddObjectPool(string key, GameObject prefab, int initialSize)
+    public Dictionary<string, List<PoolObject>> PoolDictionary => poolDictionary;
+
+    private void Awake()
     {
-        if (poolDictionary.ContainsKey(key))
+        poolDictionary = new Dictionary<string, List<PoolObject>>();
+    }
+
+    public void AddObjectPool(string tag, PoolObject prefab, int size)
+    {
+        if (poolDictionary.ContainsKey(tag))
         {
-            Debug.LogWarning($"Object Pool에 이미 존재하는 키입니다: {key}");
+            Debug.LogWarning($"Object Pool에 이미 존재하는 키입니다: {tag}");
             return;
         }
 
-        Queue<GameObject> objectQueue = new Queue<GameObject>();
+        List<PoolObject> objectPool = new List<PoolObject>();
 
-        for (int i = 0; i < initialSize; i++)
+        for (int i = 0; i < size; i++)
         {
-            GameObject obj = Instantiate(prefab);
-            obj.SetActive(false);
-            objectQueue.Enqueue(obj);
+            PoolObject obj = Instantiate(prefab, transform);
+            obj.gameObject.SetActive(false);
+            objectPool.Add(obj);
         }
 
-        poolDictionary.Add(key, objectQueue);
+        poolDictionary.Add(tag, objectPool);
     }
 
-    public GameObject GetObject(string key)
+    public PoolObject SpawnFromPool(string tag)
     {
-        if (!poolDictionary.ContainsKey(key) || poolDictionary[key].Count == 0)
+        if (!poolDictionary.TryGetValue(tag, out List<PoolObject> list))
         {
-            Debug.LogWarning($"Object Pool에 {key} 키가 없거나 사용 가능한 오브젝트가 없습니다.");
+            Debug.LogWarning($"Pool에 {tag}에 해당하는 오브젝트가 없습니다.");
             return null;
         }
 
-        GameObject obj = poolDictionary[key].Dequeue();
-        activeObjects.Add(obj);
+        foreach (PoolObject obj in list)
+        {
+            if (!obj.gameObject.activeInHierarchy)
+            {
+                obj.gameObject.SetActive(true);
+                return obj;
+            }
+        }
 
-        // PoolObject 활성화 처리
-        PoolObject poolObject = obj.GetComponent<PoolObject>();
-        poolObject?.OnActivatedFromPool();
-
-        return obj;
+        Debug.LogWarning($"{tag} 풀에서 사용할 수 있는 오브젝트가 없습니다.");
+        return null;
     }
 
-    public void ReturnObject(string key, GameObject obj)
+    public void ReturnObject(string tag, PoolObject obj)
     {
-        if (!poolDictionary.ContainsKey(key))
+        if (!poolDictionary.ContainsKey(tag))
         {
-            Debug.LogWarning($"Object Pool에 {key} 키가 없습니다.");
+            Debug.LogWarning($"Object Pool에 {tag} 키가 없습니다.");
             return;
         }
 
-        // PoolObject 반환 처리
-        PoolObject poolObject = obj.GetComponent<PoolObject>();
-        poolObject?.OnReturnedToPool();
-
-        obj.SetActive(false);
-        poolDictionary[key].Enqueue(obj);
-        activeObjects.Remove(obj);
+        obj.gameObject.SetActive(false);
     }
 
     public void ReturnAllObjects()
     {
-        foreach (var obj in activeObjects.ToArray())
+        foreach (var list in poolDictionary.Values)
         {
-            string key = obj.name.Replace("(Clone)", "").Trim();
-            ReturnObject(key, obj);
+            foreach (var obj in list)
+            {
+                obj.gameObject.SetActive(false);
+            }
         }
 
-        activeObjects.Clear();
-    }
-
-    /// <summary>
-    /// 활성화된 오브젝트 반환
-    /// </summary>
-    public Dictionary<string, GameObject> GetActiveObjects()
-    {
-        Dictionary<string, GameObject> activeObjectDict = new Dictionary<string, GameObject>();
-
-        foreach (var obj in activeObjects)
-        {
-            string key = obj.name.Replace("(Clone)", "").Trim();
-            activeObjectDict[key] = obj;
-        }
-
-        return activeObjectDict;
-    }
-
-    public List<GameObject> GetAllActiveObjects()
-    {
-        return new List<GameObject>(activeObjects);
+        Debug.Log("모든 오브젝트가 반환되었습니다.");
     }
 }

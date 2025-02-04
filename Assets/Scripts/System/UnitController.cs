@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class UnitController : MonoBehaviour
+public class UnitController : PoolObject
 {
     public bool IsWalk = true;
     public float Speed = 3f;
@@ -13,7 +13,7 @@ public class UnitController : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
-    private void Start()
+    private void OnEnable()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
