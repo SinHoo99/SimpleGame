@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SellingUI : MonoBehaviour
+public class SellingUI : MonoBehaviour, IShowAndHide
 {
-   
-
+    public void ShowAndHide()
+    {
+        this.gameObject.SetActive(!gameObject.activeSelf);
+    }
 }

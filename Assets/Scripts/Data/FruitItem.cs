@@ -47,15 +47,27 @@ public class FruitItem : MonoBehaviour
         {
             GameManager.Instance.ObjectPool.ReturnObject(fruitID.ToString(), objToReturn);
 
-            // 보상 지급
-            GameManager.Instance.PlayerDataManager.NowPlayerData.Inventory[fruitID].Amount += 1;
+            bool success = GameManager.Instance.PlayerDataManager.NowPlayerData.AddFruitAndCalculateCoins(
+                fruitID,1
+                ,GameManager.Instance.DataManager.FriutDatas
+            );
 
-            Debug.Log($"{fruitID} 반환 완료, 보상 지급 완료");
+            if (success)
+            {
+                GameManager.Instance.UIManager.UpdateUIWithInventory();
+
+                Debug.Log($"{fruitID} 반환 완료, 코인 획득 및 UI 갱신 완료");
+            }
+            else
+            {
+                Debug.LogWarning($"과일 데이터({fruitID})가 존재하지 않아 보상을 지급할 수 없습니다.");
+            }
         }
         else
         {
             Debug.LogWarning($"{fruitID}에 해당하는 활성화된 오브젝트가 없습니다.");
         }
+
     }
 
     /// <summary>
