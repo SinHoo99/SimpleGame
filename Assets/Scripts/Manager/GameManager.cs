@@ -3,7 +3,6 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private OfflineScoreUpdater offlineScoreUpdater;
-    [SerializeField] private ScoreUpdater scoreUpdater;
     [SerializeField] private UIManager uiManager;
     [SerializeField] private PlayerStatusUI playerStatusUI;
     [SerializeField] private SpawnManager spawnManager;
@@ -18,8 +17,6 @@ public class GameManager : Singleton<GameManager>
 
     public DataManager DataManager => dataManager;
     public SaveManager SaveManager => saveManager;
-    public OfflineScoreUpdater OfflineScoreUpdater => offlineScoreUpdater;
-    public ScoreUpdater ScoreUpdater => scoreUpdater;
     public UIManager UIManager => uiManager;
     public PlayerStatusUI PlayerStatusUI => playerStatusUI;
     public SpawnManager SpawnManager => spawnManager;
@@ -80,12 +77,10 @@ public class GameManager : Singleton<GameManager>
     private void InitializeComponents()
     {
         offlineScoreUpdater = GetComponent<OfflineScoreUpdater>();
-        scoreUpdater = GetComponent<ScoreUpdater>();
         uiManager = GetComponent<UIManager>();
         uiManager.SetFruitData(dataManager.FriutDatas);
 
         Debug.Log($"OfflineScoreUpdater: {(offlineScoreUpdater != null ? "초기화 완료" : "설정되지 않음")}");
-        Debug.Log($"ScoreUpdater: {(scoreUpdater != null ? "초기화 완료" : "설정되지 않음")}");
         Debug.Log($"UIManager: {(uiManager != null ? "초기화 완료" : "설정되지 않음")}");
     }
 

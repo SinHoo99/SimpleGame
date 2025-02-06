@@ -8,13 +8,6 @@ public class ScoreUpdater : MonoBehaviour
     private float timeAccumulator = 0f; // 시간 누적 변수
     private const float collectionInterval = 1f; // 1초마다 과일 수집
 
-    private void Update()
-    {
-        HandleInput(); // 클릭 입력 처리
-        //CollectFruitsOverTime(); // 시간에 따라 과일 수집
-    }
-
-
     #region 과일 생성 로직
     /// <summary>
     /// 특정 과일을 추가합니다.
@@ -112,34 +105,11 @@ public class ScoreUpdater : MonoBehaviour
     /// <summary>
     /// 클릭 입력 처리
     /// </summary>
-    private void HandleInput()
+    public void HandleInput()
     {
-        if (IsInputDetected())
-        {
-            AddRandomFruit(); // 클릭 시 랜덤 과일 수집
-            AddCoin();
-            GM.UIManager.UpdateUIWithInventory();
-        }
+        AddRandomFruit(); // 클릭 시 랜덤 과일 수집
+        AddCoin();
+        GM.UIManager.UpdateUIWithInventory();
+        GM.PlayerDataManager.NowPlayerData.PlayerCoin -= 100;
     }
-    /// <summary>
-    /// 입력 감지
-    /// </summary>
-    /// <returns>입력 여부</returns>
-    private bool IsInputDetected()
-    {
-        if (Input.GetMouseButtonDown(0)) // 마우스 클릭 감지
-        {
-            return true;
-        }
-
-#if UNITY_EDITOR
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-        {
-            return true;
-        }
-#endif
-        return false;
-    }
-
-
 }

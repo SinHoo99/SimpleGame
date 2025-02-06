@@ -144,14 +144,14 @@ public class UIManager : MonoBehaviour
         if (GM.PlayerDataManager.NowPlayerData.Inventory == null || GM.PlayerDataManager.NowPlayerData.Inventory.Count == 0)
         {
             // Inventory가 비었을 때 UI를 초기화
-            GM.UIManager.ClearAllFruitUI();
+            ClearAllFruitUI();
             Debug.Log("Inventory가 비어 있어 UI를 초기화했습니다.");
             return;
         }
         // Inventory에 있는 과일 데이터를 UI에 업데이트
-        GM.UIManager.UpdateFruitCountsUI(
-           GM.PlayerDataManager.NowPlayerData.Inventory.ToDictionary(kv => kv.Key, kv => kv.Value.Amount)
-        );
+        UpdateFruitCountsUI(
+            GM.PlayerDataManager.NowPlayerData.Inventory.ToDictionary(kv => kv.Key, kv => kv.Value.Amount)
+         );
     }
     #endregion
 
