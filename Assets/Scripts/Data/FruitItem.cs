@@ -9,6 +9,7 @@ public class FruitItem : MonoBehaviour
     public TextMeshProUGUI fruitText;
     private FruitsID fruitID;
 
+
     /// <summary>
     /// 과일 아이템을 업데이트하고 fruitID를 설정하는 함수
     /// </summary>
@@ -49,7 +50,7 @@ public class FruitItem : MonoBehaviour
 
             if (success)
             {
-                GameManager.Instance.UIManager.UpdateUIWithInventory();
+                GameManager.Instance.UIManager.TriggerInventoryUpdate();
 
                 Debug.Log($"{fruitID} 반환 완료, 코인 획득 및 UI 갱신 완료");
             }

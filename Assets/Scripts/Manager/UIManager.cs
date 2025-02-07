@@ -13,19 +13,27 @@ public class UIManager : MonoBehaviour
     private Dictionary<FruitsID, FruitItem> _fruitUIItems = new(); // 생성된 UI를 효율적으로 관리하여 중복 생성 방지, 빠른 업데이트/삭제를 위해 사용
     private Dictionary<FruitsID, FruitsData> _fruitData; // 데이터와 UI를 분리하고, 필요한 데이터를 빠르게 참조하기 위해 사용.
 
-    //public event Action OnInventoryUpdate;
+    public event Action OnInventoryUpdated;
 
-/*    private void Start()
+    private void Start()
     {
-        OnInventoryUpdate += HandleInventoryUI;
+        OnInventoryUpdated += HandleInventoryUI;
     }
 
     private void OnDestroy()
     {
-        OnInventoryUpdate -= HandleInventoryUI;
-    }*/
+        OnInventoryUpdated -= HandleInventoryUI;
+    }
 
+    private void HandleInventoryUI()
+    {
+        UpdateUIWithInventory();
+    }
 
+    public void TriggerInventoryUpdate()
+    {
+        OnInventoryUpdated?.Invoke();
+    }
 
     #region 과일 데이터 UI 생성 과정
     /// <summary>

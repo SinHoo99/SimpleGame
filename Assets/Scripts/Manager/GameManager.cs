@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -51,7 +52,19 @@ public class GameManager : Singleton<GameManager>
         prefabDataManager = new PrefabDataManager();
         playerDataManager.LoadAllData();
         playerDataManager.InitializeInventory();
-        uiManager.UpdateUIWithInventory();
+        uiManager.OnInventoryUpdated += HandleInventoryUI;
+        uiManager.TriggerInventoryUpdate();
+    }
+    private void OnDestroy()
+    {
+        if (uiManager != null)
+        {
+            uiManager.OnInventoryUpdated -= HandleInventoryUI;
+        }
+    }
+    private void HandleInventoryUI()
+    {
+       
     }
     #region 컴포넌트 초기화
     private void InitializeComponents()

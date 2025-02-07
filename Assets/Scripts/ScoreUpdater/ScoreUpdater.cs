@@ -8,6 +8,7 @@ public class ScoreUpdater : MonoBehaviour
     private float timeAccumulator = 0f; // 시간 누적 변수
     private const float collectionInterval = 1f; // 1초마다 과일 수집
 
+
     #region 과일 생성 로직
     /// <summary>
     /// 특정 과일을 추가합니다.
@@ -109,7 +110,7 @@ public class ScoreUpdater : MonoBehaviour
     {
         AddRandomFruit(); // 클릭 시 랜덤 과일 수집
         AddCoin();
-        GM.UIManager.UpdateUIWithInventory();
+        GameManager.Instance.UIManager.TriggerInventoryUpdate();
         GM.PlayerDataManager.NowPlayerData.PlayerCoin -= 100;
     }
 }

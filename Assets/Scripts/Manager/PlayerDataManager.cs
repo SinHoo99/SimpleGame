@@ -84,7 +84,7 @@ public class PlayerDataManager : MonoBehaviour
     {
         NowPlayerData.Inventory.Clear();
         InitializeInventory();
-        GM.UIManager.UpdateUIWithInventory(); 
+        GameManager.Instance.UIManager.TriggerInventoryUpdate();
         GM.SpawnManager.ReturnAllFruitsToPool();
     }
     #endregion
