@@ -78,4 +78,14 @@ public class PlayerDataManager : MonoBehaviour
         return playerDataLoaded;
     }
     #endregion
+
+    #region 데이터 삭제
+    public void DestroyData()
+    {
+        NowPlayerData.Inventory.Clear();
+        InitializeInventory();
+        GM.UIManager.UpdateUIWithInventory(); 
+        GM.SpawnManager.ReturnAllFruitsToPool();
+    }
+    #endregion
 }
