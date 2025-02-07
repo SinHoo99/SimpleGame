@@ -27,16 +27,11 @@ public class FruitItem : MonoBehaviour
         fruitText.text = $"{count}개";
     }
 
-    private void Start()
-    {
-        fruitButton.onClick.RemoveAllListeners();
-        fruitButton.onClick.AddListener(OnFruitButtonClicked);
-    }
 
     /// <summary>
     /// 과일 버튼 클릭 시 실행되는 이벤트
     /// </summary>
-    private void OnFruitButtonClicked()
+    public void OnFruitButtonClicked()
     {
         GameManager.Instance.UIManager.OnFruitSelected(fruitID);
 
