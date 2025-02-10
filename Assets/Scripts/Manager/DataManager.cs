@@ -25,7 +25,7 @@ public class DataManager : MonoBehaviour
             fruitsData.Image = Resources.Load<SpriteAtlas>(ResourcesPath.CSVSprites).GetSprite(datas[Data.Image]);
             fruitsData.Description = datas[Data.Description];
             fruitsData.Probability = float.Parse(datas[Data.Probability]);
-            fruitsData.PrefabPath = datas[Data.PrefabPath];
+            fruitsData.Prefab = Resources.Load<PoolObject>(datas[Data.Prefab]);
             FriutDatas.Add(fruitsData.ID, fruitsData);
         }
     }
@@ -39,14 +39,13 @@ public class DataManager : MonoBehaviour
             return null;
         }
 
-        // PrefabPath를 기반으로 프리팹 로드
-        var prefab = Resources.Load<GameObject>(fruitsData.PrefabPath);
-        if (prefab == null)
+        // 이미 로드된 Prefab을 반환 (Resources.Load() 중복 호출 제거)
+        if (fruitsData.Prefab == null)
         {
-            Debug.LogWarning($"프리팹 경로가 잘못되었습니다: {fruitsData.PrefabPath}");
+            Debug.LogWarning($"프리팹이 올바르게 로드되지 않았습니다. FruitID: {fruitID}");
             return null;
         }
 
-        return prefab;
+        return fruitsData.Prefab.gameObject;
     }
 }

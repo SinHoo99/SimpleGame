@@ -1,4 +1,4 @@
-ID,Name,Type,Rarity,Description,Price,Image,Probability,PrefabPath
+ID,Name,Type,Rarity,Description,Price,Image,Probability,Prefab
 1,Apple,0,Common,사과,50,Apple,0.3,Prefabs/Fruits/Apple
 2,Banana,0,Common,바나나,75,Banana,0.3,Prefabs/Fruits/Banana
 3,Melon,0,Uncommon,멜론,200,Melon,0.2,Prefabs/Fruits/Melon

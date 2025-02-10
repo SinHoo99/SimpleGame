@@ -4,14 +4,9 @@ public class SpawnManager : MonoBehaviour
 {
     public void SpawnFruitFromPool(FruitsID fruitID)
     {
-        var prefab = GameManager.Instance.DataManager.GetFruitPrefab(fruitID);
-        if (prefab == null)
-        {
-            Debug.LogWarning($"{fruitID}의 프리팹이 로드되지 않았습니다.");
-            return;
-        }
+        string tag = fruitID.ToString(); // 과일의 태그 변환
 
-        PoolObject fruit = GameManager.Instance.ObjectPool.SpawnFromPool(prefab.name);
+        PoolObject fruit = GameManager.Instance.PoolManager.CreatePrefabs(tag, fruitID);
         if (fruit != null)
         {
             Vector3 spawnPosition = new Vector3(

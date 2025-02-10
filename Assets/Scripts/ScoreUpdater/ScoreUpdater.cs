@@ -98,19 +98,17 @@ public class ScoreUpdater : MonoBehaviour
     }
     #endregion
 
-    public void AddCoin()
-    {
-        GM.PlayerDataManager.NowPlayerData.PlayerCoin += 1;
-    }
 
-    /// <summary>
-    /// 클릭 입력 처리
-    /// </summary>
+
+    #region 클릭 입력 처리
     public void HandleInput()
     {
         AddRandomFruit(); // 클릭 시 랜덤 과일 수집
-        AddCoin();
         GameManager.Instance.UIManager.TriggerInventoryUpdate();
         GM.PlayerDataManager.NowPlayerData.PlayerCoin -= 100;
     }
+    #endregion
+
+
+
 }

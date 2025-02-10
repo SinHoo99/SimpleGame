@@ -14,7 +14,7 @@ public class FruitsData
     public string Description;        // 과일 설명
     public int Price;                 // 과일 판매 가격
     public float Probability;         // 과일 등장 확률
-    public string PrefabPath;
+    public PoolObject Prefab;
 }
 #endregion
 

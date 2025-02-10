@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -21,6 +22,8 @@ public class GameManager : Singleton<GameManager>
     public SpawnManager SpawnManager => spawnManager;
     public PlayerDataManager PlayerDataManager => playerDataManager;
     public ObjectPool ObjectPool => objectPool;
+
+    public PoolManager PoolManager => poolManager;
     #endregion
     private bool isQuitting = false;
     protected override void Awake()
@@ -48,7 +51,7 @@ public class GameManager : Singleton<GameManager>
             Debug.LogError("ObjectPool이 할당되지 않았습니다!");
             return;
         }
-        poolManager.InitializeObjectPool();
+        PoolManager.AddObjectPool();
         prefabDataManager = new PrefabDataManager();
         playerDataManager.LoadAllData();
         playerDataManager.InitializeInventory();
@@ -81,4 +84,9 @@ public class GameManager : Singleton<GameManager>
         }
     }
     #endregion
+
+    public FruitsData GetFruitsData(FruitsID id)
+    {
+        return DataManager.FriutDatas[id];
+    }
 }
