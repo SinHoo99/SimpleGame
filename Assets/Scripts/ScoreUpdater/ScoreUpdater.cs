@@ -15,7 +15,7 @@ public class ScoreUpdater : MonoBehaviour
     /// </summary>
     public void AddFruits(FruitsID fruitID)
     {
-        var inventory = GM.PlayerDataManager.NowPlayerData.Inventory;
+        var inventory = GM.playerDataManager.NowPlayerData.Inventory;
 
         if (!inventory.ContainsKey(fruitID))
         {
@@ -27,7 +27,7 @@ public class ScoreUpdater : MonoBehaviour
         inventory[fruitID].Amount++;
 
         // 방금 수집된 과일 ID만 UI 업데이트
-        GameManager.Instance.UIManager.UpdateOrCreateFruitUI(fruitID, 1);
+        GameManager.Instance.uiManager.UpdateOrCreateFruitUI(fruitID, 1);
 
     }
 
@@ -41,7 +41,7 @@ public class ScoreUpdater : MonoBehaviour
         if (selectedFruit.HasValue)
         {
             AddFruits(selectedFruit.Value); // null이 아닐 경우만 AddFruits 호출
-            GameManager.Instance.SpawnManager.SpawnFruitFromPool(selectedFruit.Value);
+            GameManager.Instance.spawnManager.SpawnFruitFromPool(selectedFruit.Value);
         }
         else
         {
@@ -54,7 +54,7 @@ public class ScoreUpdater : MonoBehaviour
     /// </summary>
     private FruitsID? GetRandomFruitByProbability()
     {
-        var fruits = GameManager.Instance.DataManager.FriutDatas.Values.ToList();
+        var fruits = GameManager.Instance.dataManager.FriutDatas.Values.ToList();
 
         // 전체 확률의 합 계산
         float totalProbability = fruits.Sum(f => f.Probability);
@@ -104,8 +104,8 @@ public class ScoreUpdater : MonoBehaviour
     public void HandleInput()
     {
         AddRandomFruit(); // 클릭 시 랜덤 과일 수집
-        GameManager.Instance.UIManager.TriggerInventoryUpdate();
-        GM.PlayerDataManager.NowPlayerData.PlayerCoin -= 100;
+        GameManager.Instance.uiManager.TriggerInventoryUpdate();
+        GM.playerDataManager.NowPlayerData.PlayerCoin -= 100;
     }
     #endregion
 

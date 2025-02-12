@@ -50,13 +50,13 @@ public class PlayerDataManager : MonoBehaviour
         }
 
         NowPlayerData.LastCollectedTime = DateTime.Now;
-        GM.SaveManager.SaveData(NowPlayerData);
+        GM.saveManager.SaveData(NowPlayerData);
         Debug.Log($"PlayerData 저장 완료: {NowPlayerData.LastCollectedTime}");
     }
 
     public bool LoadPlayerData()
     {
-        if (GM.SaveManager.TryLoadData(out PlayerData data))
+        if (GM.saveManager.TryLoadData(out PlayerData data))
         {
             NowPlayerData = data;
             return true;
@@ -84,8 +84,8 @@ public class PlayerDataManager : MonoBehaviour
     {
         NowPlayerData.Inventory.Clear();
         InitializeInventory();
-        GameManager.Instance.UIManager.TriggerInventoryUpdate();
-        GM.SpawnManager.ReturnAllFruitsToPool();
+        GameManager.Instance.uiManager.TriggerInventoryUpdate();
+        GM.spawnManager.ReturnAllFruitsToPool();
     }
     #endregion
 }

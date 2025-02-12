@@ -10,7 +10,7 @@ public class OfflineScoreUpdater : MonoBehaviour
     public void CollectOfflineFruits()
     {
         // 오프라인 경과 시간 계산
-        DateTime lastCollectedTime = GM.PlayerDataManager.NowPlayerData.LastCollectedTime;
+        DateTime lastCollectedTime = GM.playerDataManager.NowPlayerData.LastCollectedTime;
         TimeSpan elapsedTime = DateTime.Now - lastCollectedTime;
 
         if (elapsedTime.TotalSeconds <= 0)
@@ -30,7 +30,7 @@ public class OfflineScoreUpdater : MonoBehaviour
         }
 
         // 마지막 수집 시간 갱신
-        GM.PlayerDataManager.NowPlayerData.LastCollectedTime = DateTime.Now;
+        GM.playerDataManager.NowPlayerData.LastCollectedTime = DateTime.Now;
         Debug.Log($"오프라인 동안 랜덤 과일 {secondsElapsed}개 추가 완료 (최대 2시간 제한).");
     }
     #endregion

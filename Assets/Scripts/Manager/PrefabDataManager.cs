@@ -9,7 +9,7 @@ public class PrefabDataManager
     {
         List<PrefabData> prefabDataList = new List<PrefabData>();
 
-        foreach (var pool in GM.ObjectPool.PoolDictionary.Values)
+        foreach (var pool in GM.objectPool.PoolDictionary.Values)
         {
             foreach (var obj in pool)
             {
@@ -24,19 +24,19 @@ public class PrefabDataManager
             }
         }
 
-        GM.SaveManager.SaveData(prefabDataList);
+        GM.saveManager.SaveData(prefabDataList);
         Debug.Log("PrefabData 저장 완료");
     }
 
     public void LoadPrefabData()
     {
-        if (GM.SaveManager.TryLoadData(out List<PrefabData> prefabDataList))
+        if (GM.saveManager.TryLoadData(out List<PrefabData> prefabDataList))
         {
             foreach (var prefabData in prefabDataList)
             {
                 string cleanKey = prefabData.prefabName.Trim();
 
-                PoolObject obj = GM.ObjectPool.SpawnFromPool(cleanKey);
+                PoolObject obj = GM.objectPool.SpawnFromPool(cleanKey);
 
                 if (obj != null)
                 {

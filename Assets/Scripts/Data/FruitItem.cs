@@ -34,23 +34,23 @@ public class FruitItem : MonoBehaviour
     /// </summary>
     public void OnFruitButtonClicked()
     {
-        GameManager.Instance.UIManager.OnFruitSelected(fruitID);
+        GameManager.Instance.uiManager.OnFruitSelected(fruitID);
 
         // ObjectPool에서 과일 오브젝트 가져오기
         PoolObject objToReturn = FindActiveFruit();
 
         if (objToReturn != null)
         {
-            GameManager.Instance.ObjectPool.ReturnObject(fruitID.ToString(), objToReturn);
+            GameManager.Instance.objectPool.ReturnObject(fruitID.ToString(), objToReturn);
 
-            bool success = GameManager.Instance.PlayerDataManager.NowPlayerData.AddFruitAndCalculateCoins(
+            bool success = GameManager.Instance.playerDataManager.NowPlayerData.AddFruitAndCalculateCoins(
                 fruitID,1
-                ,GameManager.Instance.DataManager.FriutDatas
+                ,GameManager.Instance.dataManager.FriutDatas
             );
 
             if (success)
             {
-                GameManager.Instance.UIManager.TriggerInventoryUpdate();
+                GameManager.Instance.uiManager.TriggerInventoryUpdate();
 
                 Debug.Log($"{fruitID} 반환 완료, 코인 획득 및 UI 갱신 완료");
             }
@@ -71,7 +71,7 @@ public class FruitItem : MonoBehaviour
     /// </summary>
     private PoolObject FindActiveFruit()
     {
-        if (!GameManager.Instance.ObjectPool.PoolDictionary.TryGetValue(fruitID.ToString(), out List<PoolObject> fruitList))
+        if (!GameManager.Instance.objectPool.PoolDictionary.TryGetValue(fruitID.ToString(), out List<PoolObject> fruitList))
         {
             return null;
         }

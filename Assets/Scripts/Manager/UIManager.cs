@@ -164,9 +164,9 @@ public class UIManager : MonoBehaviour
     #region  UI를 업데이트하는 헬퍼 메서드
     public void UpdateUIWithInventory()
     {
-        GM.PlayerStatusUI.PlayerCoin();
+        GM.playerStatusUI.PlayerCoin();
 
-        if (GM.PlayerDataManager.NowPlayerData.Inventory == null || GM.PlayerDataManager.NowPlayerData.Inventory.Count == 0)
+        if (GM.playerDataManager.NowPlayerData.Inventory == null || GM.playerDataManager.NowPlayerData.Inventory.Count == 0)
         {
             // Inventory가 비었을 때 UI를 초기화
             ClearAllFruitUI();
@@ -175,7 +175,7 @@ public class UIManager : MonoBehaviour
         }
         // Inventory에 있는 과일 데이터를 UI에 업데이트
         UpdateFruitCountsUI(
-            GM.PlayerDataManager.NowPlayerData.Inventory.ToDictionary(kv => kv.Key, kv => kv.Value.Amount)
+            GM.playerDataManager.NowPlayerData.Inventory.ToDictionary(kv => kv.Key, kv => kv.Value.Amount)
          );
     }
     #endregion

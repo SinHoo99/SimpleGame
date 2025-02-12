@@ -26,10 +26,10 @@ public class Unit : PoolObject
         while (true)
         {
             yield return new WaitForSeconds(1f); // 1초마다 실행
-            if (GM.DataManager.FriutDatas.TryGetValue(FruitsID, out var fruitsData))
+            if (GM.dataManager.FriutDatas.TryGetValue(FruitsID, out var fruitsData))
             {
-                GM.PlayerDataManager.NowPlayerData.PlayerCoin += fruitsData.Price;
-                GM.UIManager.TriggerInventoryUpdate();
+                GM.playerDataManager.NowPlayerData.PlayerCoin += fruitsData.Price;
+                GM.uiManager.TriggerInventoryUpdate();
             }
             else
             {
@@ -44,13 +44,13 @@ public class Unit : PoolObject
         string prefabName = gameObject.name.Replace("(Clone)", "").Trim();
         Debug.Log($"[AssignFruitID] {gameObject.name}의 PrefabName: {prefabName}");
 
-        if (GM.DataManager.FriutDatas == null)
+        if (GM.dataManager.FriutDatas == null)
         {
             Debug.LogError("[AssignFruitID] GM.DataManager.FriutDatas가 초기화되지 않았습니다.");
             return;
         }
 
-        foreach (var fruitData in GM.DataManager.FriutDatas.Values)
+        foreach (var fruitData in GM.dataManager.FriutDatas.Values)
         {
             if (fruitData.Name.Trim() == prefabName)
             {

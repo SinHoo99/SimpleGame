@@ -6,7 +6,7 @@ using static UnityEditor.Progress;
 public class PoolManager : MonoBehaviour
 {
     private GameManager GM => GameManager.Instance;
-    protected ObjectPool ObjectPool => GM.ObjectPool;
+    protected ObjectPool ObjectPool => GM.objectPool;
 
     [SerializeField] private PoolObject Apple;
     [SerializeField] private PoolObject Banana;
@@ -27,7 +27,7 @@ public class PoolManager : MonoBehaviour
 
     public PoolObject CreatePrefabs(string tag)
     {
-        PoolObject fruit = GM.ObjectPool.SpawnFromPool(tag);
+        PoolObject fruit = ObjectPool.SpawnFromPool(tag);
         if (fruit == null)
         {
             Debug.LogError($"[PoolManager] {tag} 프리팹을 풀에서 가져오지 못했습니다.");
