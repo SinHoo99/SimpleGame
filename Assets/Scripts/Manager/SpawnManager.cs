@@ -6,7 +6,7 @@ public class SpawnManager : MonoBehaviour
     {
         string tag = fruitID.ToString(); // 과일의 태그 변환
 
-        PoolObject fruit = GameManager.Instance.PoolManager.CreatePrefabs(tag, fruitID);
+        PoolObject fruit = GameManager.Instance.PoolManager.CreatePrefabs(tag);
         if (fruit != null)
         {
             Vector3 spawnPosition = new Vector3(

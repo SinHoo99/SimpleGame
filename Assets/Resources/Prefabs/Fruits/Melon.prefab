@@ -118,8 +118,7 @@ GameObject:
   - component: {fileID: 4892296602430115383}
   - component: {fileID: 3969746959625075760}
   - component: {fileID: 5253891696251994679}
-  - component: {fileID: 6775385529999345630}
-  - component: {fileID: 984109942125329177}
+  - component: {fileID: 6315241437391278224}
   m_Layer: 7
   m_Name: Melon
   m_TagString: Melon
@@ -231,7 +230,7 @@ MonoBehaviour:
   Speed: 1
   MinChangeTime: 1
   MaxChangeTime: 4
---- !u!114 &6775385529999345630
+--- !u!114 &6315241437391278224
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -240,19 +239,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4987931187786452368}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff31c7cab9119c44d8aa07d65b405733, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c3813d1b8bd9d94ea8b5b18ac4f1363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FruitID: 0
---- !u!114 &984109942125329177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4987931187786452368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf7da4521d295c44cb7bf76e023cfa28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  FruitsID: 3

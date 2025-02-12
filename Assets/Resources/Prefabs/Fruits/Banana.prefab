@@ -118,8 +118,7 @@ GameObject:
   - component: {fileID: 3547172411541626915}
   - component: {fileID: 7115079481442693979}
   - component: {fileID: 8065952595590662128}
-  - component: {fileID: -6060604950329928197}
-  - component: {fileID: -7036151882701330489}
+  - component: {fileID: 1801202037355001074}
   m_Layer: 7
   m_Name: Banana
   m_TagString: Banana
@@ -231,7 +230,7 @@ MonoBehaviour:
   Speed: 1
   MinChangeTime: 1
   MaxChangeTime: 4
---- !u!114 &-6060604950329928197
+--- !u!114 &1801202037355001074
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -240,19 +239,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7153008434659303830}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff31c7cab9119c44d8aa07d65b405733, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c3813d1b8bd9d94ea8b5b18ac4f1363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FruitID: 0
---- !u!114 &-7036151882701330489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7153008434659303830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf7da4521d295c44cb7bf76e023cfa28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  FruitsID: 2

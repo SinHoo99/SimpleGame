@@ -8,7 +8,6 @@ public class PoolManager : MonoBehaviour
     private GameManager GM => GameManager.Instance;
     protected ObjectPool ObjectPool => GM.ObjectPool;
 
-    [Header("Bullet")]
     [SerializeField] private PoolObject Apple;
     [SerializeField] private PoolObject Banana;
     [SerializeField] private PoolObject Carrot;
@@ -26,7 +25,7 @@ public class PoolManager : MonoBehaviour
         ObjectPool.AddObjectPool(Tag.Melon, GM.GetFruitsData(FruitsID.Melon).Prefab, 20);
     }
 
-    public PoolObject CreatePrefabs(string tag, FruitsID fruitID)
+    public PoolObject CreatePrefabs(string tag)
     {
         PoolObject fruit = GM.ObjectPool.SpawnFromPool(tag);
         if (fruit == null)
@@ -34,14 +33,17 @@ public class PoolManager : MonoBehaviour
             Debug.LogError($"[PoolManager] {tag} 프리팹을 풀에서 가져오지 못했습니다.");
             return null;
         }
+        Unit unit = fruit.ReturnMyComponent<Unit>();
 
-        // 과일의 유닛 컨트롤러에 ID 설정
-        var unitController = fruit.ReturnMyComponent<UnitController>();
-        unitController.FruitsID = fruitID; // FruitsID 저장
-
-        unitController.Initialize(tag, (int)fruitID); // 필요 시 추가 설정
-
-        return fruit; // 생성된 오브젝트 반환
+        if (unit == null)
+        {
+            Debug.LogError($"[CreatePrefabs] {fruit.gameObject.name} 오브젝트에 Unit 컴포넌트가 없습니다!");
+        }
+        else
+        {
+            unit.AssignFruitID();
+        }
+        return fruit;
     }
 
     #endregion

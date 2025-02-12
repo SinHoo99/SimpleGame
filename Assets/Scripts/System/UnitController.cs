@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class UnitController : PoolObject
+public class UnitController : MonoBehaviour
 {
     public bool IsWalk = true;
     public float Speed = 3f;
@@ -12,11 +12,6 @@ public class UnitController : PoolObject
     private Vector2 moveDirection;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
-
-    private string _prefabsOwnerTag;
-    private int _prefabsOwnerID;
-    private ObjectPool _objectPool;
-    public FruitsID FruitsID { get; set; }
 
     private void OnEnable()
     {
@@ -66,11 +61,4 @@ public class UnitController : PoolObject
             Flip(moveDirection.x > 0);
         }
     }
-    public void Initialize(string tag, int ownerID)
-    {
-        _prefabsOwnerTag = tag;
-        FruitsID = (FruitsID)ownerID;
-        Debug.Log($"[UnitController] {gameObject.name}ÀÌ(°¡) »ý¼ºµÊ. FruitID: {FruitsID}");
-    }
-
 }
