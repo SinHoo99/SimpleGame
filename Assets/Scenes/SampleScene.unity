@@ -2532,10 +2532,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7090a297d8a59447ae0f441a11ed935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Apple: {fileID: 7503977563984578161, guid: 47ace6cdc1c855346b625edb9e55ce5c, type: 3}
-  Banana: {fileID: -7036151882701330489, guid: 57b58c5f8917b3a49a7c3139bd18488c, type: 3}
-  Carrot: {fileID: 3842081437504121930, guid: ba46051fa0da4c444a395a5e2d13ef77, type: 3}
-  Melon: {fileID: 984109942125329177, guid: efd7040e51112e64b91c9faae784bc81, type: 3}
+  Apple: {fileID: 1801202037355001074, guid: 8efcd0c7605c48442a670e7fa3e3142f, type: 3}
+  Banana: {fileID: 1801202037355001074, guid: 57b58c5f8917b3a49a7c3139bd18488c, type: 3}
+  Carrot: {fileID: -4175153783263088964, guid: ba46051fa0da4c444a395a5e2d13ef77, type: 3}
+  Melon: {fileID: 6315241437391278224, guid: efd7040e51112e64b91c9faae784bc81, type: 3}
+  Bullet: {fileID: 1167268778081619722, guid: bf97762818e1d994ca91693d5a477cdf, type: 3}
 --- !u!1 &2145353773
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,26 +6,28 @@ using static UnityEditor.Progress;
 public class PoolManager : MonoBehaviour
 {
     private GameManager GM => GameManager.Instance;
-    protected ObjectPool ObjectPool => GM.objectPool;
+    protected ObjectPool ObjectPool => GM.ObjectPool;
 
     [SerializeField] private PoolObject Apple;
     [SerializeField] private PoolObject Banana;
     [SerializeField] private PoolObject Carrot;
     [SerializeField] private PoolObject Melon;
 
+    [SerializeField] private PoolObject Bullet;
+
 
 
     #region 오브젝트풀 초기화
     public void AddObjectPool()
     {
-
         ObjectPool.AddObjectPool(Tag.Apple, GM.GetFruitsData(FruitsID.Apple).Prefab, 20);
         ObjectPool.AddObjectPool(Tag.Banana, GM.GetFruitsData(FruitsID.Banana).Prefab, 20);
         ObjectPool.AddObjectPool(Tag.Carrot, GM.GetFruitsData(FruitsID.Carrot).Prefab, 20);
         ObjectPool.AddObjectPool(Tag.Melon, GM.GetFruitsData(FruitsID.Melon).Prefab, 20);
+        ObjectPool.AddObjectPool(Tag.Bullet, Bullet, 100);
     }
 
-    public PoolObject CreatePrefabs(string tag)
+    public PoolObject CreateUnitPrefabs(string tag)
     {
         PoolObject fruit = ObjectPool.SpawnFromPool(tag);
         if (fruit == null)
@@ -45,6 +47,8 @@ public class PoolManager : MonoBehaviour
         }
         return fruit;
     }
+
+
 
     #endregion
 }

@@ -26,5 +26,12 @@ public struct Tag
     public const string Banana = "Banana";
     public const string Carrot = "Carrot";
     public const string Melon = "Melon";
+    public const string Bullet = "Bullet";
 }
+public struct Layer
+{
+    public const string Boss = "Boss";
+}
+
+
 

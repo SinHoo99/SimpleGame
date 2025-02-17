@@ -9,11 +9,13 @@ public class PrefabDataManager
     {
         List<PrefabData> prefabDataList = new List<PrefabData>();
 
-        foreach (var pool in GM.objectPool.PoolDictionary.Values)
+        foreach (var pool in GM.ObjectPool.PoolDictionary.Values)
         {
+            string[] saveableTags = { Tag.Apple, Tag.Banana, Tag.Carrot, Tag.Melon };
+
             foreach (var obj in pool)
             {
-                if (obj.gameObject.activeInHierarchy)
+                if (obj.gameObject.activeInHierarchy && System.Array.Exists(saveableTags, tag => obj.CompareTag(tag)))
                 {
                     prefabDataList.Add(new PrefabData(
                         obj.name.Replace("(Clone)", "").Trim(),
@@ -24,19 +26,19 @@ public class PrefabDataManager
             }
         }
 
-        GM.saveManager.SaveData(prefabDataList);
+        GM.SaveManager.SaveData(prefabDataList);
         Debug.Log("PrefabData 저장 완료");
     }
 
     public void LoadPrefabData()
     {
-        if (GM.saveManager.TryLoadData(out List<PrefabData> prefabDataList))
+        if (GM.SaveManager.TryLoadData(out List<PrefabData> prefabDataList))
         {
             foreach (var prefabData in prefabDataList)
             {
                 string cleanKey = prefabData.prefabName.Trim();
 
-                PoolObject obj = GM.objectPool.SpawnFromPool(cleanKey);
+                PoolObject obj = GM.ObjectPool.SpawnFromPool(cleanKey);
 
                 if (obj != null)
                 {

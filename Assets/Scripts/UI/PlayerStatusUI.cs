@@ -10,10 +10,10 @@ public class PlayerStatusUI : MonoBehaviour
 
     private void Start()
     {
-        CoinText.text = $"{GM.playerDataManager.NowPlayerData.PlayerCoin}";
+        CoinText.text = $"{GM.PlayerDataManager.NowPlayerData.PlayerCoin}";
     }
     public void PlayerCoin()
     {
-        CoinText.text = $"{GM.playerDataManager.NowPlayerData.PlayerCoin}";
+        CoinText.text = $"{GM.PlayerDataManager.NowPlayerData.PlayerCoin}";
     }
 }

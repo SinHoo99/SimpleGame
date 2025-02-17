@@ -243,3 +243,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FruitsID: 2
+  FirePoint: {fileID: 331586260508563897}

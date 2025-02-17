@@ -7,6 +7,8 @@ public class Unit : PoolObject
     private GameManager GM => GameManager.Instance;
     [SerializeField] private FruitsID FruitsID;
 
+    [SerializeField] private Transform FirePoint;
+
     private void OnEnable()
     {
         Debug.Log($"{gameObject.name}의 FruitID 값: {FruitsID}");
@@ -19,6 +21,12 @@ public class Unit : PoolObject
         }
 
         StartCoroutine(UpdateCoinCoroutine());
+        StartCoroutine(ShootCoroutine());
+    }
+    private void OnDisable()
+    {
+        StopCoroutine(UpdateCoinCoroutine());
+        StopCoroutine(ShootCoroutine());
     }
 
     private IEnumerator UpdateCoinCoroutine()
@@ -26,10 +34,10 @@ public class Unit : PoolObject
         while (true)
         {
             yield return new WaitForSeconds(1f); // 1초마다 실행
-            if (GM.dataManager.FriutDatas.TryGetValue(FruitsID, out var fruitsData))
+            if (GM.DataManager.FriutDatas.TryGetValue(FruitsID, out var fruitsData))
             {
-                GM.playerDataManager.NowPlayerData.PlayerCoin += fruitsData.Price;
-                GM.uiManager.TriggerInventoryUpdate();
+                GM.PlayerDataManager.NowPlayerData.PlayerCoin += fruitsData.Price;
+                GM.UIManager.TriggerInventoryUpdate();
             }
             else
             {
@@ -44,13 +52,13 @@ public class Unit : PoolObject
         string prefabName = gameObject.name.Replace("(Clone)", "").Trim();
         Debug.Log($"[AssignFruitID] {gameObject.name}의 PrefabName: {prefabName}");
 
-        if (GM.dataManager.FriutDatas == null)
+        if (GM.DataManager.FriutDatas == null)
         {
             Debug.LogError("[AssignFruitID] GM.DataManager.FriutDatas가 초기화되지 않았습니다.");
             return;
         }
 
-        foreach (var fruitData in GM.dataManager.FriutDatas.Values)
+        foreach (var fruitData in GM.DataManager.FriutDatas.Values)
         {
             if (fruitData.Name.Trim() == prefabName)
             {
@@ -61,6 +69,28 @@ public class Unit : PoolObject
         }
 
         Debug.LogError($"[AssignFruitID] {gameObject.name}의 FruitsID 자동 할당 실패! CSV에서 {prefabName}을 찾을 수 없습니다.");
+    }
+
+
+    private IEnumerator ShootCoroutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(3f); // 지정된 간격으로 발사
+            ShootBullet();
+        }
+    }
+
+    private void ShootBullet()
+    {
+        Vector2 direction = Vector2.right; // 예제: 오른쪽으로 발사
+        CreateBullet(Tag.Bullet, FirePoint.position, direction, gameObject.tag);
+    }
+    public PoolObject CreateBullet(string tag, Vector2 position, Vector2 direction, string ownerTag)
+    {
+        PoolObject bullet = GM.ObjectPool.SpawnFromPool(tag);
+        bullet.ReturnMyComponent<Bullet>().Initialize(position, direction, ownerTag);
+        return bullet;
     }
 }
 

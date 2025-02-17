@@ -1,21 +1,35 @@
+using DG.Tweening.Core.Easing;
 using System;
+using UnityEditor.EditorTools;
 using UnityEngine;
+using UnityEngine.Pool;
 using static UnityEditor.Progress;
 
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private OfflineScoreUpdater offlineScoreUpdater;
 
+    [SerializeField] private UIManager uiManager;
+    [SerializeField] private PlayerStatusUI playerStatusUI;
+    [SerializeField] private SpawnManager spawnManager;
+    [SerializeField] private PlayerDataManager playerDataManager;
+    [SerializeField] private ObjectPool objectPool;
+    [SerializeField] private DataManager dataManager;
+    [SerializeField] private SaveManager saveManager;
+    [SerializeField] private PoolManager poolManager;
 
-    [SerializeField] public UIManager uiManager { get; private set; }
-    [SerializeField] public PlayerStatusUI playerStatusUI { get; private set; }
-    [SerializeField] public SpawnManager spawnManager { get; private set; }
-    [SerializeField] public PlayerDataManager playerDataManager { get; private set; }
-    [SerializeField] public ObjectPool objectPool { get; private set; }
-    [SerializeField] public DataManager dataManager { get; private set; }
-    [SerializeField] public SaveManager saveManager { get; private set; }
-    [SerializeField] public PoolManager poolManager { get; private set; }
+    // 읽기 전용 프로퍼티 제공 (Inspector에서 수정 가능하지만, 외부에서 변경 불가능)
+    public UIManager UIManager => uiManager;
+    public PlayerStatusUI PlayerStatusUI => playerStatusUI;
+    public SpawnManager SpawnManager => spawnManager;
+    public PlayerDataManager PlayerDataManager => playerDataManager;
+    public ObjectPool ObjectPool => objectPool;
+    public DataManager DataManager => dataManager;
+    public SaveManager SaveManager => saveManager;
+    public PoolManager PoolManager => poolManager;
+
     private PrefabDataManager prefabDataManager;
+
     private bool isQuitting = false;
     protected override void Awake()
     {
@@ -27,8 +41,9 @@ public class GameManager : Singleton<GameManager>
             Debug.LogError("DataManager가 설정되지 않았습니다.");
             return;
         }
-        dataManager.Initializer();
         InitializeComponents();
+        dataManager.Initializer();
+
     }
     private void Start()
     {
@@ -54,10 +69,13 @@ public class GameManager : Singleton<GameManager>
     {
         offlineScoreUpdater = GetComponent<OfflineScoreUpdater>();
         uiManager = GetComponent<UIManager>();
+        dataManager = GetComponent<DataManager>();
+        saveManager = GetComponent<SaveManager>();
+        spawnManager = GetComponent<SpawnManager>();
+        objectPool = GetComponent<ObjectPool>();
+        playerDataManager = GetComponent<PlayerDataManager>();
+        poolManager = GetComponent<PoolManager>();
         uiManager.SetFruitData(dataManager.FriutDatas);
-
-        Debug.Log($"OfflineScoreUpdater: {(offlineScoreUpdater != null ? "초기화 완료" : "설정되지 않음")}");
-        Debug.Log($"UIManager: {(uiManager != null ? "초기화 완료" : "설정되지 않음")}");
     }
     #endregion
     #region 애플리케이션 이벤트

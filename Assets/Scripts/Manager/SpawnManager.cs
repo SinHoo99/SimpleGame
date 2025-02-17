@@ -6,7 +6,7 @@ public class SpawnManager : MonoBehaviour
     {
         string tag = fruitID.ToString(); // 과일의 태그 변환
 
-        PoolObject fruit = GameManager.Instance.poolManager.CreatePrefabs(tag);
+        PoolObject fruit = GameManager.Instance.PoolManager.CreateUnitPrefabs(tag);
         if (fruit != null)
         {
             Vector3 spawnPosition = new Vector3(
@@ -26,7 +26,7 @@ public class SpawnManager : MonoBehaviour
 
     public void ReturnAllFruitsToPool()
     {
-        GameManager.Instance.objectPool.ReturnAllObjects();
+        GameManager.Instance.ObjectPool.ReturnAllObjects();
         Debug.Log("모든 과일 프리팹이 Object Pool로 반환되었습니다.");
     }
 }
