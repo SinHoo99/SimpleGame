@@ -244,3 +244,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FruitsID: 2
   FirePoint: {fileID: 331586260508563897}
+  Boss: {fileID: 5212995172822657464, guid: 129ed31251cb66d4b8cbdb3730aac794, type: 3}

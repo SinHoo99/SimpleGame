@@ -21,7 +21,9 @@ public class Bullet : PoolObject
     {
         if ((collision.gameObject.layer == LayerMask.NameToLayer(Layer.Boss)))
         {
-            gameObject.SetActive(false);
+            Boss boss = collision.GetComponent<Boss>();
+            boss.TakeDamage(1);
+            this.gameObject.SetActive(false);
         }
     }
     #endregion
@@ -47,5 +49,4 @@ public class Bullet : PoolObject
 
         OnAfterInitialize();
     }
-
 }

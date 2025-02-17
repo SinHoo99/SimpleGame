@@ -9,6 +9,7 @@ TagManager:
   - Banana
   - Carrot
   - Melon
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - UI
   - Fence
   - Unit
-  - 
+  - Boss
   - 
   - 
   - 

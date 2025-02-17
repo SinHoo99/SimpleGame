@@ -24,7 +24,7 @@ public class PoolManager : MonoBehaviour
         ObjectPool.AddObjectPool(Tag.Banana, GM.GetFruitsData(FruitsID.Banana).Prefab, 20);
         ObjectPool.AddObjectPool(Tag.Carrot, GM.GetFruitsData(FruitsID.Carrot).Prefab, 20);
         ObjectPool.AddObjectPool(Tag.Melon, GM.GetFruitsData(FruitsID.Melon).Prefab, 20);
-        ObjectPool.AddObjectPool(Tag.Bullet, Bullet, 100);
+        ObjectPool.AddObjectPool(Tag.Bullet, Bullet, 50);
     }
 
     public PoolObject CreateUnitPrefabs(string tag)
