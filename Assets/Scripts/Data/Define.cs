@@ -8,10 +8,13 @@ public struct Data
     public const string Price = "Price";
     public const string Probability = "Probability";
     public const string Prefab = "Prefab";
+    public const string MaxHealth = "MaxHealth";
+    public const string AnimationState = "AnimationState";
 }
 public struct ResourcesPath
 {
     public const string FruitsCSV = "CSV/FruitsCSV";
+    public const string BossCSV = "CSV/BossCSV";
     public const string CSVSprites = "SpriteAtlas/Fruits";
 }
 

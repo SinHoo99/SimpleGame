@@ -16,8 +16,6 @@ public class Unit : PoolObject
             Boss = FindObjectOfType<Boss>(); //  하이어라키에서 `Boss` 스크립트가 있는 오브젝트 찾기
         }
 
-        Debug.Log($"{gameObject.name}의 FruitID 값: {FruitsID}");
-
         if ((int)FruitsID == 0)
         {
             Debug.LogWarning($"{gameObject.name}의 FruitID가 설정되지 않았습니다! 초기화가 필요합니다.");
@@ -66,7 +64,6 @@ public class Unit : PoolObject
             if (fruitData.Name.Trim() == prefabName)
             {
                 FruitsID = fruitData.ID;
-                Debug.Log($"[AssignFruitID] {gameObject.name}의 FruitID가 {FruitsID}로 설정됨.");
                 return;
             }
         }
@@ -85,13 +82,6 @@ public class Unit : PoolObject
 
     private IEnumerator ShootCoroutine()
     {
-        //  보스가 없으면 대기 (반복적으로 `FindWithTag()` 실행하지 않음)
-        while (Boss == null)
-        {
-            yield return null;
-            Boss = FindObjectOfType<Boss>();
-        }
-
         while (true)
         {
             float randomNum = Random.Range(0.5f, 1.5f);

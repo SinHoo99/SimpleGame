@@ -43,10 +43,6 @@ public class ScoreUpdater : MonoBehaviour
             AddFruits(selectedFruit.Value); // null이 아닐 경우만 AddFruits 호출
             GameManager.Instance.SpawnManager.SpawnFruitFromPool(selectedFruit.Value);
         }
-        else
-        {
-            Debug.Log("아무 과일도 선택되지 않았습니다.");
-        }
     }
 
     /// <summary>
@@ -72,9 +68,6 @@ public class ScoreUpdater : MonoBehaviour
                 return fruit.ID; // 과일 선택
             }
         }
-
-        // 선택되지 않을 확률
-        Debug.Log("아무 과일도 선택되지 않았습니다.");
         return null; // 아무것도 선택되지 않음
     }
     /// <summary>

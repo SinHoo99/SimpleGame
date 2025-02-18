@@ -6,6 +6,16 @@ public enum FruitsID
     Carrot
 }
 
+public enum BossID
+{
+    A = 1,
+    B,
+    C,
+    D,
+    E
+}
+
+
 public enum FruitsType
 {
     Object,

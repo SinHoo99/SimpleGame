@@ -7,8 +7,10 @@ public class DataManager : MonoBehaviour
     public void Initializer()
     {
         ContainFruitsData();
+        ContainBossData();
     }
 
+    #region 과일 데이터 
     public Dictionary<FruitsID, FruitsData> FriutDatas = new Dictionary<FruitsID, FruitsData>();
 
     public void ContainFruitsData()
@@ -29,23 +31,24 @@ public class DataManager : MonoBehaviour
             FriutDatas.Add(fruitsData.ID, fruitsData);
         }
     }
+    #endregion
 
-    public GameObject GetFruitPrefab(FruitsID fruitID)
+    #region 보스 데이터 
+    public Dictionary<BossID, BossData> BossDatas = new Dictionary<BossID, BossData>();
+    
+    public void ContainBossData()
     {
-        // 과일 데이터 가져오기
-        if (!FriutDatas.TryGetValue(fruitID, out var fruitsData))
-        {
-            Debug.LogWarning($"{fruitID}에 해당하는 데이터가 없습니다.");
-            return null;
-        }
+        List<Dictionary<string, string>> bossDataList = CSVReader.Read(ResourcesPath.BossCSV);
 
-        // 이미 로드된 Prefab을 반환 (Resources.Load() 중복 호출 제거)
-        if (fruitsData.Prefab == null)
+        foreach (var datas in bossDataList)
         {
-            Debug.LogWarning($"프리팹이 올바르게 로드되지 않았습니다. FruitID: {fruitID}");
-            return null;
+            BossData bossData = new BossData();
+            bossData.ID = (BossID)int.Parse(datas[Data.ID]);
+            bossData.MaxHealth = int.Parse(datas[Data.MaxHealth]);
+            bossData.AnimationState = datas[Data.AnimationState];
+            BossDatas.Add(bossData.ID, bossData);
         }
-
-        return fruitsData.Prefab.gameObject;
     }
+
+    #endregion
 }

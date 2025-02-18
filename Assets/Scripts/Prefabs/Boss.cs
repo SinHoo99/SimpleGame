@@ -1,26 +1,25 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
-    public int maxHealth = 100;
+    private GameManager GM => GameManager.Instance;
+    public BossID bossID; // 현재 보스 ID
+    public int maxHealth; // 최대 체력
     private int currentHealth;
-
     private SpriteRenderer spriteRenderer;
-    private Collider2D bossCollider;
-
-    [SerializeField] private float respawnTime = 3f; // 부활 대기 시간
+    private Animator animator;
 
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        bossCollider = GetComponent<Collider2D>(); //  충돌 감지를 위한 콜라이더 추가
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void OnEnable()
     {
-        currentHealth = maxHealth; //  보스 체력 초기화
-        ActivateBoss(); //  보스 다시 보이게 설정
+        Respawn();
+        Debug.Log($"현재 보스: {bossID}, MaxHealth: {maxHealth}");
     }
 
     public void TakeDamage(int damage)
@@ -34,28 +33,37 @@ public class Boss : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("보스 사망! " + respawnTime + "초 후 부활.");
-        DeactivateBoss();
-        StartCoroutine(RespawnBoss()); 
+        spriteRenderer.enabled = false;
+        bossID = GetNextBossID();
+        Invoke(nameof(Respawn), 3f);
     }
 
-    private IEnumerator RespawnBoss()
+    private void Respawn()
     {
-        yield return new WaitForSeconds(respawnTime);
-        ActivateBoss(); 
-    }
-    private void ActivateBoss()
-    {
-        spriteRenderer.enabled = true; // 스프라이트 다시 보이게 설정
-        bossCollider.enabled = true; // 충돌 다시 활성화
-        currentHealth = maxHealth; // 체력 초기화
-        Debug.Log("보스 부활!");
+        if (GM.DataManager.BossDatas.TryGetValue(bossID, out BossData bossData))
+        {
+            maxHealth = bossData.MaxHealth;
+            currentHealth = maxHealth;
+            Debug.Log($"현재 보스: {bossID}, MaxHealth: {maxHealth}");
+            UpdateBossAnimation();
+        }
+        else
+        {
+            Debug.LogError($"BossID {bossID}에 해당하는 데이터 없음!");
+        }
+
+        spriteRenderer.enabled = true;
     }
 
-    //  보스를 비활성화하는 함수 (스프라이트 및 콜라이더 숨김)
-    private void DeactivateBoss()
+    //  다음 보스 ID를 가져오는 메서드
+    private BossID GetNextBossID()
     {
-        spriteRenderer.enabled = false; // 스프라이트 숨김
-        bossCollider.enabled = false; // 충돌 비활성화
+        return (bossID < BossID.E) ? bossID + 1 : BossID.A;
     }
+
+    private void UpdateBossAnimation()
+    {
+        animator.SetTrigger(bossID.ToString());
+    }
+
 }

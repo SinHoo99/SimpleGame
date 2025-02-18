@@ -18,6 +18,17 @@ public class FruitsData
 }
 #endregion
 
+#region 보스 데이터
+[System.Serializable]
+public class BossData
+{
+    public BossID ID;               // 과일 ID 
+    public int MaxHealth;
+    public string AnimationState;
+}
+#endregion
+
+
 #region 프리펩 데이터
 [Serializable]
 public class PrefabData
