@@ -6,14 +6,14 @@ public class Bullet : PoolObject
 {
     private GameManager GM => GameManager.Instance;
     private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
+    private Animator animator;
 
     private string bulletOwnerTag;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     #region ºÒ·¿ Ãæµ¹
@@ -28,14 +28,8 @@ public class Bullet : PoolObject
     }
     #endregion
 
-    private void OnAfterInitialize()
+    public void BulletObjectreturn( )
     {
-        StartCoroutine(DeactivateAfterDelay(3f));
-    }
-
-    private IEnumerator DeactivateAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
         gameObject.SetActive(false);
     }
     public void Initialize(Vector2 position, Vector2 direction, string ownerTag)
@@ -47,6 +41,5 @@ public class Bullet : PoolObject
 
         rb.velocity = direction.normalized * 10f;
 
-        OnAfterInitialize();
     }
 }
