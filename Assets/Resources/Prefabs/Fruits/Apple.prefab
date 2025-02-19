@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 4591724699142437001}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -244,4 +244,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FruitsID: 1
   FirePoint: {fileID: 331586260508563897}
-  Boss: {fileID: 5212995172822657464, guid: 129ed31251cb66d4b8cbdb3730aac794, type: 3}
+  ShootEffectPrefab: {fileID: 3414340981130464522, guid: 103f316e173ea2c4eb1a7ca5431b7211, type: 3}

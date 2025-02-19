@@ -7,8 +7,15 @@ public class Unit : PoolObject
     [SerializeField] private FruitsID FruitsID;
 
     [SerializeField] private Transform FirePoint;
+    [SerializeField] GameObject ShootEffectPrefab;
     private Boss Boss;
 
+    private ParticleSystem ParticleSystem;
+
+    private void Awake()
+    {
+        ParticleSystem = ShootEffectPrefab.GetComponentInChildren<ParticleSystem>();
+    }
     private void OnEnable()
     {
         if (Boss == null)
@@ -102,6 +109,32 @@ public class Unit : PoolObject
 
         Vector2 direction = (Boss.transform.position - FirePoint.position).normalized;
         CreateBullet(Tag.Bullet, FirePoint.position, direction, gameObject.tag);
+        ShootParticle();
+    }
+    #endregion
+
+    #region 총알 생성 이펙트 
+    private void ShootParticle()
+    {
+        if (ParticleSystem == null)
+        {
+            Debug.LogError("ParticleSystem이 설정되지 않았습니다! ShootEffectPrefab을 확인하세요.");
+            return;
+        }
+
+        // 파티클 위치를 FirePoint로 설정
+        ParticleSystem.transform.position = FirePoint.position;
+
+        // 기존 파티클 제거 (중복 실행 방지)
+        ParticleSystem.Stop();
+        ParticleSystem.Clear();
+
+        // 파티클 속도 설정
+        ParticleSystem.MainModule main = ParticleSystem.main;
+        main.startSpeed = new ParticleSystem.MinMaxCurve(0.5f, 2f);
+
+        // 파티클 실행
+        ParticleSystem.Play();
     }
     #endregion
 }

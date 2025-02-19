@@ -1,32 +1,30 @@
-using DG.Tweening.Core.Easing;
-using System;
-using UnityEditor.EditorTools;
 using UnityEngine;
-using UnityEngine.Pool;
-using static UnityEditor.Progress;
 
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private OfflineScoreUpdater offlineScoreUpdater;
 
-    [SerializeField] private UIManager uiManager;
-    [SerializeField] private PlayerStatusUI playerStatusUI;
-    [SerializeField] private SpawnManager spawnManager;
-    [SerializeField] private PlayerDataManager playerDataManager;
-    [SerializeField] private ObjectPool objectPool;
-    [SerializeField] private DataManager dataManager;
-    [SerializeField] private SaveManager saveManager;
-    [SerializeField] private PoolManager poolManager;
+    [SerializeField] private UIManager _uiManager;
+    [SerializeField] private PlayerStatusUI _playerStatusUI;
+    [SerializeField] private SpawnManager _spawnManager;
+    [SerializeField] private PlayerDataManager _playerDataManager;
+    [SerializeField] private ObjectPool _objectPool;
+    [SerializeField] private DataManager _dataManager;
+    [SerializeField] private SaveManager _saveManager;
+    [SerializeField] private PoolManager _poolManager;
+    public ParticleSystem _particleSystem;
+
 
     // 읽기 전용 프로퍼티 제공 (Inspector에서 수정 가능하지만, 외부에서 변경 불가능)
-    public UIManager UIManager => uiManager;
-    public PlayerStatusUI PlayerStatusUI => playerStatusUI;
-    public SpawnManager SpawnManager => spawnManager;
-    public PlayerDataManager PlayerDataManager => playerDataManager;
-    public ObjectPool ObjectPool => objectPool;
-    public DataManager DataManager => dataManager;
-    public SaveManager SaveManager => saveManager;
-    public PoolManager PoolManager => poolManager;
+    public UIManager UIManager => _uiManager;
+    public PlayerStatusUI PlayerStatusUI => _playerStatusUI;
+    public SpawnManager SpawnManager => _spawnManager;
+    public PlayerDataManager PlayerDataManager => _playerDataManager;
+    public ObjectPool ObjectPool => _objectPool;
+    public DataManager DataManager => _dataManager;
+    public SaveManager SaveManager => _saveManager;
+    public PoolManager PoolManager => _poolManager;
+    public ParticleSystem ParticleSystem => _particleSystem;
 
     private PrefabDataManager prefabDataManager;
 
@@ -36,66 +34,67 @@ public class GameManager : Singleton<GameManager>
         if (IsDuplicates()) return;
         base.Awake();
         Application.targetFrameRate = 60;
-        if (dataManager == null)
+        if (_dataManager == null)
         {
             Debug.LogError("DataManager가 설정되지 않았습니다.");
             return;
         }
         InitializeComponents();
-        dataManager.Initializer();
+        _dataManager.Initializer();
 
     }
     private void Start()
     {
-        if (poolManager == null)
+        if (_poolManager == null)
         {
             Debug.LogError("PoolManager가 할당되지 않았습니다!");
             return;
         }
-        if (objectPool == null)
+        if (_objectPool == null)
         {
             Debug.LogError("ObjectPool이 할당되지 않았습니다!");
             return;
         }
-        poolManager.AddObjectPool();
+        _poolManager.AddObjectPool();
         prefabDataManager = new PrefabDataManager();
-        playerDataManager.LoadAllData();
-        playerDataManager.InitializeInventory();
-        uiManager.TriggerInventoryUpdate();
+        _playerDataManager.LoadAllData();
+        _playerDataManager.InitializeInventory();
+        _uiManager.TriggerInventoryUpdate();
     }
 
     #region 컴포넌트 초기화
     private void InitializeComponents()
     {
         offlineScoreUpdater = GetComponent<OfflineScoreUpdater>();
-        uiManager = GetComponent<UIManager>();
-        dataManager = GetComponent<DataManager>();
-        saveManager = GetComponent<SaveManager>();
-        spawnManager = GetComponent<SpawnManager>();
-        objectPool = GetComponent<ObjectPool>();
-        playerDataManager = GetComponent<PlayerDataManager>();
-        poolManager = GetComponent<PoolManager>();
-        uiManager.SetFruitData(dataManager.FriutDatas);
+        _uiManager = GetComponent<UIManager>();
+        _dataManager = GetComponent<DataManager>();
+        _saveManager = GetComponent<SaveManager>();
+        _spawnManager = GetComponent<SpawnManager>();
+        _objectPool = GetComponent<ObjectPool>();
+        _playerDataManager = GetComponent<PlayerDataManager>();
+        _poolManager = GetComponent<PoolManager>();
+        _uiManager.SetFruitData(_dataManager.FriutDatas);
+        _particleSystem = GameObject.FindGameObjectWithTag("Particle").GetComponent<ParticleSystem>();
     }
     #endregion
     #region 애플리케이션 이벤트
     private void OnApplicationQuit()
     {
         isQuitting = true;
-        playerDataManager.SavePlayerData();
+        _playerDataManager.SavePlayerData();
         prefabDataManager.SavePrefabData();
     }
     private void OnApplicationPause(bool pause)
     {
         if (pause && !isQuitting)
         {
-            playerDataManager.SavePlayerData();
+            _playerDataManager.SavePlayerData();
         }
     }
     #endregion
 
     public FruitsData GetFruitsData(FruitsID id)
     {
-        return dataManager.FriutDatas[id];
+        return _dataManager.FriutDatas[id];
     }
 }

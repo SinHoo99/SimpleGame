@@ -10,6 +10,7 @@ TagManager:
   - Carrot
   - Melon
   - Boss
+  - Particle
   layers:
   - Default
   - TransparentFX
