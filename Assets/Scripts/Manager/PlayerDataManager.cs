@@ -9,7 +9,7 @@ public class PlayerDataManager : MonoBehaviour
 
     public PlayerData NowPlayerData { get; private set; }
 
-    #region 데이터 초기화
+    #region 인벤토리 초기화
     public void InitializeInventory()
     {
         if (NowPlayerData == null)

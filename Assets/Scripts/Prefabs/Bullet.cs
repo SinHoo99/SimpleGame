@@ -9,7 +9,7 @@ public class Bullet : PoolObject
     private Animator animator;
 
     private string bulletOwnerTag;
-
+    private float damage;
     private ParticleSystem ParticleSystem => GameManager.Instance.ParticleSystem;
     private void Awake()
     {
@@ -24,7 +24,7 @@ public class Bullet : PoolObject
         {
             Boss boss = collision.GetComponent<Boss>();
             HitParticle();
-            boss.TakeDamage(1); // 임시 숫자
+            boss.TakeDamage(damage);
             BulletObjectreturn();
         }
     }
@@ -34,9 +34,10 @@ public class Bullet : PoolObject
     {
         gameObject.SetActive(false);
     }
-    public void Initialize(Vector2 position, Vector2 direction, string ownerTag)
+    public void Initialize(Vector2 position, Vector2 direction, string ownerTag, float bulletDamage)
     {
         bulletOwnerTag = ownerTag;
+        damage = bulletDamage;
         transform.position = position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);

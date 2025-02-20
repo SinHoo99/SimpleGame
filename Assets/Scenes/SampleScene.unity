@@ -7254,6 +7254,7 @@ GameObject:
   - component: {fileID: 2034376365}
   - component: {fileID: 2034376366}
   - component: {fileID: 2034376367}
+  - component: {fileID: 2034376368}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -7279,6 +7280,7 @@ MonoBehaviour:
   _playerStatusUI: {fileID: 1028055296}
   _spawnManager: {fileID: 2034376364}
   _playerDataManager: {fileID: 2034376366}
+  _bossDataManager: {fileID: 2034376368}
   _objectPool: {fileID: 2034376365}
   _dataManager: {fileID: 2034376362}
   _saveManager: {fileID: 2034376361}
@@ -7414,6 +7416,18 @@ MonoBehaviour:
   Carrot: {fileID: -4175153783263088964, guid: ba46051fa0da4c444a395a5e2d13ef77, type: 3}
   Melon: {fileID: 6315241437391278224, guid: efd7040e51112e64b91c9faae784bc81, type: 3}
   Bullet: {fileID: 6538214811322821671, guid: bf97762818e1d994ca91693d5a477cdf, type: 3}
+--- !u!114 &2034376368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034376356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b6490d2d05f735419e60b5a40f81711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2145353773
 GameObject:
   m_ObjectHideFlags: 0
@@ -7929,8 +7943,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1285209857446055775}
   - component: {fileID: 6862894625343282433}
-  - component: {fileID: 125938137610553086}
   - component: {fileID: 6862894625343282434}
+  - component: {fileID: 125938137610553086}
   m_Layer: 8
   m_Name: Boss
   m_TagString: Boss

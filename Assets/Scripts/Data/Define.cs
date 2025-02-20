@@ -9,6 +9,7 @@ public struct Data
     public const string Probability = "Probability";
     public const string Prefab = "Prefab";
     public const string MaxHealth = "MaxHealth";
+    public const string Damage = "Damage";
     public const string AnimationState = "AnimationState";
 }
 public struct ResourcesPath

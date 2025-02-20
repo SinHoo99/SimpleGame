@@ -28,6 +28,7 @@ public class DataManager : MonoBehaviour
             fruitsData.Description = datas[Data.Description];
             fruitsData.Probability = float.Parse(datas[Data.Probability]);
             fruitsData.Prefab = Resources.Load<PoolObject>(datas[Data.Prefab]);
+            fruitsData.Damage = int.Parse(datas[Data.Damage]);
             FriutDatas.Add(fruitsData.ID, fruitsData);
         }
     }
@@ -35,23 +36,26 @@ public class DataManager : MonoBehaviour
 
     #region 보스 데이터 
     public Dictionary<BossID, BossData> BossDatas = new Dictionary<BossID, BossData>();
-    
+
     public void ContainBossData()
     {
         List<Dictionary<string, string>> bossDataList = CSVReader.Read(ResourcesPath.BossCSV);
 
         foreach (var datas in bossDataList)
         {
-            BossData bossData = new BossData();
-            bossData.ID = (BossID)int.Parse(datas[Data.ID]);
-            bossData.MaxHealth = int.Parse(datas[Data.MaxHealth]);
-            bossData.AnimationState = datas[Data.AnimationState];
+            BossID bossID = (BossID)int.Parse(datas[Data.ID]);
+            int maxHealth = int.Parse(datas[Data.MaxHealth]);
+            string animationState = datas[Data.AnimationState];
+
+            BossData bossData = new BossData(bossID, maxHealth, animationState);
+
             if (!BossDatas.ContainsKey(bossData.ID))
             {
                 BossDatas.Add(bossData.ID, bossData);
             }
         }
     }
+
 
     #endregion
 }

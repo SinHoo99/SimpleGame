@@ -83,7 +83,9 @@ public class Unit : PoolObject
     public PoolObject CreateBullet(string tag, Vector2 position, Vector2 direction, string ownerTag)
     {
         PoolObject bullet = GM.ObjectPool.SpawnFromPool(tag);
-        bullet.ReturnMyComponent<Bullet>().Initialize(position, direction, ownerTag);
+
+        float bulletDamage = GetBulletDamage();
+        bullet.ReturnMyComponent<Bullet>().Initialize(position, direction, ownerTag, bulletDamage);
         return bullet;
     }
 
@@ -111,5 +113,11 @@ public class Unit : PoolObject
         CreateBullet(Tag.Bullet, FirePoint.position, direction, gameObject.tag);
 
     }
+
+    private float GetBulletDamage()
+    {
+        return GM.GetFruitsData(FruitsID).Damage * 0.1f;
+    }
+
     #endregion
 }

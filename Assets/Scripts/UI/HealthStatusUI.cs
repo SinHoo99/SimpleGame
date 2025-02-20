@@ -18,7 +18,7 @@ public class HealthStatusUI : MonoBehaviour
     #region HP 업데이트
     public void UpdateHPStatus()
     {
-        HPBar.value = HealthSystem.CurHP / HealthSystem.MaxHP;
+        HPBar.value = (float)HealthSystem.CurHP / HealthSystem.MaxHP;
     }
     #endregion
     public void ShowSlider()

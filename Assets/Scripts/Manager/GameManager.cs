@@ -7,6 +7,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private PlayerStatusUI _playerStatusUI;
     [SerializeField] private SpawnManager _spawnManager;
     [SerializeField] private PlayerDataManager _playerDataManager;
+    [SerializeField] private BossDataManager _bossDataManager;
     [SerializeField] private ObjectPool _objectPool;
     [SerializeField] private DataManager _dataManager;
     [SerializeField] private SaveManager _saveManager;
@@ -24,8 +25,9 @@ public class GameManager : Singleton<GameManager>
     public SaveManager SaveManager => _saveManager;
     public PoolManager PoolManager => _poolManager;
     public ParticleSystem ParticleSystem => _particleSystem;
+    public BossDataManager BossDataManager => _bossDataManager;
 
-    private PrefabDataManager prefabDataManager;
+    private PrefabDataManager _prefabDataManager;
 
     private bool isQuitting = false;
     protected override void Awake()
@@ -55,7 +57,8 @@ public class GameManager : Singleton<GameManager>
             return;
         }
         _poolManager.AddObjectPool();
-        prefabDataManager = new PrefabDataManager();
+        _prefabDataManager = new PrefabDataManager();
+        _bossDataManager.LoadAllData();
         _playerDataManager.LoadAllData();
         _playerDataManager.InitializeInventory();
         _uiManager.TriggerInventoryUpdate();
@@ -73,6 +76,7 @@ public class GameManager : Singleton<GameManager>
         _playerDataManager = GetComponent<PlayerDataManager>();
         _poolManager = GetComponent<PoolManager>();
         _uiManager.SetFruitData(_dataManager.FriutDatas);
+        _bossDataManager = GetComponent<BossDataManager>();
         _particleSystem = GameObject.FindGameObjectWithTag("Particle").GetComponent<ParticleSystem>();
     }
     #endregion
@@ -81,13 +85,15 @@ public class GameManager : Singleton<GameManager>
     {
         isQuitting = true;
         _playerDataManager.SavePlayerData();
-        prefabDataManager.SavePrefabData();
+        _prefabDataManager.SavePrefabData();
+        _bossDataManager.SaveBossRuntimeData();
     }
     private void OnApplicationPause(bool pause)
     {
         if (pause && !isQuitting)
         {
             _playerDataManager.SavePlayerData();
+            _bossDataManager.SaveBossRuntimeData();
         }
     }
     #endregion

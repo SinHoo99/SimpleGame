@@ -14,6 +14,7 @@ public class FruitsData
     public string Description;        // 과일 설명
     public int Price;                 // 과일 판매 가격
     public float Probability;         // 과일 등장 확률
+    public float Damage;
     public PoolObject Prefab;
 }
 #endregion
@@ -22,10 +23,31 @@ public class FruitsData
 [System.Serializable]
 public class BossData
 {
-    public BossID ID;               
+    public BossID ID;
     public int MaxHealth;
     public string AnimationState;
+
+    public BossData(BossID id, int maxHealth, string animationState)
+    {
+        ID = id;
+        MaxHealth = maxHealth;
+        AnimationState = animationState;
+    }
 }
+
+[System.Serializable]
+public class BossRuntimeData
+{
+    public BossID CurrentBossID;
+    public float CurrentHealth;
+
+    public BossRuntimeData(BossID id, float currentHealth)
+    {
+        CurrentBossID = id;
+        CurrentHealth = currentHealth;
+    }
+}
+
 #endregion
 
 
