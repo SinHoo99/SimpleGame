@@ -5,15 +5,13 @@ public class BossDataManager : MonoBehaviour
 {
     private GameManager GM => GameManager.Instance;
 
-    public BossData NowBossData { get; private set; }
+    public BossData StaticBossData { get; private set; }
     public BossRuntimeData BossRuntimeData { get; private set; }
-
 
     private void Awake()
     {
         LoadAllData();
     }
-
 
     #region  보스 데이터 저장 및 로드
 
@@ -23,14 +21,14 @@ public class BossDataManager : MonoBehaviour
         BossData bossData = GM.GetBossData(bossID);
         if (bossData != null)
         {
-            NowBossData = bossData;
+            StaticBossData = bossData;
             Debug.Log($"[BossDataManager] 보스 데이터 로드 완료: ID={bossID}");
             return true;
         }
         else
         {
             Debug.LogWarning($"[BossDataManager] 보스 데이터를 찾을 수 없습니다. 기본값을 설정합니다. BossID: {bossID}");
-            NowBossData = new BossData(BossID.A, 100, "Idle"); // 기본값 설정
+            StaticBossData = new BossData(BossID.A, 100, "Idle"); // 기본값 설정
             return false;
         }
     }
@@ -90,7 +88,7 @@ public class BossDataManager : MonoBehaviour
     public void DestroyData()
     {
         BossRuntimeData = new BossRuntimeData(BossID.A, 100);
-        NowBossData = new BossData(BossID.A, 100, "A"); // 기본값 설정
+        StaticBossData = new BossData(BossID.A, 100, "A"); // 기본값 설정
         GM.SaveManager.SaveData(BossRuntimeData);
         Debug.Log("[BossDataManager] 보스 데이터 초기화 완료.");
     }

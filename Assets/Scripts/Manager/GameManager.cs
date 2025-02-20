@@ -58,7 +58,6 @@ public class GameManager : Singleton<GameManager>
         }
         _poolManager.AddObjectPool();
         _prefabDataManager = new PrefabDataManager();
-        _bossDataManager.LoadAllData();
         _playerDataManager.LoadAllData();
         _playerDataManager.InitializeInventory();
         _uiManager.TriggerInventoryUpdate();
