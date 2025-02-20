@@ -24,7 +24,7 @@ public class Bullet : PoolObject
         {
             Boss boss = collision.GetComponent<Boss>();
             HitParticle();
-            boss.TakeDamage(1);
+            boss.TakeDamage(1); // 임시 숫자
             BulletObjectreturn();
         }
     }
@@ -42,7 +42,7 @@ public class Bullet : PoolObject
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
         rb.velocity = direction.normalized * 10f;
-
+        FireParticle();
     }
       
     private void HitParticle()
@@ -52,5 +52,13 @@ public class Bullet : PoolObject
         main.startSpeed = new ParticleSystem.MinMaxCurve(0.5f, 2f);
         main.gravityModifier = 0.5f; 
         ParticleSystem.Play();   
+    }
+
+    private void FireParticle()
+    {
+        ParticleSystem.transform.position = transform.position;
+        ParticleSystem.MainModule main = ParticleSystem.main;
+        main.startSpeed = new ParticleSystem.MinMaxCurve(0.5f, 2f);
+        ParticleSystem.Play();
     }
 }

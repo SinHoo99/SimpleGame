@@ -46,7 +46,10 @@ public class DataManager : MonoBehaviour
             bossData.ID = (BossID)int.Parse(datas[Data.ID]);
             bossData.MaxHealth = int.Parse(datas[Data.MaxHealth]);
             bossData.AnimationState = datas[Data.AnimationState];
-            BossDatas.Add(bossData.ID, bossData);
+            if (!BossDatas.ContainsKey(bossData.ID))
+            {
+                BossDatas.Add(bossData.ID, bossData);
+            }
         }
     }
 

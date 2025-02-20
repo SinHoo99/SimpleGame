@@ -22,7 +22,7 @@ public class FruitsData
 [System.Serializable]
 public class BossData
 {
-    public BossID ID;               // °úÀÏ ID 
+    public BossID ID;               
     public int MaxHealth;
     public string AnimationState;
 }

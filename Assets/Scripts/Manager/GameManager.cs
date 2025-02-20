@@ -3,7 +3,6 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private OfflineScoreUpdater offlineScoreUpdater;
-
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private PlayerStatusUI _playerStatusUI;
     [SerializeField] private SpawnManager _spawnManager;
@@ -97,4 +96,14 @@ public class GameManager : Singleton<GameManager>
     {
         return _dataManager.FriutDatas[id];
     }
+
+    public BossData GetBossData(BossID id)
+    {
+        if (_dataManager.BossDatas.TryGetValue(id, out BossData bossData))
+        {
+            return bossData;
+        }
+        return null;
+    }
+
 }
