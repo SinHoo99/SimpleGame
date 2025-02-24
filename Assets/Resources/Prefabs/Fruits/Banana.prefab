@@ -242,6 +242,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c3813d1b8bd9d94ea8b5b18ac4f1363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FruitsID: 2
-  FirePoint: {fileID: 331586260508563897}
-  ShootEffectPrefab: {fileID: 3414340981130464522, guid: 103f316e173ea2c4eb1a7ca5431b7211, type: 3}
+  _fruitsID: 2
+  _firePoint: {fileID: 331586260508563897}

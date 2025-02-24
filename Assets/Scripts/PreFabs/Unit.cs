@@ -4,17 +4,16 @@ using UnityEngine;
 public class Unit : PoolObject
 {
     private GameManager GM => GameManager.Instance;
-    [SerializeField] private FruitsID FruitsID;
 
-    [SerializeField] private Transform FirePoint;
-    [SerializeField] GameObject ShootEffectPrefab;
+    [SerializeField] private FruitsID _fruitsID;
+    [SerializeField] private Transform _firePoint;
+
     private Boss Boss;
-
-    private ParticleSystem ParticleSystem;
+    private Coroutine _shootCoroutine;
 
     private void Awake()
     {
-        ParticleSystem = ShootEffectPrefab.GetComponentInChildren<ParticleSystem>();
+        AssignFruitID();
     }
     private void OnEnable()
     {
@@ -23,22 +22,32 @@ public class Unit : PoolObject
             Boss = FindObjectOfType<Boss>(); //  하이어라키에서 `Boss` 스크립트가 있는 오브젝트 찾기
         }
 
-        if ((int)FruitsID == 0)
+        if ((int)_fruitsID == 0)
         {
             Debug.LogWarning($"{gameObject.name}의 FruitID가 설정되지 않았습니다! 초기화가 필요합니다.");
-            AssignFruitID();
             return;
         }
 
-        StopAllCoroutines(); //  기존 코루틴 중지하여 중복 실행 방지
-        StartCoroutine(ShootCoroutine());
+        if (_shootCoroutine != null)
+        {
+            StopCoroutine(_shootCoroutine);
+        }
+        _shootCoroutine = StartCoroutine(ShootCoroutine());
     }
 
+    private void OnDisable()
+    {
+        if (_shootCoroutine != null)
+        {
+            StopCoroutine(_shootCoroutine);
+            _shootCoroutine = null;
+        }
+    }
     #region 유닛 ID 할당
-   
+
     public void AssignFruitID()
     {
-        if ((int)FruitsID != 0) return;
+        if ((int)_fruitsID != 0) return;
 
         string prefabName = gameObject.name.Replace("(Clone)", "").Trim();
         Debug.Log($"[AssignFruitID] {gameObject.name}의 PrefabName: {prefabName}");
@@ -53,7 +62,7 @@ public class Unit : PoolObject
         {
             if (fruitData.Name.Trim() == prefabName)
             {
-                FruitsID = fruitData.ID;
+                _fruitsID = fruitData.ID;
                 return;
             }
         }
@@ -92,14 +101,14 @@ public class Unit : PoolObject
             return; //  보스 스프라이트가 비활성화되었으면 발사하지 않음
         }
 
-        Vector2 direction = (Boss.transform.position - FirePoint.position).normalized;
-        CreateBullet(Tag.Bullet, FirePoint.position, direction, gameObject.tag);
+        Vector2 direction = (Boss.transform.position - _firePoint.position).normalized;
+        CreateBullet(Tag.Bullet, _firePoint.position, direction, gameObject.tag);
 
     }
 
     private float GetBulletDamage()
     {
-        return GM.GetFruitsData(FruitsID).Damage * 0.1f;
+        return GM.GetFruitsData(_fruitsID).Damage * 0.1f;
     }
 
     #endregion
