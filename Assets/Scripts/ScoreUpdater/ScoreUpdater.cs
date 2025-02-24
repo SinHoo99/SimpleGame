@@ -5,10 +5,6 @@ public class ScoreUpdater : MonoBehaviour
 {
     private GameManager GM => GameManager.Instance;
 
-    private float timeAccumulator = 0f; // 시간 누적 변수
-    private const float collectionInterval = 1f; // 1초마다 과일 수집
-
-
     #region 과일 생성 로직
     /// <summary>
     /// 특정 과일을 추가합니다.
@@ -22,18 +18,13 @@ public class ScoreUpdater : MonoBehaviour
             Debug.LogWarning($"{fruitID}가 Inventory에 존재하지 않습니다.");
             return;
         }
-
         // 과일 수집 처리 (Amount 증가 등)
         inventory[fruitID].Amount++;
-
         // 방금 수집된 과일 ID만 UI 업데이트
         GameManager.Instance.UIManager.UpdateOrCreateFruitUI(fruitID, 1);
-
     }
 
-    /// <summary>
     /// 랜덤 확률 기반 과일 추가
-    /// </summary>
     public void AddRandomFruit()
     {
         FruitsID? selectedFruit = GetRandomFruitByProbability();
@@ -44,10 +35,7 @@ public class ScoreUpdater : MonoBehaviour
             GameManager.Instance.SpawnManager.SpawnFruitFromPool(selectedFruit.Value);
         }
     }
-
-    /// <summary>
     /// 확률 기반 랜덤 과일 선택
-    /// </summary>
     private FruitsID? GetRandomFruitByProbability()
     {
         var fruits = GameManager.Instance.DataManager.FriutDatas.Values.ToList();
@@ -70,39 +58,14 @@ public class ScoreUpdater : MonoBehaviour
         }
         return null; // 아무것도 선택되지 않음
     }
-    /// <summary>
-    /// 시간에 따라 과일 수집
-    /// </summary>
-    private void CollectFruitsOverTime()
-    {
-        timeAccumulator += Time.deltaTime;
-
-        if (timeAccumulator >= collectionInterval)
-        {
-            int collectCount = Mathf.FloorToInt(timeAccumulator / collectionInterval);
-
-            for (int i = 0; i < collectCount; i++)
-            {
-                AddRandomFruit();
-            }
-
-            timeAccumulator %= collectionInterval; // 초과된 시간만 남김
-        }
-    }
     #endregion
-
-
 
     #region 클릭 입력 처리
     public void HandleInput()
     {
         AddRandomFruit(); // 클릭 시 랜덤 과일 수집
-        GM.PlayerDataManager.NowPlayerData.PlayerCoin -= 100;
         GameManager.Instance.UIManager.TriggerInventoryUpdate();
-     
     }
     #endregion
-
-
 
 }

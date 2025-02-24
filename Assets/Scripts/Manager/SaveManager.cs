@@ -17,7 +17,6 @@ public class SaveManager : MonoBehaviour
 
             string jsonData = JsonConvert.SerializeObject(data, Formatting.Indented);
             File.WriteAllText(path, jsonData);
-            Debug.Log($"[SaveManager] 데이터 저장 성공: {path}");
         }
         catch (Exception ex)
         {

@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    [SerializeField] private OfflineScoreUpdater offlineScoreUpdater;
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private PlayerStatusUI _playerStatusUI;
     [SerializeField] private SpawnManager _spawnManager;
@@ -35,27 +34,12 @@ public class GameManager : Singleton<GameManager>
         if (IsDuplicates()) return;
         base.Awake();
         Application.targetFrameRate = 60;
-        if (_dataManager == null)
-        {
-            Debug.LogError("DataManager가 설정되지 않았습니다.");
-            return;
-        }
         InitializeComponents();
         _dataManager.Initializer();
 
     }
     private void Start()
     {
-        if (_poolManager == null)
-        {
-            Debug.LogError("PoolManager가 할당되지 않았습니다!");
-            return;
-        }
-        if (_objectPool == null)
-        {
-            Debug.LogError("ObjectPool이 할당되지 않았습니다!");
-            return;
-        }
         _poolManager.AddObjectPool();
         _prefabDataManager = new PrefabDataManager();
         _playerDataManager.LoadAllData();
@@ -66,7 +50,6 @@ public class GameManager : Singleton<GameManager>
     #region 컴포넌트 초기화
     private void InitializeComponents()
     {
-        offlineScoreUpdater = GetComponent<OfflineScoreUpdater>();
         _uiManager = GetComponent<UIManager>();
         _dataManager = GetComponent<DataManager>();
         _saveManager = GetComponent<SaveManager>();

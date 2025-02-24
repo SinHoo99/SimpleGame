@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class OfflineScoreUpdater : MonoBehaviour
 {
+    // 오프라인 스코어 업데이터 다른 게임에서 사용
     private GameManager GM => GameManager.Instance;
     private const int MaxOfflineTimeInSeconds = 7200; // 최대 오프라인 시간 (2시간 = 7200초)
 

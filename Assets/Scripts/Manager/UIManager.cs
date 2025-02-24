@@ -10,12 +10,11 @@ public class UIManager : MonoBehaviour
     public GameObject fruitItemPrefab; // 과일 UI 프리팹
     public Transform fruitListParent; // 과일 UI 부모 객체
 
-    private Dictionary<FruitsID, FruitItem> _fruitUIItems = new(); // 생성된 UI를 효율적으로 관리하여 중복 생성 방지, 빠른 업데이트/삭제를 위해 사용
+    private readonly Dictionary<FruitsID, FruitItem> _fruitUIItems = new(); // 생성된 UI를 효율적으로 관리하여 중복 생성 방지, 빠른 업데이트/삭제를 위해 사용
     private Dictionary<FruitsID, FruitsData> _fruitData; // 데이터와 UI를 분리하고, 필요한 데이터를 빠르게 참조하기 위해 사용.
-
     public event Action OnInventoryUpdated;
 
-    private void Start()
+    private void OnEnable()
     {
         OnInventoryUpdated += HandleInventoryUI;
     }
@@ -33,20 +32,17 @@ public class UIManager : MonoBehaviour
     public void TriggerInventoryUpdate()
     {
         OnInventoryUpdated?.Invoke();
+        Debug.Log("TriggerInventoryUpdate 실행");
     }
 
     #region 과일 데이터 UI 생성 과정
-    /// <summary>
     /// 과일 데이터를 설정합니다.
-    /// </summary>
     public void SetFruitData(Dictionary<FruitsID, FruitsData> fruitData)
     {
         _fruitData = fruitData ?? new Dictionary<FruitsID, FruitsData>();
     }
 
-    /// <summary>
     /// 과일 수량에 따라 UI를 업데이트합니다.
-    /// </summary>
     public void UpdateFruitCountsUI(Dictionary<FruitsID, int> fruitCounts)
     {
         if (!IsUIInitialized()) return;
@@ -64,9 +60,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// 과일 UI를 생성하거나 업데이트합니다.
-    /// </summary>
     public void UpdateOrCreateFruitUI(FruitsID id, int count)
     {
         if (_fruitUIItems.TryGetValue(id, out var fruitItem))
@@ -79,12 +73,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// 과일 UI 항목을 생성합니다.
-    /// </summary>
     private void CreateFruitUI(FruitsID id, int count)
     {
-        if (!_fruitData.TryGetValue(id, out var fruitData))
+        if (!TryGetFruitData(id, out var fruitData))
         {
             Debug.LogWarning($"과일 데이터({id})를 찾을 수 없습니다.");
             return;
@@ -102,20 +94,16 @@ public class UIManager : MonoBehaviour
         _fruitUIItems[id] = fruitItem;
     }
 
-    /// <summary>
     /// 기존 과일 UI 항목을 업데이트합니다.
-    /// </summary>
     private void UpdateFruitUI(FruitItem fruitItem, FruitsID id, int count)
     {
-        if (_fruitData.TryGetValue(id, out var fruitData))
+        if (TryGetFruitData(id, out var fruitData))
         {
             fruitItem.UpdateFruit(id, count, fruitData.Image);
         }
     }
 
-    /// <summary>
     /// 과일 UI 항목을 제거합니다.
-    /// </summary>
     private void RemoveFruitUI(FruitsID id)
     {
         if (_fruitUIItems.TryGetValue(id, out var fruitItem))
@@ -125,9 +113,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// UI 초기화 상태를 확인합니다.
-    /// </summary>
     private bool IsUIInitialized()
     {
         if (fruitItemPrefab == null || fruitListParent == null || _fruitData == null)
@@ -138,9 +124,7 @@ public class UIManager : MonoBehaviour
         return true;
     }
 
-    /// <summary>
     /// 과일 선택 처리
-    /// </summary>
     public void OnFruitSelected(FruitsID selectedFruitID)
     {
         if (!_fruitData.TryGetValue(selectedFruitID, out var fruitData))
@@ -180,4 +164,15 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
+    #region  과일 데이터를 가져오는 bool 값
+    private bool TryGetFruitData(FruitsID id, out FruitsData fruitsData)
+    {
+        if (!_fruitData.TryGetValue(id, out fruitsData))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    #endregion
 }

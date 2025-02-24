@@ -32,27 +32,10 @@ public class Unit : PoolObject
 
         StopAllCoroutines(); //  기존 코루틴 중지하여 중복 실행 방지
         StartCoroutine(ShootCoroutine());
-        StartCoroutine(UpdateCoinCoroutine());
     }
 
-    #region 유닛 ID 할당 및 코인 업데이트 코루틴
-    private IEnumerator UpdateCoinCoroutine()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(1f); // 1초마다 실행
-            if (GM.DataManager.FriutDatas.TryGetValue(FruitsID, out var fruitsData))
-            {
-                GM.PlayerDataManager.NowPlayerData.PlayerCoin += fruitsData.Price;
-                GM.UIManager.TriggerInventoryUpdate();
-            }
-            else
-            {
-                Debug.LogWarning($"해당 과일 ID({FruitsID})에 대한 데이터를 찾을 수 없습니다.");
-            }
-        }
-    }
-
+    #region 유닛 ID 할당
+   
     public void AssignFruitID()
     {
         if ((int)FruitsID != 0) return;

@@ -57,6 +57,7 @@ public class Boss : MonoBehaviour
         InitBossHPBar();
         spriteRenderer.enabled = true;
         boxCollider.enabled = true;
+        GM.PlayerStatusUI.BossStatus();
         UpdateBossAnimation();
     }
 

@@ -41,10 +41,6 @@ public class PoolManager : MonoBehaviour
         {
             Debug.LogError($"[CreatePrefabs] {fruit.gameObject.name} 오브젝트에 Unit 컴포넌트가 없습니다!");
         }
-        else
-        {
-            unit.AssignFruitID();
-        }
         return fruit;
     }
 

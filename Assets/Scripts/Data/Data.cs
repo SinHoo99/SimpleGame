@@ -117,30 +117,6 @@ public class PlayerData
 
     [Header("플레이어 지갑")]
     public int PlayerCoin = 0;
-
-    public bool AddFruitAndCalculateCoins(FruitsID fruitID, int amount, Dictionary<FruitsID, FruitsData> fruitDataDictionary)
-    {
-        if (!fruitDataDictionary.TryGetValue(fruitID, out var fruitData))
-        {
-            Debug.LogWarning($"과일 데이터({fruitID})를 찾을 수 없습니다.");
-            return false;
-        }
-
-        // 과일 수량 감소
-        if (Inventory.TryGetValue(fruitID, out var collectedFruit))
-        {
-            collectedFruit.Amount -= amount;
-        }
-        else
-        {
-            Inventory[fruitID] = new CollectedFruitData { ID = fruitID, Amount = amount };
-        }
-
-        // 코인 계산
-        PlayerCoin += amount * fruitData.Price;
-
-        return true;
-    }
 }
 #endregion
 

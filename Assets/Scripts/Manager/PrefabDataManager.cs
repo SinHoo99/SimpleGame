@@ -27,7 +27,6 @@ public class PrefabDataManager
         }
 
         GM.SaveManager.SaveData(prefabDataList);
-        Debug.Log("PrefabData 저장 완료");
     }
 
     public void LoadPrefabData()
@@ -46,17 +45,8 @@ public class PrefabDataManager
                     obj.transform.rotation = prefabData.rotation.ToQuaternion();
                     obj.gameObject.SetActive(true);
                 }
-                else
-                {
-                    Debug.LogWarning($"Object Pool에서 {cleanKey}을(를) 찾을 수 없습니다.");
-                }
             }
+        }
 
-            Debug.Log("PrefabData 로드 완료");
-        }
-        else
-        {
-            Debug.LogWarning("PrefabData 로드 실패 또는 데이터 없음");
-        }
     }
 }
