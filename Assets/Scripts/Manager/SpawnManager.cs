@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    public GameObject Boss;
+    [SerializeField] private float minSpawnDistance;
+    [SerializeField] private float maxSpawnDistance;
     public void SpawnFruitFromPool(FruitsID fruitID)
     {
         string tag = fruitID.ToString(); // 과일의 태그 변환
@@ -9,11 +12,11 @@ public class SpawnManager : MonoBehaviour
         PoolObject fruit = GameManager.Instance.PoolManager.CreateUnitPrefabs(tag);
         if (fruit != null)
         {
-            Vector3 spawnPosition = new Vector3(
-                Random.Range(-2, 2),
-                0,
-                Random.Range(-2, 2)
-            );
+            Vector3 bossPosition = Boss.transform.position;
+            Vector2 randomDir = Random.insideUnitCircle.normalized;
+            float distance = Random.Range(minSpawnDistance, maxSpawnDistance);
+            Vector3 spawnPosition = bossPosition + new Vector3(randomDir.x * distance, randomDir.y * distance, bossPosition.z);
+
             fruit.transform.position = spawnPosition;
             fruit.transform.rotation = Quaternion.identity;
             fruit.gameObject.SetActive(true);

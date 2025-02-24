@@ -4,61 +4,30 @@ using UnityEngine;
 public class UnitController : MonoBehaviour
 {
     public bool IsWalk = true;
-    public float Speed = 3f;
-    public float MinChangeTime = 1f;
-    public float MaxChangeTime = 4f;
 
-    private Rigidbody2D rb;
-    private Vector2 moveDirection;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
-    private void OnEnable()
+    private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
-        moveDirection = Vector2.zero;
-        StartCoroutine(UnitMove());
+    }
+    private void Start()
+    {
+        FilpUnit();
     }
 
-    IEnumerator UnitMove()
+    private void FilpUnit()
     {
-        while (true)
+        animator.SetBool("IsWalk", true);
+        if (this.transform.position.x < 0)
         {
-            if (IsWalk)
-            {
-                moveDirection = Random.insideUnitCircle.normalized;
-                Flip(moveDirection.x > 0);
-                animator.SetBool("IsWalk", true);
-            }
-            else
-            {
-                moveDirection = Vector2.zero;
-                animator.SetBool("IsWalk", false);
-            }
-
-            rb.velocity = moveDirection * Speed;
-
-            yield return new WaitForSeconds(Random.Range(MinChangeTime, MaxChangeTime));
-
-            moveDirection = Random.insideUnitCircle.normalized;
-            Flip(moveDirection.x > 0);
+            spriteRenderer.flipX = false;
         }
-    }
-    void Flip(bool isRight)
-    {
-        spriteRenderer.flipX = !isRight;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Fence"))
+        else
         {
-            moveDirection = (Random.insideUnitCircle.normalized - moveDirection).normalized;
-            rb.velocity = moveDirection * Speed;
-            Flip(moveDirection.x > 0);
+            spriteRenderer.flipX = true;
         }
     }
 }
