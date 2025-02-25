@@ -31,7 +31,7 @@ public class FruitItem : MonoBehaviour
     /// 과일 버튼 클릭 시 실행되는 이벤트
     public void OnFruitButtonClicked()
     {
-        GameManager.Instance.UIManager.OnFruitSelected(fruitID);
+        GameManager.Instance.UIManager.InventoryManager.FruitUIManager.OnFruitSelected(fruitID);
 
         // ObjectPool에서 과일 오브젝트 가져오기
         PoolObject objToReturn = FindActiveFruit();
@@ -58,7 +58,7 @@ public class FruitItem : MonoBehaviour
         {
             Debug.LogWarning($"{fruitID}에 해당하는 활성화된 오브젝트가 없습니다.");
         }
-        GameManager.Instance.UIManager.TriggerInventoryUpdate();
+        GameManager.Instance.UIManager.InventoryManager.TriggerInventoryUpdate();
     }
     /// ObjectPool에서 현재 활성화된 과일 오브젝트를 찾아 반환
     private PoolObject FindActiveFruit()

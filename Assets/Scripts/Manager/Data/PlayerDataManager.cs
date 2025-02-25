@@ -85,7 +85,7 @@ public class PlayerDataManager : MonoBehaviour
         NowPlayerData.Inventory.Clear();
         NowPlayerData.PlayerCoin = 100;
         InitializeInventory();
-        GameManager.Instance.UIManager.TriggerInventoryUpdate();
+        GameManager.Instance.UIManager.InventoryManager.TriggerInventoryUpdate();
         GM.SpawnManager.ReturnAllFruitsToPool();
     }
     #endregion

@@ -21,7 +21,7 @@ public class ScoreUpdater : MonoBehaviour
         // 과일 수집 처리 (Amount 증가 등)
         inventory[fruitID].Amount++;
         // 방금 수집된 과일 ID만 UI 업데이트
-        GameManager.Instance.UIManager.UpdateOrCreateFruitUI(fruitID, 1);
+        GameManager.Instance.UIManager.InventoryManager.FruitUIManager.UpdateOrCreateFruitUI(fruitID, 1);
     }
 
     /// 랜덤 확률 기반 과일 추가
@@ -64,7 +64,7 @@ public class ScoreUpdater : MonoBehaviour
     public void HandleInput()
     {
         AddRandomFruit(); // 클릭 시 랜덤 과일 수집
-        GameManager.Instance.UIManager.TriggerInventoryUpdate();
+        GameManager.Instance.UIManager.InventoryManager.TriggerInventoryUpdate();
     }
     #endregion
 

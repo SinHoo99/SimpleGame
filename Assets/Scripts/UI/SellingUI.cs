@@ -4,7 +4,7 @@ public class SellingUI : MonoBehaviour, IShowAndHide
 {
     public void ShowAndHide()
     {
-        GameManager.Instance.UIManager.TriggerInventoryUpdate();
+        GameManager.Instance.UIManager.InventoryManager.TriggerInventoryUpdate();
         this.gameObject.SetActive(!gameObject.activeSelf);
     }
 }

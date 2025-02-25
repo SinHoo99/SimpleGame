@@ -44,21 +44,21 @@ public class GameManager : Singleton<GameManager>
         _prefabDataManager = new PrefabDataManager();
         _playerDataManager.LoadAllData();
         _playerDataManager.InitializeInventory();
-        _uiManager.TriggerInventoryUpdate();
+        _uiManager.InventoryManager.TriggerInventoryUpdate();
     }
 
     #region 컴포넌트 초기화
     private void InitializeComponents()
     {
-        _uiManager = GetComponent<UIManager>();
-        _dataManager = GetComponent<DataManager>();
-        _saveManager = GetComponent<SaveManager>();
-        _spawnManager = GetComponent<SpawnManager>();
-        _objectPool = GetComponent<ObjectPool>();
-        _playerDataManager = GetComponent<PlayerDataManager>();
-        _poolManager = GetComponent<PoolManager>();
-        _uiManager.SetFruitData(_dataManager.FriutDatas);
-        _bossDataManager = GetComponent<BossDataManager>();
+        _uiManager = GetComponentInChildren<UIManager>();
+        _uiManager.InventoryManager.FruitUIManager.SetFruitData(_dataManager.FriutDatas);
+        _dataManager = GetComponentInChildren<DataManager>();
+        _saveManager = GetComponentInChildren<SaveManager>();
+        _spawnManager = GetComponentInChildren<SpawnManager>();
+        _objectPool = GetComponentInChildren<ObjectPool>();
+        _playerDataManager = GetComponentInChildren<PlayerDataManager>();
+        _poolManager = GetComponentInChildren<PoolManager>();
+        _bossDataManager = GetComponentInChildren<BossDataManager>();
         _particleSystem = GameObject.FindGameObjectWithTag("Particle").GetComponent<ParticleSystem>();
     }
     #endregion
