@@ -5,16 +5,16 @@ using System.Collections;
 public class Boss : MonoBehaviour
 {
     private GameManager GM => GameManager.Instance;
-    private BossRuntimeData BossRuntimeData => GM.BossDataManager.BossRuntimeData;// 현재 보스의 동적데이터 저장용 프로퍼티
+    private BossRuntimeData BossRuntimeData => GM.BossDataManager.BossRuntimeData; // 현재 보스의 동적 데이터 저장
 
-    public BossData BossData; //현재 보스의 정적 데이터 (보스의 기본 정보)
+    public BossData BossData; // 현재 보스의 기본 정보
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private BoxCollider2D boxCollider;
 
     public HealthSystem HealthSystem;
     public event Action OnChangeBossHP;
-   
+
     public BossID BossID;
     [SerializeField] private HealthStatusUI HealthStatusUI;
 
@@ -23,17 +23,31 @@ public class Boss : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
-        BossData = GM.GetBossData(GM.BossDataManager.BossRuntimeData.CurrentBossID);
         HealthSystem = GetComponent<HealthSystem>();
-        InitHealth();
-        HealthSystem.OnDeath += OnDie;
-        HealthSystem.OnChangeHP += HandleChangeHP;
-        InitBossHPBar();
+
+        InitializeBoss();
     }
+
     private void OnEnable()
     {
         HealthStatusUI.SetStatusEvent();
         Respawn();
+    }
+
+    ///  보스 초기화 로직을 하나로 정리
+    private void InitializeBoss()
+    {
+        BossData = GM.GetBossData(GM.BossDataManager.BossRuntimeData.CurrentBossID);
+
+        // 체력 시스템 설정
+        InitHealth();
+        HealthSystem.OnDeath += OnDie;
+        HealthSystem.OnChangeHP += HandleChangeHP;
+
+        // UI 및 상태 초기화
+        InitBossHPBar();
+        UpdateBossAnimation();
+        GM.PlayerStatusUI.BossStatus();
     }
 
     private void HandleChangeHP()
@@ -51,16 +65,13 @@ public class Boss : MonoBehaviour
         BossRuntimeData.CurrentBossID = BossID;
         Invoke(nameof(Respawn), 3f);
     }
+
     private void Respawn()
     {
-        InitHealth();
-        InitBossHPBar();
+        InitializeBoss();
         spriteRenderer.enabled = true;
         boxCollider.enabled = true;
-        GM.PlayerStatusUI.BossStatus();
-        UpdateBossAnimation();
     }
-
 
     public void TakeDamage(float damage)
     {
@@ -94,6 +105,7 @@ public class Boss : MonoBehaviour
         HealthStatusUI.UpdateHPStatus();
         HealthStatusUI.ShowSlider();
     }
+
     private void InitHealth()
     {
         BossData = GM.GetBossData(BossRuntimeData.CurrentBossID);

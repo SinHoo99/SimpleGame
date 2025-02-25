@@ -45,13 +45,12 @@ public class FruitItem : MonoBehaviour
                 ,GameManager.Instance.DataManager.FriutDatas
             );
 
-            if (success && GM.PlayerDataManager.NowPlayerData.PlayerCoin >= 100)
+            if (success)
             {
                 Debug.Log($"{fruitID} 반환 완료, 코인 획득 및 UI 갱신 완료");
             }
             else
             {
-                GM.AlertManager.ShowAlert("돈이 부족합니다.");
                 Debug.LogWarning($"과일 데이터({fruitID})가 존재하지 않아 보상을 지급할 수 없습니다.");
             }
         }

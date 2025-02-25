@@ -5,13 +5,14 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private PlayerStatusUI _playerStatusUI;
     [SerializeField] private SpawnManager _spawnManager;
-    [SerializeField] private PlayerDataManager _playerDataManager;
-    [SerializeField] private BossDataManager _bossDataManager;
-    [SerializeField] private ObjectPool _objectPool;
-    [SerializeField] private DataManager _dataManager;
-    [SerializeField] private SaveManager _saveManager;
     [SerializeField] private PoolManager _poolManager;
     [SerializeField] private AlertManager _alertManager;
+    [SerializeField] private ObjectPool _objectPool;
+    [SerializeField] private PlayerDataManager _playerDataManager;
+    [SerializeField] private BossDataManager _bossDataManager;
+    [SerializeField] private DataManager _dataManager;
+    [SerializeField] private SaveManager _saveManager;
+
    public ParticleSystem _particleSystem;
 
 
@@ -97,6 +98,4 @@ public class GameManager : Singleton<GameManager>
         }
         return null;
     }
-
-
 }

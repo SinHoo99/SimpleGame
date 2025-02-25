@@ -25,6 +25,7 @@ public class InventoryManager : MonoBehaviour
     public void TriggerInventoryUpdate()
     {
         OnInventoryUpdated?.Invoke();
+        GM.PlayerStatusUI.PlayerCoin();
     }
 
     private void UpdateInventoryUI()

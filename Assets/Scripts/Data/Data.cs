@@ -116,7 +116,7 @@ public class PlayerData
     public DateTime LastCollectedTime;
 
     [Header("플레이어 지갑")]
-    public int PlayerCoin = 0;
+    public int PlayerCoin = 1000;
 }
 #endregion
 

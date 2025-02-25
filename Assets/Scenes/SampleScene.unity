@@ -6069,7 +6069,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 297452281720175499, guid: 156a69a8e0a700a4b973e68ef7f4b8d6, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 200
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 297452281720175499, guid: 156a69a8e0a700a4b973e68ef7f4b8d6, type: 3}
       propertyPath: m_SizeDelta.y
@@ -6125,7 +6125,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3406584622058651319, guid: 156a69a8e0a700a4b973e68ef7f4b8d6, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6860886986912428685, guid: 156a69a8e0a700a4b973e68ef7f4b8d6, type: 3}
       propertyPath: m_Pivot.x
@@ -7449,7 +7449,7 @@ MonoBehaviour:
   _dataManager: {fileID: 571965787}
   _saveManager: {fileID: 571965786}
   _poolManager: {fileID: 996818494}
-  _alertManager: {fileID: 0}
+  _alertManager: {fileID: 996818497}
   _particleSystem: {fileID: 633267495}
 --- !u!4 &2034376358
 Transform:

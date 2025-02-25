@@ -83,7 +83,7 @@ public class PlayerDataManager : MonoBehaviour
     public void DestroyData()
     {
         NowPlayerData.Inventory.Clear();
-        NowPlayerData.PlayerCoin = 100;
+        NowPlayerData.PlayerCoin = 1000;
         InitializeInventory();
         GameManager.Instance.UIManager.InventoryManager.TriggerInventoryUpdate();
         GM.SpawnManager.ReturnAllFruitsToPool();

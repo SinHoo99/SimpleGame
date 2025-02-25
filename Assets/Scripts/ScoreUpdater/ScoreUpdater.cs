@@ -63,8 +63,18 @@ public class ScoreUpdater : MonoBehaviour
     #region 클릭 입력 처리
     public void HandleInput()
     {
-        AddRandomFruit(); // 클릭 시 랜덤 과일 수집
-        GameManager.Instance.UIManager.InventoryManager.TriggerInventoryUpdate();
+        if (GM.PlayerDataManager.NowPlayerData.PlayerCoin >= 100)
+        {
+            GM.PlayerDataManager.NowPlayerData.PlayerCoin -= 100;
+            GM.PlayerStatusUI.PlayerCoin();
+            AddRandomFruit(); // 클릭 시 랜덤 과일 수집
+            GameManager.Instance.UIManager.InventoryManager.TriggerInventoryUpdate();
+        }
+        else
+        {
+            GM.AlertManager.ShowAlert("돈이 부족합니다.");
+        }
+  
     }
     #endregion
 
