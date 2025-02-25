@@ -23,9 +23,9 @@ public enum FruitsType
 
 public enum BGM
 {
-
+    BGM
 }
 public enum SFX
 {
-
+    Shoot
 }

@@ -103,7 +103,7 @@ public class Unit : PoolObject
 
         Vector2 direction = (Boss.transform.position - _firePoint.position).normalized;
         CreateBullet(Tag.Bullet, _firePoint.position, direction, gameObject.tag);
-
+        GM.PlaySFX(SFX.Shoot);
     }
 
     private float GetBulletDamage()

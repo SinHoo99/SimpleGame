@@ -52,7 +52,9 @@ public class GameManager : Singleton<GameManager>
         _prefabDataManager = new PrefabDataManager();
         _playerDataManager.LoadAllData();
         _playerDataManager.InitializeInventory();
+        _soundManager.Initializer();
         _uiManager.InventoryManager.TriggerInventoryUpdate();
+        PlayBGM(BGM.BGM);
     }
 
     #region 컴포넌트 초기화
@@ -68,8 +70,9 @@ public class GameManager : Singleton<GameManager>
         _playerDataManager = GetComponentInChildren<PlayerDataManager>();
         _poolManager = GetComponentInChildren<PoolManager>();
         _bossDataManager = GetComponentInChildren<BossDataManager>();
-        _soundManager = GetComponentInChildren<SoundManager>();
         _particleSystem = GameObject.FindGameObjectWithTag("Particle").GetComponent<ParticleSystem>();
+        _soundManager = GetComponentInChildren<SoundManager>();
+
     }
     #endregion
     #region 애플리케이션 이벤트
