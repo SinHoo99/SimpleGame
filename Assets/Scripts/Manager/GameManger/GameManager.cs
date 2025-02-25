@@ -11,7 +11,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private DataManager _dataManager;
     [SerializeField] private SaveManager _saveManager;
     [SerializeField] private PoolManager _poolManager;
-    public ParticleSystem _particleSystem;
+    [SerializeField] private AlertManager _alertManager;
+   public ParticleSystem _particleSystem;
 
 
     // 읽기 전용 프로퍼티 제공 (Inspector에서 수정 가능하지만, 외부에서 변경 불가능)
@@ -25,6 +26,8 @@ public class GameManager : Singleton<GameManager>
     public PoolManager PoolManager => _poolManager;
     public ParticleSystem ParticleSystem => _particleSystem;
     public BossDataManager BossDataManager => _bossDataManager;
+
+    public AlertManager AlertManager => _alertManager;
 
     private PrefabDataManager _prefabDataManager;
 
@@ -52,6 +55,7 @@ public class GameManager : Singleton<GameManager>
     {
         _uiManager = GetComponentInChildren<UIManager>();
         _uiManager.InventoryManager.FruitUIManager.SetFruitData(_dataManager.FriutDatas);
+        _alertManager = GetComponentInChildren<AlertManager>();
         _dataManager = GetComponentInChildren<DataManager>();
         _saveManager = GetComponentInChildren<SaveManager>();
         _spawnManager = GetComponentInChildren<SpawnManager>();
@@ -93,5 +97,6 @@ public class GameManager : Singleton<GameManager>
         }
         return null;
     }
+
 
 }
