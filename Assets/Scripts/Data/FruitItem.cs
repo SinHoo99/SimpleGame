@@ -69,10 +69,8 @@ public class FruitItem : MonoBehaviour
             return false;
         }
 
-        var inventory = GM.PlayerDataManager.NowPlayerData.Inventory;
-
         // 과일 수량 감소
-        if (inventory.TryGetValue(fruitID, out var collectedFruit))
+        if (GM.PlayerDataManager.NowPlayerData.Inventory.TryGetValue(fruitID, out var collectedFruit))
         {
             if (collectedFruit.Amount < amount)
             {
@@ -85,7 +83,7 @@ public class FruitItem : MonoBehaviour
         }
         else
         {
-            inventory[fruitID] = new CollectedFruitData { ID = fruitID, Amount = 0 };
+            GM.PlayerDataManager.NowPlayerData.Inventory[fruitID] = new CollectedFruitData { ID = fruitID, Amount = 0 };
         }
         return true;
     }

@@ -36,6 +36,7 @@ public class InventoryManager : MonoBehaviour
             return;
         }
 
+
         _fruitUIManager.UpdateFruitCountsUI(
             GM.PlayerDataManager.NowPlayerData.Inventory.ToDictionary(kv => kv.Key, kv => kv.Value.Amount)
         );
