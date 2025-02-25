@@ -34,7 +34,7 @@ public class FruitItem : MonoBehaviour
         GameManager.Instance.UIManager.InventoryManager.FruitUIManager.OnFruitSelected(fruitID);
 
         // ObjectPool에서 과일 오브젝트 가져오기
-        PoolObject objToReturn = FindActiveFruit();
+        PoolObject objToReturn = GameManager.Instance.ObjectPool.FindActiveObject(fruitID.ToString());
 
         if (objToReturn != null)
         {
@@ -61,23 +61,7 @@ public class FruitItem : MonoBehaviour
         GameManager.Instance.UIManager.InventoryManager.TriggerInventoryUpdate();
     }
     /// ObjectPool에서 현재 활성화된 과일 오브젝트를 찾아 반환
-    private PoolObject FindActiveFruit()
-    {
-        if (!GameManager.Instance.ObjectPool.PoolDictionary.TryGetValue(fruitID.ToString(), out List<PoolObject> fruitList))
-        {
-            return null;
-        }
 
-        foreach (var obj in fruitList)
-        {
-            if (obj.gameObject.activeInHierarchy)
-            {
-                return obj;
-            }
-        }
-
-        return null;
-    }
     public bool SubtractFruitAndCalculateCoins(FruitsID fruitID, int amount, Dictionary<FruitsID, FruitsData> fruitDataDictionary)
     {
         if (!fruitDataDictionary.TryGetValue(fruitID, out var fruitData))

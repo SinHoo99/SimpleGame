@@ -53,6 +53,25 @@ public class ObjectPool : MonoBehaviour
         return null;
     }
 
+    public PoolObject FindActiveObject(string tag)
+    {
+        if (!poolDictionary.TryGetValue(tag, out List<PoolObject> list))
+        {
+            Debug.LogWarning($"Pool에 {tag}에 해당하는 오브젝트가 없습니다.");
+            return null;
+        }
+
+        foreach (PoolObject obj in list)
+        {
+            if (obj.gameObject.activeInHierarchy) 
+            {
+                return obj;
+            }
+        }
+
+        return null; 
+    }
+
     public void ReturnObject(string tag, PoolObject obj)
     {
         if (!poolDictionary.ContainsKey(tag))
