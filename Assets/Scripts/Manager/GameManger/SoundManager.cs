@@ -11,6 +11,10 @@ public class AudioClipClass<T>
 
 public class SoundManager : MonoBehaviour
 {
+    private void Start()
+    {
+        PlayBGM(BGM.BGM);
+    }
     public AudioMixer AudioMixer;
 
     [SerializeField][Range(0f, 1f)] private float SoundEffectPitchVariance;

@@ -6644,7 +6644,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Boss: {fileID: 5212995172771071683}
   minSpawnDistance: 1
-  maxSpawnDistance: 1
+  maxSpawnDistance: 2
 --- !u!114 &996818497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7693,7 +7693,7 @@ MonoBehaviour:
   _uiManager: {fileID: 962628959}
   _playerStatusUI: {fileID: 1028055296}
   _spawnManager: {fileID: 996818496}
-  _soundManager: {fileID: 0}
+  _soundManager: {fileID: 1801142906}
   _poolManager: {fileID: 996818494}
   _alertManager: {fileID: 996818497}
   _objectPool: {fileID: 996818495}

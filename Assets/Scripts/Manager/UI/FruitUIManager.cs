@@ -8,10 +8,19 @@ public class FruitUIManager : MonoBehaviour
 
     private Dictionary<FruitsID, FruitsData> _fruitData;
     private readonly Dictionary<FruitsID, FruitItem> _fruitUIItems = new();
+    private readonly Dictionary<FruitsID, Sprite> _fruitSprites = new();
 
     public void SetFruitData(Dictionary<FruitsID, FruitsData> fruitData)
     {
-        _fruitData = fruitData ?? new Dictionary<FruitsID, FruitsData>();
+        if (fruitData == null) return;
+
+        _fruitData = fruitData;
+        _fruitSprites.Clear();
+
+        foreach (var (id, data) in _fruitData)
+        {
+            _fruitSprites[id] = data.Image;
+        }
     }
 
     public void UpdateFruitCountsUI(Dictionary<FruitsID, int> fruitCounts)
@@ -78,6 +87,6 @@ public class FruitUIManager : MonoBehaviour
 
     public Sprite GetFruitImage(FruitsID id)
     {
-        return _fruitData != null && _fruitData.TryGetValue(id, out var data) ? data.Image : null;
+        return _fruitSprites.TryGetValue(id, out var sprite) ? sprite : null;
     }
 }
