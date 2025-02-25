@@ -27,7 +27,6 @@ public class FruitItem : MonoBehaviour
         fruitText.text = $"{count}개";
     }
 
-
     /// 과일 버튼 클릭 시 실행되는 이벤트
     public void OnFruitButtonClicked()
     {
@@ -70,15 +69,23 @@ public class FruitItem : MonoBehaviour
             return false;
         }
 
+        var inventory = GM.PlayerDataManager.NowPlayerData.Inventory;
+
         // 과일 수량 감소
-        if (GM.PlayerDataManager.NowPlayerData.Inventory.TryGetValue(fruitID, out var collectedFruit))
+        if (inventory.TryGetValue(fruitID, out var collectedFruit))
         {
+            if (collectedFruit.Amount < amount)
+            {
+                Debug.LogWarning($"{fruitID}의 수량이 부족하여 감소할 수 없습니다.");
+                return false;
+            }
+
             collectedFruit.Amount -= amount;
             GM.PlayerDataManager.NowPlayerData.PlayerCoin += fruitData.Price ;
         }
         else
         {
-            GM.PlayerDataManager.NowPlayerData.Inventory[fruitID] = new CollectedFruitData { ID = fruitID, Amount = amount };
+            inventory[fruitID] = new CollectedFruitData { ID = fruitID, Amount = 0 };
         }
         return true;
     }
