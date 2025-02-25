@@ -6579,6 +6579,7 @@ GameObject:
   - component: {fileID: 996818496}
   - component: {fileID: 996818494}
   - component: {fileID: 996818497}
+  - component: {fileID: 996818498}
   m_Layer: 0
   m_Name: Util
   m_TagString: Untagged
@@ -6659,6 +6660,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AlertObject: {fileID: 692897565}
   AlertText: {fileID: 692897564}
+--- !u!114 &996818498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996818492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc71fd9682b835499642e3b4f136c66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioMixer: {fileID: 24100000, guid: 3e0fe9ae9d571b1409301ea292cbff77, type: 2}
+  SoundEffectPitchVariance: 0
+  BGMSource: {fileID: 0}
+  BGMs: []
+  SFXSource: {fileID: 0}
+  SFXs: []
 --- !u!1 &1028055294
 GameObject:
   m_ObjectHideFlags: 0
@@ -7443,13 +7462,14 @@ MonoBehaviour:
   _uiManager: {fileID: 962628959}
   _playerStatusUI: {fileID: 1028055296}
   _spawnManager: {fileID: 996818496}
-  _playerDataManager: {fileID: 571965789}
-  _bossDataManager: {fileID: 571965788}
-  _objectPool: {fileID: 996818495}
-  _dataManager: {fileID: 571965787}
-  _saveManager: {fileID: 571965786}
+  _soundManager: {fileID: 996818498}
   _poolManager: {fileID: 996818494}
   _alertManager: {fileID: 996818497}
+  _objectPool: {fileID: 996818495}
+  _playerDataManager: {fileID: 571965789}
+  _bossDataManager: {fileID: 571965788}
+  _dataManager: {fileID: 571965787}
+  _saveManager: {fileID: 571965786}
   _particleSystem: {fileID: 633267495}
 --- !u!4 &2034376358
 Transform:
@@ -7949,7 +7969,6 @@ MonoBehaviour:
     MaxHealth: 0
     AnimationState: 
   HealthSystem: {fileID: 6862894625343282434}
-  BossID: 1
   HealthStatusUI: {fileID: 574935509}
 --- !u!114 &6862894625343282434
 MonoBehaviour:

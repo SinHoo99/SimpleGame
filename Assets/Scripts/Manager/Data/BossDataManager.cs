@@ -90,6 +90,15 @@ public class BossDataManager : MonoBehaviour
         BossRuntimeData = new BossRuntimeData(BossID.A, 100);
         StaticBossData = new BossData(BossID.A, 100, "A"); // 기본값 설정
         GM.SaveManager.SaveData(BossRuntimeData);
+        if (GM.SpawnManager != null)
+        {
+            Boss boss = GM.SpawnManager.GetCurrentBoss();
+            if (boss != null)
+            {
+                boss.ResetBossData();
+            }
+        }
+
         Debug.Log("[BossDataManager] 보스 데이터 초기화 완료.");
     }
 

@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private PlayerStatusUI _playerStatusUI;
     [SerializeField] private SpawnManager _spawnManager;
+    [SerializeField] private SoundManager _soundManager;
     [SerializeField] private PoolManager _poolManager;
     [SerializeField] private AlertManager _alertManager;
     [SerializeField] private ObjectPool _objectPool;
@@ -27,6 +29,8 @@ public class GameManager : Singleton<GameManager>
     public PoolManager PoolManager => _poolManager;
     public ParticleSystem ParticleSystem => _particleSystem;
     public BossDataManager BossDataManager => _bossDataManager;
+
+    public SoundManager SoundManager => _soundManager;
 
     public AlertManager AlertManager => _alertManager;
 
@@ -64,6 +68,7 @@ public class GameManager : Singleton<GameManager>
         _playerDataManager = GetComponentInChildren<PlayerDataManager>();
         _poolManager = GetComponentInChildren<PoolManager>();
         _bossDataManager = GetComponentInChildren<BossDataManager>();
+        _soundManager = GetComponentInChildren<SoundManager>();
         _particleSystem = GameObject.FindGameObjectWithTag("Particle").GetComponent<ParticleSystem>();
     }
     #endregion
@@ -98,4 +103,24 @@ public class GameManager : Singleton<GameManager>
         }
         return null;
     }
+
+    #region »ç¿îµå
+
+
+    public AudioMixer GetAudioMixer()
+    {
+        return _soundManager.AudioMixer;
+    }
+
+    public void PlayBGM(BGM target)
+    {
+        _soundManager.PlayBGM(target);
+    }
+
+    public void PlaySFX(SFX target)
+    {
+        _soundManager.PlaySFX(target);
+    }
+
+    #endregion
 }

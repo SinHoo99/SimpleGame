@@ -32,4 +32,16 @@ public class SpawnManager : MonoBehaviour
         GameManager.Instance.ObjectPool.ReturnAllObjects();
         Debug.Log("모든 과일 프리팹이 Object Pool로 반환되었습니다.");
     }
+
+
+    private Boss _currentBoss; // 현재 활성화된 보스 인스턴스 저장
+
+    public Boss GetCurrentBoss()
+    {
+        if (_currentBoss == null)
+        {
+            _currentBoss = FindObjectOfType<Boss>(); // 씬에서 보스를 찾음
+        }
+        return _currentBoss;
+    }
 }

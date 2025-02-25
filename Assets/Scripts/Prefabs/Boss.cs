@@ -15,7 +15,6 @@ public class Boss : MonoBehaviour
     public HealthSystem HealthSystem;
     public event Action OnChangeBossHP;
 
-    public BossID BossID;
     [SerializeField] private HealthStatusUI HealthStatusUI;
 
     private void Awake()
@@ -38,7 +37,6 @@ public class Boss : MonoBehaviour
     private void InitializeBoss()
     {
         BossData = GM.GetBossData(GM.BossDataManager.BossRuntimeData.CurrentBossID);
-
         // 체력 시스템 설정
         InitHealth();
         HealthSystem.OnDeath += OnDie;
@@ -60,9 +58,7 @@ public class Boss : MonoBehaviour
         spriteRenderer.enabled = false;
         boxCollider.enabled = false;
         HealthStatusUI.HideSlider();
-
-        BossID = GetNextBossID();
-        BossRuntimeData.CurrentBossID = BossID;
+        BossRuntimeData.CurrentBossID = GetNextBossID();
         Invoke(nameof(Respawn), 3f);
     }
 
@@ -92,12 +88,12 @@ public class Boss : MonoBehaviour
 
     private BossID GetNextBossID()
     {
-        return (BossID < BossID.E) ? BossID + 1 : BossID.A;
+        return (BossRuntimeData.CurrentBossID < BossID.E) ? BossRuntimeData.CurrentBossID + 1 : BossID.A;
     }
 
     public void UpdateBossAnimation()
     {
-        animator.SetTrigger(BossID.ToString());
+        animator.SetTrigger(BossRuntimeData.CurrentBossID.ToString());
     }
 
     private void InitBossHPBar()
@@ -120,5 +116,28 @@ public class Boss : MonoBehaviour
             HealthSystem.MaxHP = BossData.MaxHealth;
             HealthSystem.InitHP(BossRuntimeData.CurrentHealth, BossData.MaxHealth);
         }
+    }
+
+    public void ResetBossHealth()
+    {
+        BossRuntimeData.CurrentHealth = BossData.MaxHealth;
+
+        if (HealthSystem != null)
+        {
+            HealthSystem.MaxHP = BossData.MaxHealth;
+            HealthSystem.InitHP(BossRuntimeData.CurrentHealth, BossData.MaxHealth);
+        }
+        HealthStatusUI.UpdateHPStatus();
+        GM.PlayerStatusUI.BossStatus();
+    }
+
+    public void ResetBossData()
+    {
+        BossData = GM.GetBossData(BossRuntimeData.CurrentBossID);
+
+        ResetBossHealth();
+        UpdateBossAnimation(); 
+
+        Debug.Log($"[Boss] 보스 데이터가 초기화되었습니다: {BossRuntimeData.CurrentBossID}, 체력: {BossRuntimeData.CurrentHealth}");
     }
 }

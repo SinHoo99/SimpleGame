@@ -20,3 +20,12 @@ public enum FruitsType
 {
     Object,
 }
+
+public enum BGM
+{
+
+}
+public enum SFX
+{
+
+}
