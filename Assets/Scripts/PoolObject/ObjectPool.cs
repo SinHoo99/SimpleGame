@@ -49,8 +49,10 @@ public class ObjectPool : MonoBehaviour
             }
         }
 
-        Debug.LogWarning($"{tag} 풀에서 사용할 수 있는 오브젝트가 없습니다.");
-        return null;
+        PoolObject newObj = Instantiate(list[0], transform);
+        newObj.gameObject.SetActive(true);
+        list.Add(newObj);
+        return newObj;
     }
 
     public PoolObject FindActiveObject(string tag)
@@ -79,7 +81,7 @@ public class ObjectPool : MonoBehaviour
             Debug.LogWarning($"Object Pool에 {tag} 키가 없습니다.");
             return;
         }
-
+        InitVector(obj);
         obj.gameObject.SetActive(false);
     }
 
@@ -90,9 +92,14 @@ public class ObjectPool : MonoBehaviour
             foreach (var obj in list)
             {
                 obj.gameObject.SetActive(false);
+                InitVector(obj);
             }
         }
-
         Debug.Log("모든 오브젝트가 반환되었습니다.");
+    }
+    private void InitVector(PoolObject obj)
+    {
+        obj.transform.position = Vector3.zero;
+        obj.transform.rotation = Quaternion.identity;
     }
 }

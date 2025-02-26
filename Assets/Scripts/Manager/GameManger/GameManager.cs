@@ -16,7 +16,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private SaveManager _saveManager;
 
    public ParticleSystem _particleSystem;
-
+    [SerializeField] private PoolObject _bulletPrefabs;
 
     // 읽기 전용 프로퍼티 제공 (Inspector에서 수정 가능하지만, 외부에서 변경 불가능)
     public UIManager UIManager => _uiManager;
@@ -103,6 +103,10 @@ public class GameManager : Singleton<GameManager>
             return bossData;
         }
         return null;
+    }
+    public PoolObject GetBullet()
+    {
+        return _bulletPrefabs;
     }
 
     #region 사운드

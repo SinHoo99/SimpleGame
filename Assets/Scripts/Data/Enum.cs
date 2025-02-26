@@ -27,5 +27,6 @@ public enum BGM
 }
 public enum SFX
 {
-    Shoot
+    Shoot,
+    Click
 }

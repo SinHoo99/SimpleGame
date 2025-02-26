@@ -8,15 +8,6 @@ public class PoolManager : MonoBehaviour
     private GameManager GM => GameManager.Instance;
     protected ObjectPool ObjectPool => GM.ObjectPool;
 
-    [SerializeField] private PoolObject Apple;
-    [SerializeField] private PoolObject Banana;
-    [SerializeField] private PoolObject Carrot;
-    [SerializeField] private PoolObject Melon;
-
-    [SerializeField] private PoolObject Bullet;
-
-
-
     #region 오브젝트풀 초기화
     public void AddObjectPool()
     {
@@ -24,7 +15,7 @@ public class PoolManager : MonoBehaviour
         ObjectPool.AddObjectPool(Tag.Banana, GM.GetFruitsData(FruitsID.Banana).Prefab, 20);
         ObjectPool.AddObjectPool(Tag.Carrot, GM.GetFruitsData(FruitsID.Carrot).Prefab, 20);
         ObjectPool.AddObjectPool(Tag.Melon, GM.GetFruitsData(FruitsID.Melon).Prefab, 20);
-        ObjectPool.AddObjectPool(Tag.Bullet, Bullet, 50);
+        ObjectPool.AddObjectPool(Tag.Bullet, GM.GetBullet(), 50);
     }
 
     public PoolObject CreateUnitPrefabs(string tag)

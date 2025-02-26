@@ -65,9 +65,10 @@ public class ScoreUpdater : MonoBehaviour
     #region 클릭 입력 처리
     public void HandleInput()
     {
+        GM.PlaySFX(SFX.Click);
         if (GM.PlayerDataManager.NowPlayerData.PlayerCoin >= 100)
         {
-            GM.PlayerDataManager.NowPlayerData.PlayerCoin -= 100;
+            //GM.PlayerDataManager.NowPlayerData.PlayerCoin -= 100;
             GM.PlayerStatusUI.PlayerCoin();
             AddRandomFruit(); // 클릭 시 랜덤 과일 수집
             GameManager.Instance.UIManager.InventoryManager.TriggerInventoryUpdate();
