@@ -7,55 +7,73 @@ public class UIManager : MonoBehaviour
     public InventoryManager InventoryManager => _inventoryManager;
 
     private GameObject currentActiveUI = null;
-
+    private Vector3 originalPosition; // 기존 UI의 원래 위치 저장
+    private float frontZ = -5f;  // UI가 활성화될 때 가장 앞으로 이동할 Z값
 
     private void Start()
     {
         _inventoryManager.TriggerInventoryUpdate(); // UI 초기화
     }
 
-    public void OnDoTween(GameObject gameObject, Vector3 originalPosition, int targetpositionY)
+    public void OnDoTween(GameObject uiObject, Vector3 originalPos, int targetPositionY)
     {
-        bool isVisible = gameObject.activeSelf;
+        bool isVisible = uiObject.activeSelf;
 
         if (!isVisible)
         {
-            if (currentActiveUI != null && currentActiveUI != gameObject)
+            if (currentActiveUI != null && currentActiveUI != uiObject)
             {
                 HideUI(currentActiveUI);
             }
+
+            // 기존 UI의 원래 위치 저장
+            originalPosition = uiObject.transform.position;
+
+            // Z값을 조정하여 가장 앞쪽으로 배치
+            uiObject.transform.position = new Vector3(originalPosition.x, originalPosition.y, frontZ);
+
             // UI 활성화 후 올라가는 애니메이션
-            gameObject.SetActive(true);
-            gameObject.transform.DOMoveY(targetpositionY, 0.5f).SetEase(Ease.OutCubic);
-            currentActiveUI = gameObject;
+            uiObject.SetActive(true);
+            uiObject.transform.DOMoveY(targetPositionY, 0.5f).SetEase(Ease.OutCubic);
+            currentActiveUI = uiObject;
         }
         else
         {
-            HideUI(gameObject);
+            HideUI(uiObject);
         }
-
-        isVisible = !isVisible;
     }
 
     private void HideUI(GameObject uiObject)
     {
-        // 원래 위치를 UI의 컴포넌트에서 직접 가져오기
         IShowAndHide uiScript = uiObject.GetComponent<IShowAndHide>();
         if (uiScript is SellingUI sellingUI)
         {
             uiObject.transform.DOMoveY(sellingUI.OriginalPosition.y, 0.5f)
                 .SetEase(Ease.InCubic)
-                .OnComplete(() => uiObject.SetActive(false));
+                .OnComplete(() =>
+                {
+                    uiObject.SetActive(false);
+                    ResetZPosition(uiObject);
+                });
         }
         else if (uiScript is DictionaryUI dictionaryUI)
         {
             uiObject.transform.DOMoveY(dictionaryUI.OriginalPosition.y, 0.5f)
                 .SetEase(Ease.InCubic)
-                .OnComplete(() => uiObject.SetActive(false));
+                .OnComplete(() =>
+                {
+                    uiObject.SetActive(false);
+                    ResetZPosition(uiObject);
+                });
         }
 
         if (currentActiveUI == uiObject)
-            currentActiveUI = null; // 비활성화되었으므로 초기화
+            currentActiveUI = null;
     }
 
+    private void ResetZPosition(GameObject uiObject)
+    {
+        // UI를 원래 위치로 복구 (Z값도 초기 위치로 되돌림)
+        uiObject.transform.position = new Vector3(originalPosition.x, originalPosition.y, originalPosition.z);
+    }
 }

@@ -17,6 +17,6 @@ public class SellingUI : MonoBehaviour, IShowAndHide
     {
         GM.PlaySFX(SFX.Click);
         GM.UIManager.InventoryManager.TriggerInventoryUpdate();
-        GM.UIManager.OnDoTween(this.gameObject, OriginalPosition, 1500);
+        GM.UIManager.OnDoTween(this.gameObject, OriginalPosition, 820);
     }
 }
