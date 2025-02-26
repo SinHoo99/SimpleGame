@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class DictionaryUI : MonoBehaviour, IShowAndHide
 {
-    private Vector3 originalPosition;
+    public Vector3 OriginalPosition { get; private set; }
 
     private void Awake()
     {
-        originalPosition = transform.position;
+        OriginalPosition = transform.position;
     }
 
     public void ShowAndHide()
     {
         GameManager.Instance.UIManager.InventoryManager.TriggerInventoryUpdate();
-        GameManager.Instance.UIManager.OnDoTween(this.gameObject, originalPosition, 1500);
+        GameManager.Instance.UIManager.OnDoTween(this.gameObject, OriginalPosition, 1500);
     }
 }
