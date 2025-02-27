@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
         _inventoryManager.TriggerInventoryUpdate(); // UI 초기화
     }
 
-    public void OnDoTween(GameObject uiObject, Vector3 originalPos, int targetPositionY)
+    public void OnDoTween(GameObject uiObject, Vector3 originalPos)
     {
         bool isVisible = uiObject.activeSelf;
 
@@ -31,6 +31,9 @@ public class UIManager : MonoBehaviour
 
             // Z값을 조정하여 가장 앞쪽으로 배치
             uiObject.transform.position = new Vector3(originalPosition.x, originalPosition.y, frontZ);
+
+            // 화면 정중앙의 Y좌표 계산
+            float targetPositionY = GetUIScreenCenterY(uiObject);
 
             // UI 활성화 후 올라가는 애니메이션
             uiObject.SetActive(true);
@@ -75,5 +78,28 @@ public class UIManager : MonoBehaviour
     {
         // UI를 원래 위치로 복구 (Z값도 초기 위치로 되돌림)
         uiObject.transform.position = new Vector3(originalPosition.x, originalPosition.y, originalPosition.z);
+    }
+
+    private float GetUIScreenCenterY(GameObject uiObject)
+    {
+        Canvas canvas = uiObject.GetComponentInParent<Canvas>();
+        if (canvas == null)
+        {
+            Debug.LogWarning("Canvas not found!");
+            return Screen.height * 0.5f;
+        }
+
+        if (canvas.renderMode == RenderMode.ScreenSpaceOverlay)
+        {
+            return Screen.height * 0.5f;
+        }
+        else
+        {
+            // Canvas가 Screen Space - Camera 또는 World일 경우
+            RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+            Vector3 screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0);
+            Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
+            return worldCenter.y;
+        }
     }
 }

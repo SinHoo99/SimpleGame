@@ -14,7 +14,6 @@ public class DictionaryUI : MonoBehaviour, IShowAndHide
 
     public void ShowAndHide()
     {
-        GameManager.Instance.UIManager.InventoryManager.TriggerInventoryUpdate();
-        GameManager.Instance.UIManager.OnDoTween(this.gameObject, OriginalPosition, 820);
+        
     }
 }
