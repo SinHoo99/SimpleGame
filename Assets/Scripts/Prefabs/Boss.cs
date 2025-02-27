@@ -39,7 +39,10 @@ public class Boss : MonoBehaviour
         BossData = GM.GetBossData(GM.BossDataManager.BossRuntimeData.CurrentBossID);
         // 체력 시스템 설정
         InitHealth();
+        HealthSystem.OnDeath -= OnDie;
         HealthSystem.OnDeath += OnDie;
+
+        HealthSystem.OnChangeHP -= HandleChangeHP;
         HealthSystem.OnChangeHP += HandleChangeHP;
 
         // UI 및 상태 초기화
@@ -58,7 +61,9 @@ public class Boss : MonoBehaviour
         spriteRenderer.enabled = false;
         boxCollider.enabled = false;
         HealthStatusUI.HideSlider();
-        BossRuntimeData.CurrentBossID = GetNextBossID();
+        var nextBossID = GetNextBossID();
+        Debug.Log($"[Boss] 현재 보스 ID: {BossRuntimeData.CurrentBossID} → 다음 보스 ID: {nextBossID}");
+        BossRuntimeData.CurrentBossID = nextBossID;
         Invoke(nameof(Respawn), 3f);
     }
 
@@ -73,6 +78,12 @@ public class Boss : MonoBehaviour
     {
         if (HealthSystem != null)
         {
+            if (HealthSystem.CurHP <= 0)
+            {
+                Debug.Log("[Boss] 이미 사망한 상태입니다. OnDeath 중복 호출 방지!");
+                return; // 이미 죽은 상태라면 중복 호출 방지
+            }
+
             HealthSystem.TakeDamage(damage);
             BossRuntimeData.CurrentHealth = HealthSystem.CurHP; // 체력 갱신
             StartCoroutine(TakeDamageCoroutine());
@@ -95,7 +106,7 @@ public class Boss : MonoBehaviour
     {
         animator.SetTrigger(BossRuntimeData.CurrentBossID.ToString());
     }
-
+    #region Boss Health 관련
     private void InitBossHPBar()
     {
         HealthStatusUI.UpdateHPStatus();
@@ -130,7 +141,7 @@ public class Boss : MonoBehaviour
         HealthStatusUI.UpdateHPStatus();
         GM.PlayerStatusUI.BossStatus();
     }
-
+    #endregion
     public void ResetBossData()
     {
         BossData = GM.GetBossData(BossRuntimeData.CurrentBossID);

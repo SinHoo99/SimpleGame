@@ -12,7 +12,6 @@ public class HealthSystem : MonoBehaviour
     // »ç¸Á ÀÌº¥Æ®
     public event Action OnDeath;
     public bool IsDead => CurHP == 0;
-
     public void InitHP(float curHP, float maxHP)
     {
         CurHP = curHP;
