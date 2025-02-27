@@ -11,7 +11,7 @@ public class DataManager : MonoBehaviour
     }
 
     #region 과일 데이터 
-    public Dictionary<FruitsID, FruitsData> FriutDatas = new Dictionary<FruitsID, FruitsData>();
+    public Dictionary<FruitsID, FruitsData> FruitDatas = new Dictionary<FruitsID, FruitsData>();
 
     public void ContainFruitsData()
     {
@@ -29,7 +29,7 @@ public class DataManager : MonoBehaviour
             fruitsData.Probability = float.Parse(datas[Data.Probability]);
             fruitsData.Prefab = Resources.Load<PoolObject>(datas[Data.Prefab]);
             fruitsData.Damage = int.Parse(datas[Data.Damage]);
-            FriutDatas.Add(fruitsData.ID, fruitsData);
+            FruitDatas.Add(fruitsData.ID, fruitsData);
         }
     }
     #endregion

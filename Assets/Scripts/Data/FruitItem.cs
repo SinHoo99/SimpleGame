@@ -41,7 +41,7 @@ public class FruitItem : MonoBehaviour
 
             bool success = SubtractFruitAndCalculateCoins(
                 fruitID,1
-                ,GameManager.Instance.DataManager.FriutDatas
+                ,GameManager.Instance.DataManager.FruitDatas
             );
 
             if (success)
@@ -85,6 +85,7 @@ public class FruitItem : MonoBehaviour
         {
             GM.PlayerDataManager.NowPlayerData.Inventory[fruitID] = new CollectedFruitData { ID = fruitID, Amount = 0 };
         }
+
         return true;
     }
 }

@@ -9,7 +9,7 @@ public class PlayerDataManager : MonoBehaviour
 
     public PlayerData NowPlayerData { get; private set; }
 
-    #region 인벤토리 초기화
+    #region 인벤토리 및 도감 초기화
     public void InitializeInventory()
     {
         if (NowPlayerData == null)
@@ -23,11 +23,21 @@ public class PlayerDataManager : MonoBehaviour
             NowPlayerData.Inventory = new Dictionary<FruitsID, CollectedFruitData>();
         }
 
+        if (NowPlayerData.DictionaryCollection == null)
+        {
+            NowPlayerData.DictionaryCollection = new Dictionary<FruitsID, bool>();
+        }
+
         foreach (FruitsID id in Enum.GetValues(typeof(FruitsID)))
         {
             if (!NowPlayerData.Inventory.ContainsKey(id))
             {
                 NowPlayerData.Inventory[id] = new CollectedFruitData { ID = id, Amount = 0 };
+            }
+
+            if (!NowPlayerData.DictionaryCollection.ContainsKey(id))
+            {
+                NowPlayerData.DictionaryCollection[id] = false; // 기본적으로 미수집 상태
             }
         }
 
@@ -36,7 +46,7 @@ public class PlayerDataManager : MonoBehaviour
             NowPlayerData.LastCollectedTime = DateTime.Now;
         }
 
-        Debug.Log("PlayerData.Inventory 초기화 완료");
+        Debug.Log("PlayerData.Inventory 및 DictionaryCollection 초기화 완료");
     }
     #endregion
 
@@ -83,6 +93,7 @@ public class PlayerDataManager : MonoBehaviour
     public void DestroyData()
     {
         NowPlayerData.Inventory.Clear();
+        NowPlayerData.DictionaryCollection.Clear();
         NowPlayerData.PlayerCoin = 1000;
         GM.BossDataManager.DestroyData();
         InitializeInventory();
@@ -90,4 +101,28 @@ public class PlayerDataManager : MonoBehaviour
         GM.SpawnManager.ReturnAllFruitsToPool();
     }
     #endregion
+
+    #region 도감 관련 기능
+    // 과일 수집 시 도감에도 반영
+    public void CollectFruit(FruitsID fruitID)
+    {
+        if (!NowPlayerData.DictionaryCollection.ContainsKey(fruitID) || !NowPlayerData.DictionaryCollection[fruitID])
+        {
+            NowPlayerData.DictionaryCollection[fruitID] = true;
+            Debug.Log($"도감 등록: {fruitID}");
+            SavePlayerData();
+        }
+        else
+        {
+            Debug.Log($"[PlayerDataManager] 이미 도감에 등록됨: {fruitID}");
+        }
+    }
+
+    // 도감에 등록된 과일인지 확인
+    public bool IsFruitCollected(FruitsID fruitID)
+    {
+        return NowPlayerData.DictionaryCollection.TryGetValue(fruitID, out bool collected) && collected;
+    }
+    #endregion
 }
+

@@ -14,7 +14,7 @@ public class InventoryManager : MonoBehaviour
     private void Start()
     {
         OnInventoryUpdated += UpdateInventoryUI;
-        _fruitUIManager.SetFruitData(GM.DataManager.FriutDatas); // 과일 데이터 설정
+        _fruitUIManager.SetFruitData(GM.DataManager.FruitDatas); // 과일 데이터 설정
     }
 
     private void OnDestroy()

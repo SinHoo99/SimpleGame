@@ -52,13 +52,13 @@ public class Unit : PoolObject
         string prefabName = gameObject.name.Replace("(Clone)", "").Trim();
         Debug.Log($"[AssignFruitID] {gameObject.name}의 PrefabName: {prefabName}");
 
-        if (GM.DataManager.FriutDatas == null)
+        if (GM.DataManager.FruitDatas == null)
         {
             Debug.LogError("[AssignFruitID] GM.DataManager.FriutDatas가 초기화되지 않았습니다.");
             return;
         }
 
-        foreach (var fruitData in GM.DataManager.FriutDatas.Values)
+        foreach (var fruitData in GM.DataManager.FruitDatas.Values)
         {
             if (fruitData.Name.Trim() == prefabName)
             {

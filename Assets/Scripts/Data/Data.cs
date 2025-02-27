@@ -111,12 +111,21 @@ public class PlayerData
 {
     [Header("수집된 과일 정보")]
     public Dictionary<FruitsID, CollectedFruitData> Inventory = new();
+    public Dictionary<FruitsID, bool> DictionaryCollection = new();
 
     [Header("마지막 수집 시간")]
     public DateTime LastCollectedTime;
 
     [Header("플레이어 지갑")]
     public int PlayerCoin = 1000;
+
+    public void CollectFruit(FruitsID fruitID)
+    {
+        if (!DictionaryCollection.ContainsKey(fruitID))
+        {
+            DictionaryCollection[fruitID] = true;
+        }
+    }
 }
 #endregion
 
