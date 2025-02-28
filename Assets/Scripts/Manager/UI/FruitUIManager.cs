@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class FruitUIManager : MonoBehaviour
 {
+    private GameManager GM => GameManager.Instance;
+
     public GameObject fruitItemPrefab;
     public Transform fruitListParent;
 
-    private Dictionary<FruitsID, FruitsData> _fruitData;
     private readonly Dictionary<FruitsID, FruitItem> _fruitUIItems = new();
     private readonly Dictionary<FruitsID, Sprite> _fruitSprites = new();
 
@@ -14,10 +15,8 @@ public class FruitUIManager : MonoBehaviour
     {
         if (fruitData == null) return;
 
-        _fruitData = fruitData;
         _fruitSprites.Clear();
-
-        foreach (var (id, data) in _fruitData)
+        foreach (var (id, data) in fruitData)
         {
             _fruitSprites[id] = data.Image;
         }
@@ -46,7 +45,8 @@ public class FruitUIManager : MonoBehaviour
 
     public void CreateFruitUI(FruitsID id, int count)
     {
-        if (_fruitData == null || !_fruitData.TryGetValue(id, out var fruitData))
+        var fruitData = GM.GetFruitsData(id);
+        if (fruitData == null)
         {
             Debug.LogWarning($"과일 데이터({id})를 찾을 수 없습니다.");
             return;
@@ -75,7 +75,8 @@ public class FruitUIManager : MonoBehaviour
 
     public void OnFruitSelected(FruitsID selectedFruitID)
     {
-        if (_fruitData == null || !_fruitData.TryGetValue(selectedFruitID, out var fruitData))
+        var fruitData = GM.GetFruitsData(selectedFruitID);
+        if (fruitData == null)
         {
             Debug.LogWarning($"ID {selectedFruitID}에 해당하는 과일 데이터를 찾을 수 없습니다.");
             return;

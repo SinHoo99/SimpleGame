@@ -6,7 +6,7 @@ public class FruitDictionaryItem : MonoBehaviour
 {
     public FruitsID FruitID; // 과일 ID
     public Image fruitImage; // 과일 아이콘 이미지
-    public TextMeshProUGUI FruitsName; // 과일 이름 UI
+    public TextMeshProUGUI FruitsStatus; // 과일 이름 UI
     public Color uncollectedColor = Color.black; // 수집 전 색상
 
     private Color _originalColor;
@@ -29,9 +29,10 @@ public class FruitDictionaryItem : MonoBehaviour
             fruitImage.color = uncollectedColor; // 기본적으로 수집되지 않은 상태
         }
 
-        if (FruitsName != null)
+        if (FruitsStatus != null)
         {
-            FruitsName.text = "???"; // 기본적으로 이름 숨기기
+            FruitsStatus.text = "???"; // 기본적으로 이름 숨기기
+           
         }
     }
 
@@ -44,9 +45,9 @@ public class FruitDictionaryItem : MonoBehaviour
 
         // 과일 데이터 가져오기
         var fruitData = GameManager.Instance?.GetFruitsData(FruitID);
-        if (FruitsName != null)
+        if (FruitsStatus != null)
         {
-            FruitsName.text = (collected && fruitData != null) ? fruitData.Name : "???";
+            FruitsStatus.text = (collected && fruitData != null) ? $"{fruitData.Name}\n 공격력 : {fruitData.Damage} " : "???";
         }
     }
 }

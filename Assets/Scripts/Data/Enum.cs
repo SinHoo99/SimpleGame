@@ -3,7 +3,8 @@ public enum FruitsID
     Apple = 1,
     Banana,
     Melon,
-    Carrot
+    Carrot,
+    None
 }
 
 public enum BossID

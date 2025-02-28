@@ -37,42 +37,27 @@ public class DictionaryManager : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// 도감 UI를 초기화합니다.
-    /// </summary>
     public void InitializeDictionary(Dictionary<FruitsID, FruitsData> fruitData)
     {
-        Debug.Log("[DictionaryManager] InitializeDictionary() 실행");
-
-        if (fruitData == null || fruitData.Count == 0)
-        {
-            Debug.LogWarning("[DictionaryManager] 초기화할 과일 데이터가 없습니다.");
-            return;
-        }
-
-        Debug.Log($"[DictionaryManager] {fruitData.Count}개의 과일 데이터 로드 완료");
+        if (fruitData == null || fruitData.Count == 0) return;
 
         ClearExistingUI();
 
-        //  도감 UI 동적 생성
         foreach (var (id, data) in fruitData)
         {
             CreateFruitDictionaryItem(id, data);
         }
 
-        Debug.Log("[DictionaryManager] 모든 도감 항목 생성 완료");
         UpdateAllDictionaryUI();
     }
 
-    /// <summary>
     /// 기존 UI 요소들을 제거합니다.
-    /// </summary>
     private void ClearExistingUI()
     {
         foreach (var item in _fruitDictionaryItems.Values)
         {
-            if (item != null)
-                Destroy(item.gameObject);
+            if (item != null) Destroy(item.gameObject);
         }
         _fruitDictionaryItems.Clear();
 
@@ -82,9 +67,7 @@ public class DictionaryManager : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// 새로운 도감 UI 항목을 생성합니다.
-    /// </summary>
     private void CreateFruitDictionaryItem(FruitsID id, FruitsData data)
     {
         if (fruitDictionaryPrefab == null)
@@ -103,12 +86,9 @@ public class DictionaryManager : MonoBehaviour
 
         fruitItem.Setup(id, data.Image);
         _fruitDictionaryItems[id] = fruitItem;
-        Debug.Log($"[DictionaryManager] 도감 항목 추가: {id}");
     }
 
-    /// <summary>
     /// 특정 과일의 UI를 업데이트합니다.
-    /// </summary>
     public void UpdateDictionaryUI(FruitsID fruitID)
     {
         if (!_fruitDictionaryItems.TryGetValue(fruitID, out var item))
@@ -117,24 +97,16 @@ public class DictionaryManager : MonoBehaviour
             return;
         }
 
-        bool isCollected = GM.PlayerDataManager.IsFruitCollected(fruitID);
-        Debug.Log($"[DictionaryManager] {fruitID} UI 업데이트 - 수집 여부: {isCollected}");
-
+        bool isCollected = GM.GetFruitAmount(fruitID) > 0;
         item.SetCollected(isCollected);
     }
 
-    /// <summary>
     /// 전체 도감 UI를 업데이트합니다.
-    /// </summary>
     public void UpdateAllDictionaryUI()
     {
-        Debug.Log("[DictionaryManager] UpdateAllDictionaryUI() 실행");
-
         foreach (var (id, item) in _fruitDictionaryItems)
         {
-            bool isCollected = GM.PlayerDataManager.IsFruitCollected(id);
-            Debug.Log($"[DictionaryManager] {id} UI 업데이트 - 수집 여부: {isCollected}");
-
+            bool isCollected = GM.GetFruitAmount(id) > 0;
             item.SetCollected(isCollected);
         }
     }

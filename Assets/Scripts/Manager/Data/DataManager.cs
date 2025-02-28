@@ -12,7 +12,6 @@ public class DataManager : MonoBehaviour
 
     #region 과일 데이터 
     public Dictionary<FruitsID, FruitsData> FruitDatas = new Dictionary<FruitsID, FruitsData>();
-
     public void ContainFruitsData()
     {
         List<Dictionary<string, string>> fruitsDataList = CSVReader.Read(ResourcesPath.FruitsCSV);

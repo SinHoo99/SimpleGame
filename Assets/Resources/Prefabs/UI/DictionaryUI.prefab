@@ -79,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FruitID: 0
   fruitImage: {fileID: 7671966941018224110}
-  FruitsName: {fileID: 5905936866336706532}
+  FruitsStatus: {fileID: 0}
   uncollectedColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &2842341096391079870
 GameObject:
@@ -305,8 +305,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 400
-  m_fontSizeBase: 400
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

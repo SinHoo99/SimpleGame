@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,19 +5,20 @@ using UnityEngine.UI;
 public class FruitItem : MonoBehaviour
 {
     private GameManager GM => GameManager.Instance;
+
     public Button fruitButton;
     public TextMeshProUGUI fruitText;
     private FruitsID fruitID;
 
-
+    /// <summary>
     /// 과일 아이템을 업데이트하고 fruitID를 설정하는 함수
+    /// </summary>
     public void UpdateFruit(FruitsID id, int count, Sprite icon)
     {
         fruitID = id;
 
         // 버튼 이미지 설정
-        Image buttonImage = fruitButton.GetComponent<Image>();
-        if (buttonImage != null)
+        if (fruitButton.TryGetComponent<Image>(out var buttonImage))
         {
             buttonImage.sprite = icon;
         }
@@ -30,21 +30,16 @@ public class FruitItem : MonoBehaviour
     /// 과일 버튼 클릭 시 실행되는 이벤트
     public void OnFruitButtonClicked()
     {
-        GameManager.Instance.UIManager.InventoryManager.FruitUIManager.OnFruitSelected(fruitID);
+        GM.UIManager.InventoryManager.FruitUIManager.OnFruitSelected(fruitID);
 
         // ObjectPool에서 과일 오브젝트 가져오기
-        PoolObject objToReturn = GameManager.Instance.ObjectPool.FindActiveObject(fruitID.ToString());
+        var objToReturn = GM.ObjectPool.FindActiveObject(fruitID.ToString());
 
         if (objToReturn != null)
         {
-            GameManager.Instance.ObjectPool.ReturnObject(fruitID.ToString(), objToReturn);
+            GM.ObjectPool.ReturnObject(fruitID.ToString(), objToReturn);
 
-            bool success = SubtractFruitAndCalculateCoins(
-                fruitID,1
-                ,GameManager.Instance.DataManager.FruitDatas
-            );
-
-            if (success)
+            if (SubtractFruitAndCalculateCoins(fruitID, 1))
             {
                 Debug.Log($"{fruitID} 반환 완료, 코인 획득 및 UI 갱신 완료");
             }
@@ -57,35 +52,29 @@ public class FruitItem : MonoBehaviour
         {
             Debug.LogWarning($"{fruitID}에 해당하는 활성화된 오브젝트가 없습니다.");
         }
-        GameManager.Instance.UIManager.InventoryManager.TriggerInventoryUpdate();
-    }
-    /// ObjectPool에서 현재 활성화된 과일 오브젝트를 찾아 반환
 
-    public bool SubtractFruitAndCalculateCoins(FruitsID fruitID, int amount, Dictionary<FruitsID, FruitsData> fruitDataDictionary)
+        GM.UIManager.InventoryManager.TriggerInventoryUpdate();
+    }
+
+    /// 과일 수량 감소 및 코인 계산
+    public bool SubtractFruitAndCalculateCoins(FruitsID fruitID, int amount)
     {
-        if (!fruitDataDictionary.TryGetValue(fruitID, out var fruitData))
+        var fruitData = GM.GetFruitsData(fruitID);
+        if (fruitData == null)
         {
             Debug.LogWarning($"과일 데이터({fruitID})를 찾을 수 없습니다.");
             return false;
         }
 
-        // 과일 수량 감소
-        if (GM.PlayerDataManager.NowPlayerData.Inventory.TryGetValue(fruitID, out var collectedFruit))
+        var collectedFruit = GM.GetCollectedFruitData(fruitID);
+        if (collectedFruit.Amount < amount)
         {
-            if (collectedFruit.Amount < amount)
-            {
-                Debug.LogWarning($"{fruitID}의 수량이 부족하여 감소할 수 없습니다.");
-                return false;
-            }
-
-            collectedFruit.Amount -= amount;
-            GM.PlayerDataManager.NowPlayerData.PlayerCoin += fruitData.Price ;
-        }
-        else
-        {
-            GM.PlayerDataManager.NowPlayerData.Inventory[fruitID] = new CollectedFruitData { ID = fruitID, Amount = 0 };
+            Debug.LogWarning($"{fruitID}의 수량이 부족하여 감소할 수 없습니다.");
+            return false;
         }
 
+        collectedFruit.Amount -= amount;
+        GM.PlayerDataManager.NowPlayerData.PlayerCoin += fruitData.Price;
         return true;
     }
 }

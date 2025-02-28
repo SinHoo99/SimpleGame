@@ -93,9 +93,20 @@ public class GameManager : Singleton<GameManager>
     }
     #endregion
 
+    #region 데이터 참조
+
+    private static readonly CollectedFruitData EmptyCollectedFruitData = new CollectedFruitData { ID = FruitsID.None, Amount = 0 };
     public FruitsData GetFruitsData(FruitsID id)
     {
         return _dataManager.FruitDatas[id];
+    }
+    public int GetFruitAmount(FruitsID id)
+    {
+        return _playerDataManager.NowPlayerData.Inventory.TryGetValue(id, out var collectedData) ? collectedData.Amount : 0;
+    }
+    public CollectedFruitData GetCollectedFruitData(FruitsID id)
+    {
+        return _playerDataManager.NowPlayerData.Inventory.TryGetValue(id, out var collectedData) ? collectedData : EmptyCollectedFruitData;
     }
 
     public BossData GetBossData(BossID id)
@@ -110,6 +121,7 @@ public class GameManager : Singleton<GameManager>
     {
         return _bulletPrefabs;
     }
+    #endregion
 
     #region 사운드
 
