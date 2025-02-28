@@ -118,11 +118,6 @@ public class PlayerDataManager : MonoBehaviour
         }
     }
 
-    // 도감에 등록된 과일인지 확인
-    public bool IsFruitCollected(FruitsID fruitID)
-    {
-        return NowPlayerData.DictionaryCollection.TryGetValue(fruitID, out bool collected) && collected;
-    }
     #endregion
 }
 

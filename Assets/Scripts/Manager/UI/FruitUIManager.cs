@@ -33,15 +33,16 @@ public class FruitUIManager : MonoBehaviour
 
     public void UpdateOrCreateFruitUI(FruitsID id, int count)
     {
-        if (_fruitUIItems.TryGetValue(id, out var fruitItem))
+        if (_fruitUIItems.ContainsKey(id))
         {
-            fruitItem.UpdateFruit(id, count, GetFruitImage(id));
+            _fruitUIItems[id].UpdateFruit(id, count, GetFruitImage(id));
         }
         else
         {
             CreateFruitUI(id, count);
         }
     }
+
 
     public void CreateFruitUI(FruitsID id, int count)
     {
@@ -66,11 +67,10 @@ public class FruitUIManager : MonoBehaviour
 
     public void RemoveFruitUI(FruitsID id)
     {
-        if (_fruitUIItems.TryGetValue(id, out var fruitItem))
-        {
-            Destroy(fruitItem.gameObject);
-            _fruitUIItems.Remove(id);
-        }
+        if (!_fruitUIItems.ContainsKey(id)) return;
+
+        Destroy(_fruitUIItems[id].gameObject);
+        _fruitUIItems.Remove(id);
     }
 
     public void OnFruitSelected(FruitsID selectedFruitID)
@@ -83,11 +83,10 @@ public class FruitUIManager : MonoBehaviour
         }
 
         Debug.Log($"과일 선택됨: {selectedFruitID}");
-        // 여기에 선택된 과일을 처리하는 추가 로직을 넣을 수 있음.
     }
 
     public Sprite GetFruitImage(FruitsID id)
     {
-        return _fruitSprites.TryGetValue(id, out var sprite) ? sprite : null;
+        return GM.GetFruitsData(id)?.Image;
     }
 }

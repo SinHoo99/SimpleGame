@@ -91,15 +91,14 @@ public class DictionaryManager : MonoBehaviour
     /// 특정 과일의 UI를 업데이트합니다.
     public void UpdateDictionaryUI(FruitsID fruitID)
     {
-        if (!_fruitDictionaryItems.TryGetValue(fruitID, out var item))
-        {
-            Debug.LogWarning($"[DictionaryManager] 도감에 {fruitID} 아이템이 없습니다.");
-            return;
-        }
+        if (!_fruitDictionaryItems.ContainsKey(fruitID)) return;
 
+        var item = _fruitDictionaryItems[fruitID]; // 값 가져오기 (딕셔너리 접근 1회)
         bool isCollected = GM.GetFruitAmount(fruitID) > 0;
+
         item.SetCollected(isCollected);
     }
+
 
     /// 전체 도감 UI를 업데이트합니다.
     public void UpdateAllDictionaryUI()

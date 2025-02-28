@@ -96,15 +96,15 @@ public class GameManager : Singleton<GameManager>
     #region 데이터 참조
 
     private static readonly CollectedFruitData EmptyCollectedFruitData = new CollectedFruitData { ID = FruitsID.None, Amount = 0 };
-    public FruitsData GetFruitsData(FruitsID id)
+    public FruitsData GetFruitsData(FruitsID id) // 설정 되어있는 초기 데이터
     {
         return _dataManager.FruitDatas[id];
     }
-    public int GetFruitAmount(FruitsID id)
+    public int GetFruitAmount(FruitsID id) // 현재 인벤토리에 있는 각 데이터의 갯수
     {
         return _playerDataManager.NowPlayerData.Inventory.TryGetValue(id, out var collectedData) ? collectedData.Amount : 0;
     }
-    public CollectedFruitData GetCollectedFruitData(FruitsID id)
+    public CollectedFruitData GetCollectedFruitData(FruitsID id) // 현재 인벤토리에있는 데이터
     {
         return _playerDataManager.NowPlayerData.Inventory.TryGetValue(id, out var collectedData) ? collectedData : EmptyCollectedFruitData;
     }
