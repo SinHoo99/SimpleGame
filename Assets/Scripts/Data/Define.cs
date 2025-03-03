@@ -37,5 +37,9 @@ public struct Layer
     public const string Boss = "Boss";
 }
 
-
+public struct Mixer
+{
+    public const string BGM = "BGM";
+    public const string SFX = "SFX";
+}
 

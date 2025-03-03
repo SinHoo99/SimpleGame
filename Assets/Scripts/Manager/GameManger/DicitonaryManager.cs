@@ -96,7 +96,7 @@ public class DictionaryManager : MonoBehaviour
         var item = _fruitDictionaryItems[fruitID]; // 값 가져오기 (딕셔너리 접근 1회)
         bool isCollected = GM.GetFruitAmount(fruitID) > 0;
 
-        item.SetCollected(isCollected);
+        item.UpdateFruitUI(isCollected);
     }
 
 
@@ -106,7 +106,7 @@ public class DictionaryManager : MonoBehaviour
         foreach (var (id, item) in _fruitDictionaryItems)
         {
             bool isCollected = GM.GetFruitAmount(id) > 0;
-            item.SetCollected(isCollected);
+            item.UpdateFruitUI(isCollected);
         }
     }
 }

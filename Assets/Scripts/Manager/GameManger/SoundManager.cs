@@ -9,11 +9,15 @@ public class AudioClipClass<T>
     public List<AudioClip> MyClip;
 }
 
+
 public class SoundManager : MonoBehaviour
 {
+    [SerializeField] private SettingPopup SettingPopup;
+    private GameManager GM => GameManager.Instance;
     private void Start()
     {
         PlayBGM(BGM.BGM);
+
     }
     public AudioMixer AudioMixer;
 
@@ -32,6 +36,26 @@ public class SoundManager : MonoBehaviour
         {
             SFXDicts.Add(sound.MyEnum, sound.MyClip);
         }
+
+        if (BGMSource == null)
+        {
+            Debug.LogError(" BGMSource가 할당되지 않았습니다!");
+        }
+        else
+        {
+            Debug.Log($" BGMSource 정상 설정됨. Output: {BGMSource.outputAudioMixerGroup?.name}");
+        }
+
+        if (SFXSource == null)
+        {
+            Debug.LogError(" SFXSource가 할당되지 않았습니다!");
+        }
+        else
+        {
+            Debug.Log($" SFXSource 정상 설정됨. Output: {SFXSource.outputAudioMixerGroup?.name}");
+        }
+
+        SettingPopup.Initializer();
     }
 
     [SerializeField] private AudioSource BGMSource;
@@ -55,6 +79,29 @@ public class SoundManager : MonoBehaviour
 
         SFXSource.pitch = 1f + Random.Range(-SoundEffectPitchVariance, SoundEffectPitchVariance);
         SFXSource.PlayOneShot(SFXDicts[target][index]);
+    }
+
+    public OptionData NowOptionData;
+
+    public void SaveOptionData()
+    {
+        GM.SaveManager.SaveData(NowOptionData);
+    }
+
+    public bool LoadOptionData()
+    {
+        if (GM.SaveManager.TryLoadData(out OptionData data))
+        {
+            NowOptionData = data;
+            return true;
+        }
+        else
+        {
+            NowOptionData.BGMVolume = 0;
+            NowOptionData.SFXVolume = 0;
+            return false;
+        }
+
     }
 }
 

@@ -10,8 +10,7 @@ public class SellingUI : MonoBehaviour, IShowAndHide
     {
         OriginalPosition = transform.position;
     }
-
-    private void OnEnable()
+    private void Start()
     {
         GM.UIManager.InventoryManager.TriggerInventoryUpdate();
     }
@@ -19,7 +18,6 @@ public class SellingUI : MonoBehaviour, IShowAndHide
     public void ShowAndHide()
     {
         GM.PlaySFX(SFX.Click);
-        GM.UIManager.InventoryManager.TriggerInventoryUpdate();
         GM.UIManager.OnDoTween(this.gameObject, OriginalPosition);
     }
 }

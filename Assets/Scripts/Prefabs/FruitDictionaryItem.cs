@@ -36,7 +36,7 @@ public class FruitDictionaryItem : MonoBehaviour
         }
     }
 
-    public void SetCollected(bool collected)
+    public void UpdateFruitUI(bool collected)
     {
         if (fruitImage != null)
         {

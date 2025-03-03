@@ -137,3 +137,14 @@ public class CollectedFruitData
     public int Amount;      // 보유 수량
 }
 #endregion
+
+
+#region 현재 설정 데이터
+[System.Serializable]
+public class OptionData
+{
+    [Header("소리")]
+    public float BGMVolume;
+    public float SFXVolume;
+}
+#endregion

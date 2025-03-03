@@ -15,7 +15,6 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private DataManager _dataManager;
     [SerializeField] private SaveManager _saveManager;
     [SerializeField] private ScoreUpdater _scoreUpdater;
-
     public ParticleSystem _particleSystem;
     [SerializeField] private PoolObject _bulletPrefabs;
 
@@ -54,13 +53,14 @@ public class GameManager : Singleton<GameManager>
         _prefabDataManager = new PrefabDataManager();
         _playerDataManager.LoadAllData();
         _playerDataManager.InitializeInventory();
-        _soundManager.Initializer();
+        _soundManager.Initializer();     
         _uiManager.InventoryManager.TriggerInventoryUpdate();
     }
 
     #region 컴포넌트 초기화
     private void InitializeComponents()
     {
+        _soundManager = GetComponentInChildren<SoundManager>();
         _uiManager = GetComponentInChildren<UIManager>();
         _uiManager.InventoryManager.FruitUIManager.SetFruitData(_dataManager.FruitDatas);
         _alertManager = GetComponentInChildren<AlertManager>();
@@ -72,7 +72,6 @@ public class GameManager : Singleton<GameManager>
         _poolManager = GetComponentInChildren<PoolManager>();
         _bossDataManager = GetComponentInChildren<BossDataManager>();
         _particleSystem = GameObject.FindGameObjectWithTag("Particle").GetComponent<ParticleSystem>();
-        _soundManager = GetComponentInChildren<SoundManager>();
     }
     #endregion
     #region 애플리케이션 이벤트
@@ -125,11 +124,21 @@ public class GameManager : Singleton<GameManager>
 
     #region 사운드
 
-
     public AudioMixer GetAudioMixer()
     {
+        if (_soundManager == null)
+        {
+            Debug.LogError("GameManager: SoundManager가 초기화되지 않았습니다!");
+            return null;
+        }
+        if (_soundManager.AudioMixer == null)
+        {
+            Debug.LogError("GameManager: AudioMixer가 설정되지 않았습니다!");
+            return null;
+        }
         return _soundManager.AudioMixer;
     }
+
 
     public void PlayBGM(BGM target)
     {

@@ -57,7 +57,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 10
+  m_Spacing: 100
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FruitID: 0
   fruitImage: {fileID: 7671966941018224110}
-  FruitsStatus: {fileID: 0}
+  FruitsStatus: {fileID: 5905936866336706532}
   uncollectedColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &2842341096391079870
 GameObject:
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DQW
+  m_text: fsdfsdfsdfsdfsdfsdfsdfsdfsdf
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9c4ab975227a1a742bf96d17b1040e1d, type: 2}
   m_sharedMaterial: {fileID: -1621453622534945003, guid: 9c4ab975227a1a742bf96d17b1040e1d, type: 2}
@@ -305,14 +305,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 200
+  m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
