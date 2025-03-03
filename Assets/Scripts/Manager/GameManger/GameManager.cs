@@ -33,11 +33,11 @@ public class GameManager : Singleton<GameManager>
     public SoundManager SoundManager => _soundManager;
 
     public AlertManager AlertManager => _alertManager;
-    public ScoreUpdater ScoreUpdater => _scoreUpdater;  
+    public ScoreUpdater ScoreUpdater => _scoreUpdater;
 
     private PrefabDataManager _prefabDataManager;
 
-    private bool isQuitting = false;
+    public bool isQuitting = false;
     protected override void Awake()
     {
         if (IsDuplicates()) return;
@@ -53,7 +53,7 @@ public class GameManager : Singleton<GameManager>
         _prefabDataManager = new PrefabDataManager();
         _playerDataManager.LoadAllData();
         _playerDataManager.InitializeInventory();
-        _soundManager.Initializer();     
+        _soundManager.Initializer();
         _uiManager.InventoryManager.TriggerInventoryUpdate();
     }
 
@@ -77,6 +77,7 @@ public class GameManager : Singleton<GameManager>
     #region 애플리케이션 이벤트
     private void OnApplicationQuit()
     {
+        _soundManager.SettingPopup.gameObject.SetActive(false);
         isQuitting = true;
         _playerDataManager.SavePlayerData();
         _prefabDataManager.SavePrefabData();
@@ -126,14 +127,27 @@ public class GameManager : Singleton<GameManager>
 
     public AudioMixer GetAudioMixer()
     {
-        if (_soundManager == null)
+        if (!Application.isPlaying)
         {
-            Debug.LogError("GameManager: SoundManager가 초기화되지 않았습니다!");
+            Debug.LogError(" GameManager: Unity Editor에서 Play Mode 종료 중이므로 GetAudioMixer() 실행하지 않음!");
             return null;
         }
+
+        if (this == null)  //  `GameManager` 자체가 삭제되었으면 `null` 반환
+        {
+            Debug.LogError(" GameManager: GameManager 자체가 삭제됨!");
+            return null;
+        }
+
+        if (_soundManager == null)
+        {
+            Debug.LogError(" GameManager: SoundManager가 아직 초기화되지 않았습니다!");
+            return null;
+        }
+
         if (_soundManager.AudioMixer == null)
         {
-            Debug.LogError("GameManager: AudioMixer가 설정되지 않았습니다!");
+            Debug.LogError(" GameManager: AudioMixer가 설정되지 않았습니다!");
             return null;
         }
         return _soundManager.AudioMixer;

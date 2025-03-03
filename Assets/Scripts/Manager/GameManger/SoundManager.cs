@@ -12,7 +12,7 @@ public class AudioClipClass<T>
 
 public class SoundManager : MonoBehaviour
 {
-    [SerializeField] private SettingPopup SettingPopup;
+    public SettingPopup SettingPopup;
     private GameManager GM => GameManager.Instance;
     private void Start()
     {

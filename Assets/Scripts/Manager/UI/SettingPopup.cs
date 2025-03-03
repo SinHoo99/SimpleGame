@@ -40,14 +40,49 @@ public class SettingPopup : MonoBehaviour
 
     private void OnDisable()
     {
-        AudioMixer.GetFloat(Mixer.BGM, out float BGMVolume);
-        GM.SoundManager.NowOptionData.BGMVolume = BGMVolume;
+        try
+        {
+            //  Unity Editor에서 Play Mode가 종료되었는지 확인
+            if (!Application.isPlaying)
+            {
+                Debug.LogWarning("⚠️ SettingPopup: Unity Editor에서 Play Mode 종료 중이므로 OnDisable() 실행하지 않음.");
+                return;
+            }
 
-        AudioMixer.GetFloat(Mixer.SFX, out float SFXVolume);
-        GM.SoundManager.NowOptionData.SFXVolume = SFXVolume;
+            //  GameManager가 존재하지 않거나 게임이 종료 중이면 실행하지 않음
+            if (GameManager.Instance == null)
+            {
+                Debug.LogWarning(" SettingPopup: GameManager가 삭제되었거나 초기화되지 않았으므로 OnDisable() 실행하지 않음.");
+                return;
+            }
 
-        GM.SoundManager.SaveOptionData();
+            if (GameManager.Instance.isQuitting)
+            {
+                Debug.LogWarning(" SettingPopup: 게임이 종료 중이므로 OnDisable() 실행하지 않음.");
+                return;
+            }
+
+            if (GameManager.Instance.GetAudioMixer() == null)
+            {
+                Debug.LogWarning(" SettingPopup: AudioMixer가 아직 초기화되지 않았으므로 OnDisable() 실행하지 않음.");
+                return;
+            }
+
+            // 설정 저장 로직 실행 (GameManager가 살아있는 경우에만)
+            AudioMixer.GetFloat(Mixer.BGM, out float BGMVolume);
+            GameManager.Instance.SoundManager.NowOptionData.BGMVolume = BGMVolume;
+
+            AudioMixer.GetFloat(Mixer.SFX, out float SFXVolume);
+            GameManager.Instance.SoundManager.NowOptionData.SFXVolume = SFXVolume;
+
+            GameManager.Instance.SoundManager.SaveOptionData();
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($" SettingPopup: OnDisable() 실행 중 예외 발생 - {ex.Message}");
+        }
     }
+
 
     public void Initializer()
     {
