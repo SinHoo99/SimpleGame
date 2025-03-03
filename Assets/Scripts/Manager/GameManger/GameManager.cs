@@ -82,6 +82,7 @@ public class GameManager : Singleton<GameManager>
         _playerDataManager.SavePlayerData();
         _prefabDataManager.SavePrefabData();
         _bossDataManager.SaveBossRuntimeData();
+        _soundManager.SaveOptionData();
     }
     private void OnApplicationPause(bool pause)
     {

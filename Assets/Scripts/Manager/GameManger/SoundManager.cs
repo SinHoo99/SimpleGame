@@ -25,6 +25,7 @@ public class SoundManager : MonoBehaviour
 
     public void Initializer()
     {
+        LoadOptionData();
         BGMDicts = new Dictionary<BGM, List<AudioClip>>();
         foreach (var sound in BGMs)
         {
