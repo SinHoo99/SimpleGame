@@ -4,7 +4,7 @@ using UnityEngine.U2D;
 
 public class DataManager : MonoBehaviour
 {
-    public void Initializer()
+    public void Initialize()
     {
         ContainFruitsData();
         ContainBossData();

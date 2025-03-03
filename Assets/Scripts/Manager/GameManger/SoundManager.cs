@@ -23,7 +23,7 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField][Range(0f, 1f)] private float SoundEffectPitchVariance;
 
-    public void Initializer()
+    public void Initialize()
     {
         LoadOptionData();
         BGMDicts = new Dictionary<BGM, List<AudioClip>>();

@@ -3,6 +3,7 @@ using UnityEngine.Audio;
 
 public class GameManager : Singleton<GameManager>
 {
+    [Header("Managers")]
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private PlayerStatusUI _playerStatusUI;
     [SerializeField] private SpawnManager _spawnManager;
@@ -15,10 +16,15 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private DataManager _dataManager;
     [SerializeField] private SaveManager _saveManager;
     [SerializeField] private ScoreUpdater _scoreUpdater;
+
+    [Header("Game Objects")]
     public ParticleSystem _particleSystem;
     [SerializeField] private PoolObject _bulletPrefabs;
 
-    // 읽기 전용 프로퍼티 제공 (Inspector에서 수정 가능하지만, 외부에서 변경 불가능)
+    private PrefabDataManager _prefabDataManager;
+    public bool isQuitting = false;
+
+    // Public Properties (읽기 전용)
     public UIManager UIManager => _uiManager;
     public PlayerStatusUI PlayerStatusUI => _playerStatusUI;
     public SpawnManager SpawnManager => _spawnManager;
@@ -29,61 +35,79 @@ public class GameManager : Singleton<GameManager>
     public PoolManager PoolManager => _poolManager;
     public ParticleSystem ParticleSystem => _particleSystem;
     public BossDataManager BossDataManager => _bossDataManager;
-
     public SoundManager SoundManager => _soundManager;
-
     public AlertManager AlertManager => _alertManager;
     public ScoreUpdater ScoreUpdater => _scoreUpdater;
 
-    private PrefabDataManager _prefabDataManager;
-
-    public bool isQuitting = false;
     protected override void Awake()
     {
         if (IsDuplicates()) return;
         base.Awake();
         Application.targetFrameRate = 60;
         InitializeComponents();
-        _dataManager.Initializer();
-
     }
+
     private void Start()
     {
-        _poolManager.AddObjectPool();
-        _prefabDataManager = new PrefabDataManager();
-        _playerDataManager.LoadAllData();
-        _playerDataManager.InitializeInventory();
-        _soundManager.Initializer();
-        _uiManager.InventoryManager.TriggerInventoryUpdate();
+        InitializeGame();
     }
 
-    #region 컴포넌트 초기화
+    #region  게임 초기화 로직
     private void InitializeComponents()
     {
-        _soundManager = GetComponentInChildren<SoundManager>();
-        _uiManager = GetComponentInChildren<UIManager>();
-        _uiManager.InventoryManager.FruitUIManager.SetFruitData(_dataManager.FruitDatas);
-        _alertManager = GetComponentInChildren<AlertManager>();
+        // 1. 데이터 관련 초기화
         _dataManager = GetComponentInChildren<DataManager>();
         _saveManager = GetComponentInChildren<SaveManager>();
-        _spawnManager = GetComponentInChildren<SpawnManager>();
-        _objectPool = GetComponentInChildren<ObjectPool>();
         _playerDataManager = GetComponentInChildren<PlayerDataManager>();
-        _poolManager = GetComponentInChildren<PoolManager>();
         _bossDataManager = GetComponentInChildren<BossDataManager>();
+        _soundManager = GetComponentInChildren<SoundManager>();
+
+        // 2. 오브젝트 풀링 관련 초기화
+        _objectPool = GetComponentInChildren<ObjectPool>();
+        _poolManager = GetComponentInChildren<PoolManager>();
+
+        // 3. UI 관련 초기화
+        _uiManager = GetComponentInChildren<UIManager>();
+
+        // 4. 기타 매니저 초기화
+        _alertManager = GetComponentInChildren<AlertManager>();
+        _spawnManager = GetComponentInChildren<SpawnManager>();
+
+        // 5. 파티클 시스템 초기화
         _particleSystem = GameObject.FindGameObjectWithTag("Particle").GetComponent<ParticleSystem>();
+
+        // 6. 데이터 초기화
+        _dataManager.Initialize();
+        _soundManager.Initialize();
+    }
+
+    private void InitializeGame()
+    {
+        _poolManager.AddObjectPool();
+        _playerDataManager.Initialize();
+        _prefabDataManager = new PrefabDataManager();
+        _uiManager.InventoryManager.TriggerInventoryUpdate();
     }
     #endregion
-    #region 애플리케이션 이벤트
+
+    #region  애플리케이션 이벤트
     private void OnApplicationQuit()
     {
-        _soundManager.SettingPopup.gameObject.SetActive(false);
         isQuitting = true;
+
+        // UI 비활성화 (오류 방지)
+        if (_soundManager?.SettingPopup != null)
+        {
+            _soundManager.SettingPopup.gameObject.SetActive(false);
+        }
+
+        // 데이터 저장
         _playerDataManager.SavePlayerData();
         _prefabDataManager.SavePrefabData();
         _bossDataManager.SaveBossRuntimeData();
         _soundManager.SaveOptionData();
     }
+
     private void OnApplicationPause(bool pause)
     {
         if (pause && !isQuitting)
@@ -94,66 +118,40 @@ public class GameManager : Singleton<GameManager>
     }
     #endregion
 
-    #region 데이터 참조
-
+    #region  게임 데이터 참조
     private static readonly CollectedFruitData EmptyCollectedFruitData = new CollectedFruitData { ID = FruitsID.None, Amount = 0 };
-    public FruitsData GetFruitsData(FruitsID id) // 설정 되어있는 초기 데이터
+
+    public FruitsData GetFruitsData(FruitsID id)
     {
         return _dataManager.FruitDatas[id];
     }
-    public int GetFruitAmount(FruitsID id) // 현재 인벤토리에 있는 각 데이터의 갯수
+
+    public int GetFruitAmount(FruitsID id)
     {
         return _playerDataManager.NowPlayerData.Inventory.TryGetValue(id, out var collectedData) ? collectedData.Amount : 0;
     }
-    public CollectedFruitData GetCollectedFruitData(FruitsID id) // 현재 인벤토리에있는 데이터
+
+    public CollectedFruitData GetCollectedFruitData(FruitsID id)
     {
         return _playerDataManager.NowPlayerData.Inventory.TryGetValue(id, out var collectedData) ? collectedData : EmptyCollectedFruitData;
     }
 
     public BossData GetBossData(BossID id)
     {
-        if (_dataManager.BossDatas.TryGetValue(id, out BossData bossData))
-        {
-            return bossData;
-        }
-        return null;
+        return _dataManager.BossDatas.TryGetValue(id, out BossData bossData) ? bossData : null;
     }
+
     public PoolObject GetBullet()
     {
         return _bulletPrefabs;
     }
     #endregion
 
-    #region 사운드
-
+    #region  사운드 관련 메서드
     public AudioMixer GetAudioMixer()
     {
-        if (!Application.isPlaying)
-        {
-            Debug.LogError(" GameManager: Unity Editor에서 Play Mode 종료 중이므로 GetAudioMixer() 실행하지 않음!");
-            return null;
-        }
-
-        if (this == null)  //  `GameManager` 자체가 삭제되었으면 `null` 반환
-        {
-            Debug.LogError(" GameManager: GameManager 자체가 삭제됨!");
-            return null;
-        }
-
-        if (_soundManager == null)
-        {
-            Debug.LogError(" GameManager: SoundManager가 아직 초기화되지 않았습니다!");
-            return null;
-        }
-
-        if (_soundManager.AudioMixer == null)
-        {
-            Debug.LogError(" GameManager: AudioMixer가 설정되지 않았습니다!");
-            return null;
-        }
         return _soundManager.AudioMixer;
     }
-
 
     public void PlayBGM(BGM target)
     {
@@ -164,6 +162,5 @@ public class GameManager : Singleton<GameManager>
     {
         _soundManager.PlaySFX(target);
     }
-
     #endregion
 }

@@ -10,6 +10,13 @@ public class PlayerDataManager : MonoBehaviour
     public PlayerData NowPlayerData { get; private set; }
 
     #region 인벤토리 및 도감 초기화
+
+    public void Initialize()
+    {
+        LoadAllData();
+        InitializeInventory();
+    }
+
     public void InitializeInventory()
     {
         if (NowPlayerData == null)

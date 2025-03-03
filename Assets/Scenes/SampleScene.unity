@@ -8579,7 +8579,7 @@ MonoBehaviour:
   - MyEnum: 0
     MyClip:
     - {fileID: 8300000, guid: 6b4308e942ad61548b80d26ad62c85b1, type: 3}
-  SFXSource: {fileID: 1801142905}
+  SFXSource: {fileID: 1801142904}
   SFXs:
   - MyEnum: 0
     MyClip:
@@ -8587,6 +8587,9 @@ MonoBehaviour:
   - MyEnum: 1
     MyClip:
     - {fileID: 8300000, guid: bef5313b6290c4442909931b33154ec4, type: 3}
+  NowOptionData:
+    BGMVolume: 0
+    SFXVolume: 0
 --- !u!1 &1821820806
 GameObject:
   m_ObjectHideFlags: 0
@@ -9024,9 +9027,7 @@ MonoBehaviour:
   _scoreUpdater: {fileID: 996818498}
   _particleSystem: {fileID: 633267495}
   _bulletPrefabs: {fileID: 6538214811322821671, guid: bf97762818e1d994ca91693d5a477cdf, type: 3}
-  NowOptionData:
-    BGMVolume: 0
-    SFXVolume: 0
+  isQuitting: 0
 --- !u!4 &2034376358
 Transform:
   m_ObjectHideFlags: 0
