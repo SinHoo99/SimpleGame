@@ -3,6 +3,7 @@ using UnityEngine.Audio;
 
 public class GameManager : Singleton<GameManager>
 {
+    #region  스크립트 참조
     [Header("Managers")]
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private PlayerStatusUI _playerStatusUI;
@@ -21,10 +22,11 @@ public class GameManager : Singleton<GameManager>
     public ParticleSystem _particleSystem;
     [SerializeField] private PoolObject _bulletPrefabs;
 
+    #endregion
     private PrefabDataManager _prefabDataManager;
     public bool isQuitting = false;
 
-    // Public Properties (읽기 전용)
+    #region  Public Properties (읽기 전용)
     public UIManager UIManager => _uiManager;
     public PlayerStatusUI PlayerStatusUI => _playerStatusUI;
     public SpawnManager SpawnManager => _spawnManager;
@@ -38,7 +40,7 @@ public class GameManager : Singleton<GameManager>
     public SoundManager SoundManager => _soundManager;
     public AlertManager AlertManager => _alertManager;
     public ScoreUpdater ScoreUpdater => _scoreUpdater;
-
+    #endregion
     protected override void Awake()
     {
         if (IsDuplicates()) return;
@@ -87,6 +89,7 @@ public class GameManager : Singleton<GameManager>
         _playerDataManager.Initialize();
         _prefabDataManager = new PrefabDataManager();
         _uiManager.InventoryManager.TriggerInventoryUpdate();
+        _soundManager.SettingPopup.Initializer();
     }
     #endregion
 

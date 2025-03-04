@@ -23,8 +23,6 @@ public class Boss : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
         HealthSystem = GetComponent<HealthSystem>();
-
-        
     }
 
     private void Start()

@@ -25,7 +25,7 @@ public class SoundManager : MonoBehaviour
 
     public void Initialize()
     {
-        LoadOptionData();
+     
         BGMDicts = new Dictionary<BGM, List<AudioClip>>();
         foreach (var sound in BGMs)
         {
@@ -55,9 +55,8 @@ public class SoundManager : MonoBehaviour
         {
             Debug.Log($" SFXSource 정상 설정됨. Output: {SFXSource.outputAudioMixerGroup?.name}");
         }
-
-        SettingPopup.Initializer();
     }
+
 
     [SerializeField] private AudioSource BGMSource;
     private Dictionary<BGM, List<AudioClip>> BGMDicts;
@@ -94,12 +93,16 @@ public class SoundManager : MonoBehaviour
         if (GM.SaveManager.TryLoadData(out OptionData data))
         {
             NowOptionData = data;
+            Debug.Log(data.BGMVolume);
+            Debug.Log(data.SFXVolume);
+            Debug.Log("LoadOptionData 성공");
             return true;
         }
         else
         {
             NowOptionData.BGMVolume = 0;
             NowOptionData.SFXVolume = 0;
+            Debug.Log("LoadOptionData 실패");
             return false;
         }
 
