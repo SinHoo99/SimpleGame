@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
@@ -103,6 +104,7 @@ public class Unit : PoolObject
 
         Vector2 direction = (Boss.transform.position - _firePoint.position).normalized;
         CreateBullet(Tag.Bullet, _firePoint.position, direction, gameObject.tag);
+        ShootEffect();
         GM.PlaySFX(SFX.Shoot);
     }
 
@@ -111,5 +113,29 @@ public class Unit : PoolObject
         return GM.GetFruitsData(_fruitsID).Damage * 0.1f;
     }
 
+    #endregion
+
+    #region 유닛 이펙트 관련
+
+    private void ShootEffect()
+    {
+        PlayerRecoilEffect();
+        FirePointShakeEffect();
+        FirePointScaleEffect();
+    }
+    private void PlayerRecoilEffect()
+    {
+        transform.DOScale(new Vector3(0.95f, 1.05f, 1f), 0.05f) 
+            .OnComplete(() => transform.DOScale(Vector3.one, 0.05f)); 
+    }
+    private void FirePointShakeEffect()
+    {
+        _firePoint.DOShakePosition(0.2f, 0.1f); // (지속시간, 강도)
+    }
+    private void FirePointScaleEffect()
+    {
+        _firePoint.DOScale(1.2f, 0.05f) 
+            .OnComplete(() => _firePoint.DOScale(1f, 0.05f));
+    }
     #endregion
 }
