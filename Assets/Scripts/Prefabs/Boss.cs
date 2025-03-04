@@ -17,6 +17,10 @@ public class Boss : MonoBehaviour
 
     [SerializeField] private HealthStatusUI HealthStatusUI;
 
+    [Header("소리 조절")]
+    private float lastSFXTime = 0f;
+    private float sfxCooldown = 2f;
+
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -153,6 +157,7 @@ public class Boss : MonoBehaviour
     {
         ColorEffect();
         ScaleEffect();
+        PlayLimitedSFX();
     }
     private void ColorEffect()
     {
@@ -161,6 +166,14 @@ public class Boss : MonoBehaviour
     private void ScaleEffect()
     {
         transform.DOScale(new Vector3(1.2f, 0.8f, 1f), 0.1f).OnComplete(() => transform.DOScale(Vector3.one, 0.1f));
+    }
+
+    private void PlayLimitedSFX()
+    {
+        if (Time.time - lastSFXTime < sfxCooldown) return;
+        lastSFXTime = Time.time;
+
+        GM.PlaySFX(SFX.TakeDamage);
     }
     #endregion
 }

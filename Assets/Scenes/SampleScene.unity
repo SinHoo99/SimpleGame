@@ -3726,6 +3726,9 @@ MonoBehaviour:
   - MyEnum: 1
     MyClip:
     - {fileID: 8300000, guid: bef5313b6290c4442909931b33154ec4, type: 3}
+  - MyEnum: 2
+    MyClip:
+    - {fileID: 8300000, guid: 2cfb0c53c04fcbb4f83ce1f47179bcbb, type: 3}
   NowOptionData:
     BGMVolume: 0
     SFXVolume: 0

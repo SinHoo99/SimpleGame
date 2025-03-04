@@ -12,6 +12,11 @@ public class Unit : PoolObject
     private Boss Boss;
     private Coroutine _shootCoroutine;
 
+
+    [Header("소리 조절")]
+    private float lastSFXTime = 0f;
+    private float sfxCooldown = 0.2f;
+
     private void Awake()
     {
         AssignFruitID();
@@ -105,7 +110,7 @@ public class Unit : PoolObject
         Vector2 direction = (Boss.transform.position - _firePoint.position).normalized;
         CreateBullet(Tag.Bullet, _firePoint.position, direction, gameObject.tag);
         ShootEffect();
-        GM.PlaySFX(SFX.Shoot);
+        PlayLimitedSFX();
     }
 
     private float GetBulletDamage()
@@ -136,6 +141,14 @@ public class Unit : PoolObject
     {
         _firePoint.DOScale(1.2f, 0.05f) 
             .OnComplete(() => _firePoint.DOScale(1f, 0.05f));
+    }
+
+    private void PlayLimitedSFX()
+    {
+        if (Time.time - lastSFXTime < sfxCooldown) return;
+        lastSFXTime = Time.time;
+
+        GM.PlaySFX(SFX.Shoot);
     }
     #endregion
 }

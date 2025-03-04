@@ -63,6 +63,7 @@ public class SoundManager : MonoBehaviour
         SFXSource.PlayOneShot(SFXDicts[target][index]);
     }
 
+    #region 家府单捞磐 包访
     public OptionData NowOptionData;
 
     public void SaveOptionData()
@@ -85,5 +86,6 @@ public class SoundManager : MonoBehaviour
         }
 
     }
+    #endregion
 }
 
