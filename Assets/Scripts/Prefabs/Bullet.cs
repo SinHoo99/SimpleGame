@@ -10,7 +10,6 @@ public class Bullet : PoolObject
 
     private string bulletOwnerTag;
     private float damage;
-    private ParticleSystem ParticleSystem => GameManager.Instance.ParticleSystem;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -23,7 +22,6 @@ public class Bullet : PoolObject
         if ((collision.gameObject.layer == LayerMask.NameToLayer(Layer.Boss)))
         {
             Boss boss = collision.GetComponent<Boss>();
-            HitParticle();
             boss.TakeDamage(damage);
             BulletObjectreturn();
         }
@@ -43,10 +41,9 @@ public class Bullet : PoolObject
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
         rb.velocity = direction.normalized * 10f;
-        FireParticle();
     }
       
-    private void HitParticle()
+  /*  private void HitParticle()
     {
         ParticleSystem.transform.position = transform.position;
         ParticleSystem.MainModule main = ParticleSystem.main;
@@ -61,5 +58,5 @@ public class Bullet : PoolObject
         ParticleSystem.MainModule main = ParticleSystem.main;
         main.startSpeed = new ParticleSystem.MinMaxCurve(0.5f, 2f);
         ParticleSystem.Play();
-    }
+    }*/
 }

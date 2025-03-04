@@ -19,7 +19,6 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private ScoreUpdater _scoreUpdater;
 
     [Header("Game Objects")]
-    public ParticleSystem _particleSystem;
     [SerializeField] private PoolObject _bulletPrefabs;
 
     #endregion
@@ -35,7 +34,6 @@ public class GameManager : Singleton<GameManager>
     public DataManager DataManager => _dataManager;
     public SaveManager SaveManager => _saveManager;
     public PoolManager PoolManager => _poolManager;
-    public ParticleSystem ParticleSystem => _particleSystem;
     public BossDataManager BossDataManager => _bossDataManager;
     public SoundManager SoundManager => _soundManager;
     public AlertManager AlertManager => _alertManager;
@@ -75,10 +73,8 @@ public class GameManager : Singleton<GameManager>
         _alertManager = GetComponentInChildren<AlertManager>();
         _spawnManager = GetComponentInChildren<SpawnManager>();
 
-        // 5. 파티클 시스템 초기화
-        _particleSystem = GameObject.FindGameObjectWithTag("Particle").GetComponent<ParticleSystem>();
 
-        // 6. 데이터 초기화
+        // 5. 데이터 초기화
         _dataManager.Initialize();
         _soundManager.Initialize();
     }
