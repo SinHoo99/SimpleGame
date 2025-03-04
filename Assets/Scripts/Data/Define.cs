@@ -11,6 +11,7 @@ public struct Data
     public const string MaxHealth = "MaxHealth";
     public const string Damage = "Damage";
     public const string AnimationState = "AnimationState";
+    public const string AttackSpeed = "AttackSpeed";
 }
 public struct ResourcesPath
 {

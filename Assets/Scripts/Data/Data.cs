@@ -16,6 +16,7 @@ public class FruitsData
     public float Probability;         // 과일 등장 확률
     public float Damage;
     public PoolObject Prefab;
+    public float AttackSpeed;
 }
 #endregion
 

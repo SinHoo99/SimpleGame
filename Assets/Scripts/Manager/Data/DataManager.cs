@@ -28,6 +28,7 @@ public class DataManager : MonoBehaviour
             fruitsData.Probability = float.Parse(datas[Data.Probability]);
             fruitsData.Prefab = Resources.Load<PoolObject>(datas[Data.Prefab]);
             fruitsData.Damage = int.Parse(datas[Data.Damage]);
+            fruitsData.AttackSpeed = float.Parse(datas[Data.AttackSpeed]);
             FruitDatas.Add(fruitsData.ID, fruitsData);
         }
     }

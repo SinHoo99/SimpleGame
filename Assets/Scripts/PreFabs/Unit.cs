@@ -91,8 +91,8 @@ public class Unit : PoolObject
     {
         while (true)
         {
-            float randomNum = Random.Range(0.5f, 1.5f);
-            yield return new WaitForSeconds(randomNum);
+            float attackSpeed = GetAttackSpeed();
+            yield return new WaitForSeconds(attackSpeed);
             ShootBullet();
         }
     }
@@ -116,6 +116,10 @@ public class Unit : PoolObject
     private float GetBulletDamage()
     {
         return GM.GetFruitsData(_fruitsID).Damage * 0.1f;
+    }
+    private float GetAttackSpeed()
+    {
+        return GM.GetFruitsData(_fruitsID).AttackSpeed;
     }
 
     #endregion
