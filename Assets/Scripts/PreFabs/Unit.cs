@@ -92,7 +92,8 @@ public class Unit : PoolObject
         while (true)
         {
             float attackSpeed = GetAttackSpeed();
-            yield return new WaitForSeconds(attackSpeed);
+            float RandomNum = Random.Range(-0.3f, 0.3f);
+            yield return new WaitForSeconds(attackSpeed + RandomNum);
             ShootBullet();
         }
     }

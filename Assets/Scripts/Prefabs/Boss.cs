@@ -14,7 +14,7 @@ public class Boss : MonoBehaviour
 
     public HealthSystem HealthSystem;
     public event Action OnChangeBossHP;
-
+    public static event Action<int> OnBossDefeated;
     [SerializeField] private HealthStatusUI HealthStatusUI;
 
     [Header("소리 조절")]
@@ -65,11 +65,15 @@ public class Boss : MonoBehaviour
 
     private void OnDie()
     {
+        Debug.Log($"[PlayerStatusUI] 업데이트 직전 코인 값: {GM.PlayerDataManager.NowPlayerData.PlayerCoin}");
+        int reward = GM.GetBossData(BossRuntimeData.CurrentBossID).Reward;
+        GM.PlayerDataManager.NowPlayerData.PlayerCoin += reward;
+        Debug.Log($"[Boss] 보스 처치 보상 지급: {reward}, 현재 코인: {GM.PlayerDataManager.NowPlayerData.PlayerCoin}");
+        OnBossDefeated?.Invoke(reward);
         spriteRenderer.enabled = false;
         boxCollider.enabled = false;
         HealthStatusUI.HideSlider();
         var nextBossID = GetNextBossID();
-        Debug.Log($"[Boss] 현재 보스 ID: {BossRuntimeData.CurrentBossID} → 다음 보스 ID: {nextBossID}");
         BossRuntimeData.CurrentBossID = nextBossID;
         Invoke(nameof(Respawn), 3f);
     }

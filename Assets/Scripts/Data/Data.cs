@@ -27,7 +27,7 @@ public class BossData
     public BossID ID;
     public int MaxHealth;
     public string AnimationState;
-
+    public int Reward;
     public BossData(BossID id, int maxHealth, string animationState)
     {
         ID = id;

@@ -46,6 +46,7 @@ public class DataManager : MonoBehaviour
             BossID bossID = (BossID)int.Parse(datas[Data.ID]);
             int maxHealth = int.Parse(datas[Data.MaxHealth]);
             string animationState = datas[Data.AnimationState];
+            int reward = int.Parse(datas[Data.Reward]);
 
             BossData bossData = new BossData(bossID, maxHealth, animationState);
 
