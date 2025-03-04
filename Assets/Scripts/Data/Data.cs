@@ -28,11 +28,12 @@ public class BossData
     public int MaxHealth;
     public string AnimationState;
     public int Reward;
-    public BossData(BossID id, int maxHealth, string animationState)
+    public BossData(BossID id, int maxHealth, string animationState, int reward)
     {
         ID = id;
         MaxHealth = maxHealth;
         AnimationState = animationState;
+        Reward = reward;
     }
 }
 

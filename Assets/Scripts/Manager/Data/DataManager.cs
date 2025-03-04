@@ -48,7 +48,7 @@ public class DataManager : MonoBehaviour
             string animationState = datas[Data.AnimationState];
             int reward = int.Parse(datas[Data.Reward]);
 
-            BossData bossData = new BossData(bossID, maxHealth, animationState);
+            BossData bossData = new BossData(bossID, maxHealth, animationState, reward);
 
             if (!BossDatas.ContainsKey(bossData.ID))
             {

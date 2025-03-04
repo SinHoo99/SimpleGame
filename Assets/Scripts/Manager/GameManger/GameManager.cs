@@ -140,6 +140,10 @@ public class GameManager : Singleton<GameManager>
     {
         return _dataManager.BossDatas.TryGetValue(id, out BossData bossData) ? bossData : null;
     }
+    public int GetBossReward(BossID id)
+    {
+        return _dataManager.BossDatas.TryGetValue(id, out BossData bossData) ? bossData.Reward : 0;
+    }
 
     public PoolObject GetBullet()
     {

@@ -65,10 +65,9 @@ public class Boss : MonoBehaviour
 
     private void OnDie()
     {
-        Debug.Log($"[PlayerStatusUI] 업데이트 직전 코인 값: {GM.PlayerDataManager.NowPlayerData.PlayerCoin}");
-        int reward = GM.GetBossData(BossRuntimeData.CurrentBossID).Reward;
+
+        int reward = GM.GetBossReward(BossRuntimeData.CurrentBossID);
         GM.PlayerDataManager.NowPlayerData.PlayerCoin += reward;
-        Debug.Log($"[Boss] 보스 처치 보상 지급: {reward}, 현재 코인: {GM.PlayerDataManager.NowPlayerData.PlayerCoin}");
         OnBossDefeated?.Invoke(reward);
         spriteRenderer.enabled = false;
         boxCollider.enabled = false;

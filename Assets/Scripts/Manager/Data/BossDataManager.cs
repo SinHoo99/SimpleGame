@@ -28,7 +28,7 @@ public class BossDataManager : MonoBehaviour
         else
         {
             Debug.LogWarning($"[BossDataManager] 보스 데이터를 찾을 수 없습니다. 기본값을 설정합니다. BossID: {bossID}");
-            StaticBossData = new BossData(BossID.A, 100, "Idle"); // 기본값 설정
+            StaticBossData = new BossData(BossID.A, GM.GetBossData(BossID.A).MaxHealth, GM.GetBossData(BossID.A).AnimationState, GM.GetBossData(BossID.A).Reward); // 기본값 설정
             return false;
         }
     }
@@ -88,7 +88,7 @@ public class BossDataManager : MonoBehaviour
     public void DestroyData()
     {
         BossRuntimeData = new BossRuntimeData(BossID.A, 100);
-        StaticBossData = new BossData(BossID.A, 100, "A"); // 기본값 설정
+        StaticBossData = new BossData(BossID.A, GM.GetBossData(BossID.A).MaxHealth, GM.GetBossData(BossID.A).AnimationState, GM.GetBossData(BossID.A).Reward); // 기본값 설정
         GM.SaveManager.SaveData(BossRuntimeData);
         if (GM.SpawnManager != null)
         {
