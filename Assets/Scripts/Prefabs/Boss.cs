@@ -157,7 +157,7 @@ public class Boss : MonoBehaviour
     {
         ColorEffect();
         ScaleEffect();
-        PlayLimitedSFX();
+        //PlayLimitedSFX();
     }
     private void ColorEffect()
     {

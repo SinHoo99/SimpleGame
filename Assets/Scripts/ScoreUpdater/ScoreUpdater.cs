@@ -74,7 +74,7 @@ public class ScoreUpdater : MonoBehaviour
             cumulativeProbability += fruit.Probability;
             if (randomValue <= cumulativeProbability)
             {
-                GM.AlertManager.ShowAlert("수집 완료");
+                GM.AlertManager.ShowAlert($"{fruit.ID} 수집");
                 return fruit.ID; // 과일 선택               
             }
         }
