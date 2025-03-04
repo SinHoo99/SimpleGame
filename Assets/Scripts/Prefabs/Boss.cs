@@ -1,6 +1,6 @@
 using UnityEngine;
 using System;
-using System.Collections;
+using DG.Tweening;
 
 public class Boss : MonoBehaviour
 {
@@ -89,15 +89,8 @@ public class Boss : MonoBehaviour
 
             HealthSystem.TakeDamage(damage);
             BossRuntimeData.CurrentHealth = HealthSystem.CurHP; // 체력 갱신
-            StartCoroutine(TakeDamageCoroutine());
+            TakeDamageEffect();
         }
-    }
-
-    private IEnumerator TakeDamageCoroutine()
-    {
-        spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        spriteRenderer.color = Color.white;
     }
 
     private BossID GetNextBossID()
@@ -150,8 +143,24 @@ public class Boss : MonoBehaviour
         BossData = GM.GetBossData(BossRuntimeData.CurrentBossID);
 
         ResetBossHealth();
-        UpdateBossAnimation(); 
+        UpdateBossAnimation();
 
         Debug.Log($"[Boss] 보스 데이터가 초기화되었습니다: {BossRuntimeData.CurrentBossID}, 체력: {BossRuntimeData.CurrentHealth}");
     }
+
+    #region 보스 타격 효과 관련
+    private void TakeDamageEffect()
+    {
+        ColorEffect();
+        ScaleEffect();
+    }
+    private void ColorEffect()
+    {
+        spriteRenderer.DOColor(Color.red, 0.1f).OnComplete(() => spriteRenderer.DOColor(Color.white, 0.1f));
+    }
+    private void ScaleEffect()
+    {
+        transform.DOScale(new Vector3(1.2f, 0.8f, 1f), 0.1f).OnComplete(() => transform.DOScale(Vector3.one, 0.1f));
+    }
+    #endregion
 }
