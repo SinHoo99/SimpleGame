@@ -22,7 +22,7 @@ public class BossDataManager : MonoBehaviour
         if (bossData != null)
         {
             StaticBossData = bossData;
-            Debug.Log($"[BossDataManager] 보스 데이터 로드 완료: ID={bossID}");
+          //  Debug.Log($"[BossDataManager] 보스 데이터 로드 완료: ID={bossID}");
             return true;
         }
         else
@@ -51,13 +51,13 @@ public class BossDataManager : MonoBehaviour
         if (GM.SaveManager.TryLoadData(out BossRuntimeData data))
         {
             BossRuntimeData = data;
-            Debug.Log($"[BossDataManager] 보스 런타임 데이터 로드 완료: ID={BossRuntimeData.CurrentBossID}, 체력={BossRuntimeData.CurrentHealth}");
+         //   Debug.Log($"[BossDataManager] 보스 런타임 데이터 로드 완료: ID={BossRuntimeData.CurrentBossID}, 체력={BossRuntimeData.CurrentHealth}");
             return true;
         }
         else
         {
             Debug.LogWarning("[BossDataManager] 보스 런타임 데이터가 없어서 기본값을 설정합니다.");
-            BossRuntimeData = new BossRuntimeData(BossID.A, 100); // 기본값 설정
+            BossRuntimeData = new BossRuntimeData(BossID.A, StaticBossData.MaxHealth); // 기본값 설정
             return false;
         }
     }

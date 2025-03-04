@@ -44,8 +44,9 @@ public class SettingPopup : MonoBehaviour
 
     public void Initializer()
     {
+        GM.LoadOptionData();
         AudioMixer.SetFloat(Mixer.BGM, GM.NowOptionData.BGMVolume);
-        AudioMixer.SetFloat(Mixer.SFX, GM.NowOptionData.SFXVolume);
+        AudioMixer.SetFloat(Mixer.SFX, GM.NowOptionData.SFXVolume);       
     }
 
     public void ChangeBGMVolume(float volume)

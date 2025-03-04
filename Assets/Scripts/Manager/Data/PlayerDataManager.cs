@@ -53,7 +53,7 @@ public class PlayerDataManager : MonoBehaviour
             NowPlayerData.LastCollectedTime = DateTime.Now;
         }
 
-        Debug.Log("PlayerData.Inventory 및 DictionaryCollection 초기화 완료");
+       // Debug.Log("PlayerData.Inventory 및 DictionaryCollection 초기화 완료");
     }
     #endregion
 
@@ -68,7 +68,7 @@ public class PlayerDataManager : MonoBehaviour
 
         NowPlayerData.LastCollectedTime = DateTime.Now;
         GM.SaveManager.SaveData(NowPlayerData);
-        Debug.Log($"PlayerData 저장 완료: {NowPlayerData.LastCollectedTime}");
+       // Debug.Log($"PlayerData 저장 완료: {NowPlayerData.LastCollectedTime}");
     }
 
     public bool LoadPlayerData()

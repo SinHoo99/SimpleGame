@@ -117,6 +117,7 @@ public class GameManager : Singleton<GameManager>
         {
             _playerDataManager.SavePlayerData();
             _bossDataManager.SaveBossRuntimeData();
+            _soundManager.SaveOptionData();
         }
     }
     #endregion

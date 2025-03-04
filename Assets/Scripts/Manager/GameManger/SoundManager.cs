@@ -37,24 +37,6 @@ public class SoundManager : MonoBehaviour
         {
             SFXDicts.Add(sound.MyEnum, sound.MyClip);
         }
-
-        if (BGMSource == null)
-        {
-            Debug.LogError(" BGMSource가 할당되지 않았습니다!");
-        }
-        else
-        {
-            Debug.Log($" BGMSource 정상 설정됨. Output: {BGMSource.outputAudioMixerGroup?.name}");
-        }
-
-        if (SFXSource == null)
-        {
-            Debug.LogError(" SFXSource가 할당되지 않았습니다!");
-        }
-        else
-        {
-            Debug.Log($" SFXSource 정상 설정됨. Output: {SFXSource.outputAudioMixerGroup?.name}");
-        }
     }
 
 
@@ -93,16 +75,12 @@ public class SoundManager : MonoBehaviour
         if (GM.SaveManager.TryLoadData(out OptionData data))
         {
             NowOptionData = data;
-            Debug.Log(data.BGMVolume);
-            Debug.Log(data.SFXVolume);
-            Debug.Log("LoadOptionData 성공");
             return true;
         }
         else
         {
             NowOptionData.BGMVolume = 0;
             NowOptionData.SFXVolume = 0;
-            Debug.Log("LoadOptionData 실패");
             return false;
         }
 
