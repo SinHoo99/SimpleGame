@@ -36,6 +36,5 @@ public class GameOverPopup : MonoBehaviour
     public void OnClickContinue()
     {
         GameManager.Instance.PlayerDataManager.DestroyData();
-
     }
 }

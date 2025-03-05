@@ -1,13 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SellingSystem : MonoBehaviour
 {
-    public void OnResetButtonPressed()
+    public void OnQuitButtonPressed()
     {
-        GameManager.Instance.PlayerDataManager.DestroyData(); // 데이터 초기화
-        
-        Debug.Log("Inventory가 초기화되었습니다.");
+  
+        //  GameManager 활용하여 모든 데이터 저장
+        var gm = GameManager.Instance;
+        gm.PlayerDataManager.SavePlayerData();
+        gm.BossDataManager.SaveBossRuntimeData();
+        gm.SoundManager.SaveOptionData();
+
+        //  Unity 에디터에서 실행 중이라면 강제 종료 추가
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
     }
 }
