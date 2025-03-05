@@ -10,7 +10,7 @@ public class FruitUIManager : MonoBehaviour
 
     private readonly Dictionary<FruitsID, FruitItem> _fruitUIItems = new();
     private readonly Dictionary<FruitsID, Sprite> _fruitSprites = new();
-
+  
     public void SetFruitData(Dictionary<FruitsID, FruitsData> fruitData)
     {
         if (fruitData == null) return;
@@ -89,4 +89,5 @@ public class FruitUIManager : MonoBehaviour
     {
         return GM.GetFruitsData(id)?.Image;
     }
+
 }

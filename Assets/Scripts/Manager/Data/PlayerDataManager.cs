@@ -30,9 +30,15 @@ public class PlayerDataManager : MonoBehaviour
             NowPlayerData.Inventory = new Dictionary<FruitsID, CollectedFruitData>();
         }
 
+        //  DictionaryCollection이 null일 때만 새로 생성 (초기화 방지)
         if (NowPlayerData.DictionaryCollection == null)
         {
             NowPlayerData.DictionaryCollection = new Dictionary<FruitsID, bool>();
+
+            foreach (FruitsID id in Enum.GetValues(typeof(FruitsID)))
+            {
+                NowPlayerData.DictionaryCollection[id] = false; // 초기값 설정
+            }
         }
 
         foreach (FruitsID id in Enum.GetValues(typeof(FruitsID)))
@@ -42,9 +48,10 @@ public class PlayerDataManager : MonoBehaviour
                 NowPlayerData.Inventory[id] = new CollectedFruitData { ID = id, Amount = 0 };
             }
 
+            //  DictionaryCollection이 이미 존재하는 경우 값을 변경하지 않음.
             if (!NowPlayerData.DictionaryCollection.ContainsKey(id))
             {
-                NowPlayerData.DictionaryCollection[id] = false; // 기본적으로 미수집 상태
+                NowPlayerData.DictionaryCollection[id] = false; // 기본값 false 유지
             }
         }
 
@@ -52,9 +59,8 @@ public class PlayerDataManager : MonoBehaviour
         {
             NowPlayerData.LastCollectedTime = DateTime.Now;
         }
-
-       // Debug.Log("PlayerData.Inventory 및 DictionaryCollection 초기화 완료");
     }
+
     #endregion
 
     #region 플레이어 데이터 저장 및 로드
@@ -76,6 +82,7 @@ public class PlayerDataManager : MonoBehaviour
         if (GM.SaveManager.TryLoadData(out PlayerData data))
         {
             NowPlayerData = data;
+            GameManager.Instance.UIManager.InventoryManager.TriggerInventoryUpdate();
             return true;
         }
         else
@@ -117,6 +124,7 @@ public class PlayerDataManager : MonoBehaviour
         {
             NowPlayerData.DictionaryCollection[fruitID] = true;
             Debug.Log($"도감 등록: {fruitID}");
+            Debug.Log($"{NowPlayerData.DictionaryCollection[fruitID]}");
             SavePlayerData();
         }
         else

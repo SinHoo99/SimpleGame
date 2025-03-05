@@ -93,9 +93,13 @@ public class DictionaryManager : MonoBehaviour
     {
         if (!_fruitDictionaryItems.ContainsKey(fruitID)) return;
 
-        var item = _fruitDictionaryItems[fruitID]; // 값 가져오기 (딕셔너리 접근 1회)
-        bool isCollected = GM.GetFruitAmount(fruitID) > 0;
+        var item = _fruitDictionaryItems[fruitID];
 
+        //  인벤토리에 과일 개수가 0이어도, 도감에 등록된 적이 있다면 `true`
+        bool isCollected = GM.PlayerDataManager.NowPlayerData.DictionaryCollection.TryGetValue(fruitID, out bool collected)
+                            ? collected : false;
+
+        Debug.Log($"[UpdateDictionaryUI] {fruitID} - 도감 데이터: {isCollected}");
         item.UpdateFruitUI(isCollected);
     }
 
@@ -105,7 +109,10 @@ public class DictionaryManager : MonoBehaviour
     {
         foreach (var (id, item) in _fruitDictionaryItems)
         {
-            bool isCollected = GM.GetFruitAmount(id) > 0;
+            bool isCollected = GM.PlayerDataManager.NowPlayerData.DictionaryCollection.TryGetValue(id, out bool collected)
+                                ? collected : false;
+
+            Debug.Log($"[UpdateAllDictionaryUI] {id} - 도감 데이터: {isCollected}");
             item.UpdateFruitUI(isCollected);
         }
     }

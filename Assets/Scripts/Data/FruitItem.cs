@@ -24,7 +24,7 @@ public class FruitItem : MonoBehaviour
         }
 
         // 과일 개수 텍스트 업데이트
-        fruitText.text = $"{count}개 / 판매가격 : {GM.GetFruitsData(id).Price}";
+        fruitText.text = $"{GM.GetFruitsData(id).Name} {count}개 보유 \n 판매가격 : {GM.GetFruitsData(id).Price}";
     }
 
     /// 과일 버튼 클릭 시 실행되는 이벤트

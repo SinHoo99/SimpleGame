@@ -4,7 +4,9 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private InventoryManager _inventoryManager; // Inspector에서 할당
+    [SerializeField] private DictionaryManager  _dictionaryManager;
     public InventoryManager InventoryManager => _inventoryManager;
+    public  DictionaryManager DictionaryManager => _dictionaryManager;
 
     private GameObject currentActiveUI = null;
     private Vector3 originalPosition; // 기존 UI의 원래 위치 저장

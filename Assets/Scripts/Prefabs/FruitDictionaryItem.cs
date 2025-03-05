@@ -18,7 +18,6 @@ public class FruitDictionaryItem : MonoBehaviour
             _originalColor = fruitImage.color; // 원래 색상 저장
         }
     }
-
     public void Setup(FruitsID id, Sprite sprite)
     {
         FruitID = id;
@@ -50,4 +49,5 @@ public class FruitDictionaryItem : MonoBehaviour
             FruitsStatus.text = (collected && fruitData != null) ? $"{fruitData.Name}\n 공격력 : {fruitData.Damage} " : "???";
         }
     }
+
 }

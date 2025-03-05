@@ -26,6 +26,7 @@ public class InventoryManager : MonoBehaviour
     {
         OnInventoryUpdated?.Invoke();
         GM.PlayerStatusUI.PlayerCoin();
+        GM.UIManager.DictionaryManager.UpdateAllDictionaryUI();
     }
 
     private void UpdateInventoryUI()
@@ -41,4 +42,5 @@ public class InventoryManager : MonoBehaviour
             GM.PlayerDataManager.NowPlayerData.Inventory.ToDictionary(kv => kv.Key, kv => kv.Value.Amount)
         );
     }
+  
 }

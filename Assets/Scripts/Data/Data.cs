@@ -120,14 +120,6 @@ public class PlayerData
 
     [Header("플레이어 지갑")]
     public int PlayerCoin = 1000;
-
-    public void CollectFruit(FruitsID fruitID)
-    {
-        if (!DictionaryCollection.ContainsKey(fruitID))
-        {
-            DictionaryCollection[fruitID] = true;
-        }
-    }
 }
 #endregion
 
