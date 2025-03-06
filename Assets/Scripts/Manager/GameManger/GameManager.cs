@@ -1,5 +1,7 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -20,6 +22,7 @@ public class GameManager : Singleton<GameManager>
 
     [Header("Game Objects")]
     [SerializeField] private PoolObject _bulletPrefabs;
+
 
     #endregion
     private PrefabDataManager _prefabDataManager;
