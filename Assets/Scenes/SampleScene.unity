@@ -789,6 +789,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f172dca04a47f45949625ef9c9a8ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &59021691 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3406584622058651319, guid: 156a69a8e0a700a4b973e68ef7f4b8d6, type: 3}
+  m_PrefabInstance: {fileID: 692897562}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &91534714
 GameObject:
   m_ObjectHideFlags: 0
@@ -3365,8 +3370,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6509f16568ea003468b4cb8ede1906a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventoryManager: {fileID: 0}
-  _dictionaryManager: {fileID: 0}
+  _inventoryManager: {fileID: 835763871}
+  _dictionaryManager: {fileID: 1084367741}
 --- !u!4 &1044559339
 Transform:
   m_ObjectHideFlags: 0
@@ -3940,7 +3945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fc71fd9682b835499642e3b4f136c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SettingPopup: {fileID: 0}
+  SettingPopup: {fileID: 39390921}
   AudioMixer: {fileID: 24100000, guid: c20888e3e02fd2b4bb34aba5867dbf3f, type: 2}
   SoundEffectPitchVariance: 0
   BGMSource: {fileID: 1560872862}
@@ -4903,9 +4908,6 @@ MonoBehaviour:
   _saveManager: {fileID: 946898756}
   _scoreUpdater: {fileID: 2093171162}
   _bulletPrefabs: {fileID: 6538214811322821671, guid: bf97762818e1d994ca91693d5a477cdf, type: 3}
-  LoadingUI: {fileID: 0}
-  ProgressBar: {fileID: 0}
-  ProgressText: {fileID: 0}
   isQuitting: 0
 --- !u!4 &1940001108
 Transform:
@@ -5060,6 +5062,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1975765680}
   m_CullTransparentMesh: 1
+--- !u!114 &1996236630 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2035536982517665078, guid: 156a69a8e0a700a4b973e68ef7f4b8d6, type: 3}
+  m_PrefabInstance: {fileID: 692897562}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2085728653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5262,8 +5275,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0385766127faa3640a2effb9022a5f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AlertObject: {fileID: 0}
-  AlertText: {fileID: 0}
+  AlertObject: {fileID: 59021691}
+  AlertText: {fileID: 1996236630}
 --- !u!114 &2093171166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5288,7 +5301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5b5d8082689d914cb74a9753e7b9abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Boss: {fileID: 0}
+  Boss: {fileID: 5212995172771071683}
   minSpawnDistance: 1
   maxSpawnDistance: 2
 --- !u!1 &2111333825
