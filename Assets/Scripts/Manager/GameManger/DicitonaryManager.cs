@@ -37,7 +37,7 @@ public class DictionaryManager : MonoBehaviour
         }
     }
 
-    /// 도감 UI를 초기화합니다.
+    /// 도감 UI를 초기화
     public void InitializeDictionary(Dictionary<FruitsID, FruitsData> fruitData)
     {
         if (fruitData == null || fruitData.Count == 0) return;
@@ -52,7 +52,7 @@ public class DictionaryManager : MonoBehaviour
         UpdateAllDictionaryUI();
     }
 
-    /// 기존 UI 요소들을 제거합니다.
+    /// 기존 UI 요소들을 제거
     private void ClearExistingUI()
     {
         foreach (var item in _fruitDictionaryItems.Values)
@@ -67,7 +67,7 @@ public class DictionaryManager : MonoBehaviour
         }
     }
 
-    /// 새로운 도감 UI 항목을 생성합니다.
+    /// 새로운 도감 UI 항목을 생성
     private void CreateFruitDictionaryItem(FruitsID id, FruitsData data)
     {
         if (fruitDictionaryPrefab == null)
@@ -88,7 +88,7 @@ public class DictionaryManager : MonoBehaviour
         _fruitDictionaryItems[id] = fruitItem;
     }
 
-    /// 특정 과일의 UI를 업데이트합니다.
+    /// 특정 과일의 UI를 업데이트
     public void UpdateDictionaryUI(FruitsID fruitID)
     {
         if (!_fruitDictionaryItems.ContainsKey(fruitID)) return;
@@ -104,7 +104,7 @@ public class DictionaryManager : MonoBehaviour
     }
 
 
-    /// 전체 도감 UI를 업데이트합니다.
+    /// 전체 도감 UI를 업데이트
     public void UpdateAllDictionaryUI()
     {
         foreach (var (id, item) in _fruitDictionaryItems)

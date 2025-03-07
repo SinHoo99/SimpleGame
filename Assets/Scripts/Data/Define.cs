@@ -37,6 +37,7 @@ public struct Tag
 public struct Layer
 {
     public const string Boss = "Boss";
+    public const string Unit = "Unit";
 }
 
 public struct Mixer

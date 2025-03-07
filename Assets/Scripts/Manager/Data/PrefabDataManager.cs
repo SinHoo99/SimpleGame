@@ -11,11 +11,11 @@ public class PrefabDataManager
 
         foreach (var pool in GM.ObjectPool.PoolDictionary.Values)
         {
-            string[] saveableTags = { Tag.Apple, Tag.Banana, Tag.Carrot, Tag.Melon };
+            int unitLayer = LayerMask.NameToLayer(Layer.Unit);
 
             foreach (var obj in pool)
             {
-                if (obj.gameObject.activeInHierarchy && System.Array.Exists(saveableTags, tag => obj.CompareTag(tag)))
+                if (obj.gameObject.activeInHierarchy && obj.gameObject.layer == unitLayer)
                 {
                     prefabDataList.Add(new PrefabData(
                         obj.name.Replace("(Clone)", "").Trim(),

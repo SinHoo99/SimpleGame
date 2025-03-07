@@ -2915,7 +2915,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2093171162}
         m_TargetAssemblyTypeName: ScoreUpdater, Assembly-CSharp
         m_MethodName: HandleInput
         m_Mode: 1
