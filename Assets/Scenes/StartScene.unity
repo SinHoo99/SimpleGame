@@ -834,7 +834,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uBCF4\uC2A4 \uC8FD\uC5EC\uD328\uAE30"
+  m_text: "\uAC04\uB2E8\uD55C \uAC8C\uC784"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9c4ab975227a1a742bf96d17b1040e1d, type: 2}
   m_sharedMaterial: {fileID: -1621453622534945003, guid: 9c4ab975227a1a742bf96d17b1040e1d, type: 2}
